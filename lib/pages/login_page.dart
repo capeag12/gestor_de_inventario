@@ -91,7 +91,7 @@ class _Login_PageState extends State<Login_Page> {
                                 MaterialStateProperty.all<Color>(Colors.cyan),
                           ),
                           onPressed: () {
-                            Navigator.push(
+                            Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => Main_Page()));

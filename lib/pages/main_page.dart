@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:gestor_de_inventario/Widgets/almacenWidget.dart';
+import 'package:gestor_de_inventario/pages/menu_lateral.dart';
 
 class Main_Page extends StatefulWidget {
   const Main_Page({super.key});
@@ -15,11 +17,13 @@ class _Main_PageState extends State<Main_Page> {
     return Scaffold(
         appBar: AppBar(
           title: Text("Gestor de Inventario"),
+          backgroundColor: Colors.cyan,
         ),
-        drawer: Drawer(),
+        drawer: Menu_Lateral.CrearMenuLateral(context),
         body: Container(
-          child: Center(
-            child: Text("Hola Mundo"),
+          padding: EdgeInsets.only(left: 15, right: 15),
+          child: ListView(
+            children: [AlmacenWidget(), AlmacenWidget(), AlmacenWidget()],
           ),
         ));
   }
