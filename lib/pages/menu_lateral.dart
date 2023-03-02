@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gestor_de_inventario/Models/usuario.dart';
 import 'package:gestor_de_inventario/pages/login_page.dart';
+import 'package:gestor_de_inventario/pages/permisos_page.dart';
 
 class Menu_Lateral {
   Menu_Lateral();
@@ -30,7 +31,10 @@ class Menu_Lateral {
         ListTile(
           leading: Icon(Icons.group),
           title: Text("Permisos"),
-          onTap: () {},
+          onTap: () {
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => Permisos_Page()));
+          },
         ),
         ListTile(
           leading: Icon(Icons.info_outline),

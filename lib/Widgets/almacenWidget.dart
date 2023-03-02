@@ -30,17 +30,18 @@ class _AlmacenWidgetState extends State<AlmacenWidget> {
                   height: 50,
                 ),
               ),
-              Container(
+              Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text("Nombre del almacén",
                         overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
                         style: TextStyle(
                             fontSize: 20, fontWeight: FontWeight.bold)),
                     Text(
-                      "Calle la loba Nº15 11170, Paterna de Rivera",
+                      "Calle la loba Nº15 11170, Paterna de Rivera kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk",
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
                     ),
