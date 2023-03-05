@@ -15,16 +15,22 @@ class _Main_PageState extends State<Main_Page> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text("Gestor de Inventario"),
-          backgroundColor: Colors.cyan,
+      appBar: AppBar(
+        title: Text("Gestor de Inventario"),
+        backgroundColor: Colors.cyan,
+      ),
+      drawer: Menu_Lateral.CrearMenuLateral(context),
+      body: Container(
+        padding: EdgeInsets.only(left: 15, right: 15),
+        child: ListView(
+          children: [AlmacenWidget(), AlmacenWidget(), AlmacenWidget()],
         ),
-        drawer: Menu_Lateral.CrearMenuLateral(context),
-        body: Container(
-          padding: EdgeInsets.only(left: 15, right: 15),
-          child: ListView(
-            children: [AlmacenWidget(), AlmacenWidget(), AlmacenWidget()],
-          ),
-        ));
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: Icon(Icons.add),
+        backgroundColor: Colors.cyan,
+      ),
+    );
   }
 }

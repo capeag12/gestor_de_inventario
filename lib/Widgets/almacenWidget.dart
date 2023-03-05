@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:gestor_de_inventario/pages/almacen_page.dart';
 
 class AlmacenWidget extends StatefulWidget {
   const AlmacenWidget({super.key});
@@ -17,6 +18,8 @@ class _AlmacenWidgetState extends State<AlmacenWidget> {
       child: Card(
         child: InkWell(
           onTap: () {
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => Almacen_Page()));
             print("Almacen pulsado");
           },
           child: Container(
