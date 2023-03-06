@@ -51,6 +51,7 @@ class DetallesAlmacen extends StatelessWidget {
     bool isScreenWide = MediaQuery.of(context).size.width > 600;
 
     return Container(
+      //Arreglar text overflow
       padding: EdgeInsets.only(bottom: 12),
       child: Card(
         child: Container(
