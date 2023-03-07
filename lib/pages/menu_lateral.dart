@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:gestor_de_inventario/Models/service.dart';
 import 'package:gestor_de_inventario/Models/usuario.dart';
+import 'package:gestor_de_inventario/VM/menu_lateralVM.dart';
 import 'package:gestor_de_inventario/pages/login_page.dart';
 import 'package:gestor_de_inventario/pages/permisos_page.dart';
 
 class Menu_Lateral {
   Menu_Lateral();
+  static MenuLateralVM _menuLateralVM = MenuLateralVM();
 
   static Drawer CrearMenuLateral(BuildContext context) {
+    Service service = Service.getInstance();
     return Drawer(
       child: ListView(children: [
         DrawerHeader(
@@ -45,9 +49,9 @@ class Menu_Lateral {
         ListTile(
           leading: Icon(Icons.logout),
           title: Text("Cerrar Sesión"),
-          onTap: () {
-            Navigator.pushReplacement(
-                context, MaterialPageRoute(builder: (context) => Login_Page()));
+          onTap: () async {
+            await _menuLateralVM.cerrarSesion();
+            Navigator.pushReplacementNamed(context, "/login");
           },
         ),
       ]),

@@ -36,13 +36,14 @@ class Service {
         }),
       );
       var decoded = jsonDecode(respuesta.body);
-      print(decoded);
+
       Usuario usuario = Usuario(decoded['usuario']['_id'],
           decoded['usuario']['nombre'], decoded['usuario']['email']);
-      print(usuario);
+
       _token = decoded['token'];
       await writeToken();
       _usuario = usuario;
+      print(_usuario);
       return _usuario;
       ;
     } catch (e) {
@@ -55,6 +56,14 @@ class Service {
     final String url = _baseURL + "/usuarios/loginToken";
     try {
       var respuesta = await http.post(Uri.parse(url), headers: getHeaders());
+      var decoded = jsonDecode(respuesta.body);
+
+      Usuario usuario = Usuario(decoded['usuario']['_id'],
+          decoded['usuario']['nombre'], decoded['usuario']['email']);
+
+      _usuario = usuario;
+      print(_usuario);
+      return _usuario;
     } catch (e) {
       print(e);
       return null;
@@ -78,19 +87,30 @@ class Service {
     }
   }
 
-  readTokenFromStorage() async {
+  Future<String> readTokenFromStorage() async {
     try {
       final prefs = await SharedPreferences.getInstance();
       _token = prefs.getString('token') ?? "";
+      return _token;
+    } catch (e) {
+      print(e);
+      return "";
+    }
+  }
+
+  Future<void> removeToken() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.remove('token');
     } catch (e) {
       print(e);
     }
   }
 
-  removeToken() async {
+  Future<void> logout() async {
+    final String url = _baseURL + "/usuarios/logout";
     try {
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.remove('token');
+      var respuesta = await http.post(Uri.parse(url), headers: getHeaders());
     } catch (e) {
       print(e);
     }

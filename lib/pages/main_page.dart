@@ -13,23 +13,49 @@ class Main_Page extends StatefulWidget {
 }
 
 class _Main_PageState extends State<Main_Page> {
+  bool loading = true;
+
+  _Main_PageState() {
+    iniciarSesion();
+  }
+
+  iniciarSesion() {
+    Service service = Service.getInstance();
+    service.readTokenFromStorage().then((value) {
+      service.loginWithToken().then((value) {
+        if (value == null) {
+          Navigator.pushReplacementNamed(context, "/login");
+        } else {}
+        setState(() {
+          loading = false;
+        });
+      }).catchError((e) {});
+    }).catchError((err) {
+      Navigator.pushReplacementNamed(context, "/login");
+      setState(() {
+        loading = false;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    Service service = Service.getInstance();
-    service.readTokenFromStorage();
-
     return Scaffold(
       appBar: AppBar(
         title: Text("Gestor de Inventario"),
         backgroundColor: Colors.cyan,
       ),
-      drawer: Menu_Lateral.CrearMenuLateral(context),
-      body: Container(
-        padding: EdgeInsets.only(left: 15, right: 15),
-        child: ListView(
-          children: [AlmacenWidget(), AlmacenWidget(), AlmacenWidget()],
-        ),
-      ),
+      drawer: loading ? null : Menu_Lateral.CrearMenuLateral(context),
+      body: loading
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : Container(
+              padding: EdgeInsets.only(left: 15, right: 15),
+              child: ListView(
+                children: [AlmacenWidget(), AlmacenWidget(), AlmacenWidget()],
+              ),
+            ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
         child: Icon(Icons.add),

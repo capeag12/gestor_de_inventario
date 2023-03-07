@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gestor_de_inventario/pages/login_page.dart';
+import 'package:gestor_de_inventario/pages/main_page.dart';
 
 void main() {
   runApp(ConstrainedBox(
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         primarySwatch: Colors.cyan,
       ),
-      home: Login_Page(),
+      home: Main_Page(),
       routes: {
         '/login': (context) => Login_Page(),
       },
