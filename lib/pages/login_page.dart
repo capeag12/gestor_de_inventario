@@ -1,8 +1,10 @@
 import 'dart:developer';
+import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:gestor_de_inventario/VM/loginVM.dart';
 import 'package:gestor_de_inventario/pages/main_page.dart';
 
 class Login_Page extends StatefulWidget {
@@ -13,12 +15,58 @@ class Login_Page extends StatefulWidget {
 }
 
 class _Login_PageState extends State<Login_Page> {
+  LoginVM _loginVM = LoginVM();
+  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  late String _email;
+  late String _password;
+
+  realizarLogin() async {
+    _formKey.currentState?.save();
+    bool logeado = await _loginVM.login(_email, _password);
+
+    if (logeado) {
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => Main_Page()));
+    } else {
+      _dialogError();
+    }
+  }
+
+  Future<void> _dialogError() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Error', style: TextStyle(fontWeight: FontWeight.bold)),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text(
+                    'No se pudo iniciar sesion, comprueba el usuario y la contraseña'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Ok'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
         child: Center(
           child: Form(
+              key: _formKey,
               child: Container(
                   constraints: BoxConstraints(
                     maxWidth: 600,
@@ -50,6 +98,9 @@ class _Login_PageState extends State<Login_Page> {
                             labelText: "Usuario",
                             hintText: 'Usuario',
                           ),
+                          onSaved: (newValue) {
+                            _email = newValue!;
+                          },
                         ),
                       ),
                       Container(
@@ -61,6 +112,9 @@ class _Login_PageState extends State<Login_Page> {
                             labelText: "Contraseña",
                             hintText: 'Contraseña',
                           ),
+                          onSaved: (newValue) {
+                            _password = newValue!;
+                          },
                         ),
                       ),
                       Container(
@@ -91,10 +145,7 @@ class _Login_PageState extends State<Login_Page> {
                                 MaterialStateProperty.all<Color>(Colors.cyan),
                           ),
                           onPressed: () {
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => Main_Page()));
+                            realizarLogin();
                           },
                           child: const Text(
                             'Iniciar Sesión',

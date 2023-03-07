@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:gestor_de_inventario/Models/service.dart';
 import 'package:gestor_de_inventario/Widgets/almacenWidget.dart';
 import 'package:gestor_de_inventario/pages/menu_lateral.dart';
 
@@ -14,6 +15,9 @@ class Main_Page extends StatefulWidget {
 class _Main_PageState extends State<Main_Page> {
   @override
   Widget build(BuildContext context) {
+    Service service = Service.getInstance();
+    service.readTokenFromStorage();
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Gestor de Inventario"),
