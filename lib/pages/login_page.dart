@@ -1,10 +1,11 @@
 import 'dart:developer';
-import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:gestor_de_inventario/VM/loginVM.dart';
+import 'package:gestor_de_inventario/VM/registrarmeVM.dart';
+import 'package:gestor_de_inventario/pages/dialogRegistrarme.dart';
 import 'package:gestor_de_inventario/pages/main_page.dart';
 
 class Login_Page extends StatefulWidget {
@@ -17,12 +18,10 @@ class Login_Page extends StatefulWidget {
 class _Login_PageState extends State<Login_Page> {
   LoginVM _loginVM = LoginVM();
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  late String _email;
-  late String _password;
 
   realizarLogin() async {
     _formKey.currentState?.save();
-    bool logeado = await _loginVM.login(_email, _password);
+    bool logeado = await _loginVM.login();
 
     if (logeado) {
       Navigator.pushReplacement(
@@ -99,7 +98,7 @@ class _Login_PageState extends State<Login_Page> {
                             hintText: 'Usuario',
                           ),
                           onSaved: (newValue) {
-                            _email = newValue!;
+                            _loginVM.email = newValue!;
                           },
                         ),
                       ),
@@ -113,7 +112,7 @@ class _Login_PageState extends State<Login_Page> {
                             hintText: 'Contraseña',
                           ),
                           onSaved: (newValue) {
-                            _password = newValue!;
+                            _loginVM.password = newValue!;
                           },
                         ),
                       ),
@@ -129,7 +128,7 @@ class _Login_PageState extends State<Login_Page> {
                                   MaterialPageRoute(
                                       fullscreenDialog: true,
                                       builder: (context) =>
-                                          _DialogRegistrarme()),
+                                          DialogRegistrarme()),
                                 );
                               },
                               child: Text("Registrate"),
@@ -155,145 +154,6 @@ class _Login_PageState extends State<Login_Page> {
                       ),
                     ],
                   ))),
-        ),
-      ),
-    );
-  }
-}
-
-class _DialogRegistrarme extends StatefulWidget {
-  const _DialogRegistrarme({super.key});
-
-  @override
-  State<_DialogRegistrarme> createState() => __DialogRegistrarmeState();
-}
-
-class __DialogRegistrarmeState extends State<_DialogRegistrarme> {
-  bool _aceptadas = false;
-
-  _aceptarCondiciones() {
-    if (_aceptadas == false) {
-      setState(() {
-        _aceptadas = true;
-      });
-    } else {
-      setState(() {
-        _aceptadas = false;
-      });
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Registrarme"),
-      ),
-      body: Center(
-        child: Container(
-          constraints: BoxConstraints(
-            maxWidth: 600,
-          ),
-          padding: EdgeInsets.all(45),
-          child: Form(
-            child: ListView(
-              children: [
-                Container(
-                  margin: EdgeInsets.only(bottom: 10),
-                  child: Text(
-                    "Registrate",
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 10),
-                  child: TextFormField(
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: "Nombre Completo",
-                      hintText: 'Nombre Completo',
-                    ),
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 10),
-                  child: TextFormField(
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: "Correo",
-                      hintText: 'Correo',
-                    ),
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 10),
-                  child: TextFormField(
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: "Confirmar Correo",
-                      hintText: 'Confirmar Correo',
-                    ),
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 10),
-                  child: TextFormField(
-                    obscureText: true,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: "Contraseña",
-                      hintText: 'Contraseña',
-                    ),
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 10),
-                  child: TextFormField(
-                    obscureText: true,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: "Confirmar Contraseña",
-                      hintText: 'Confirmar Contraseña',
-                    ),
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 10),
-                  child: Row(
-                    children: [
-                      Checkbox(
-                          value: _aceptadas,
-                          onChanged: (value) {
-                            _aceptarCondiciones();
-                          }),
-                      Text("Acepto las condiciones"),
-                    ],
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 10),
-                  alignment: Alignment.centerRight,
-                  child: ElevatedButton(
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(
-                        _aceptadas == false ? Colors.grey : Colors.cyan,
-                      ),
-                    ),
-                    onPressed: _aceptadas == false
-                        ? null
-                        : () {
-                            Navigator.pop(context);
-                          },
-                    child: const Text('Registrarme',
-                        style: TextStyle(color: Colors.white)),
-                  ),
-                ),
-              ],
-            ),
-          ),
         ),
       ),
     );

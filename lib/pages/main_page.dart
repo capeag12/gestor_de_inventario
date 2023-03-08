@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:gestor_de_inventario/Models/service.dart';
+import 'package:gestor_de_inventario/Models/serviceLogin.dart';
+import 'package:gestor_de_inventario/VM/mainPageVM.dart';
 import 'package:gestor_de_inventario/Widgets/almacenWidget.dart';
 import 'package:gestor_de_inventario/pages/menu_lateral.dart';
 
@@ -14,13 +15,13 @@ class Main_Page extends StatefulWidget {
 
 class _Main_PageState extends State<Main_Page> {
   bool loading = true;
-
+  MainPageVM _mainPageVM = MainPageVM();
   _Main_PageState() {
     iniciarSesion();
   }
 
   iniciarSesion() {
-    Service service = Service.getInstance();
+    ServiceLogin service = ServiceLogin.getInstance();
     service.readTokenFromStorage().then((value) {
       service.loginWithToken().then((value) {
         if (value == null) {
@@ -28,6 +29,8 @@ class _Main_PageState extends State<Main_Page> {
         } else {}
         setState(() {
           loading = false;
+          _mainPageVM.refrescarUsuario();
+          _mainPageVM.refrescarListaAlmacenes();
         });
       }).catchError((e) {});
     }).catchError((err) {
@@ -52,10 +55,15 @@ class _Main_PageState extends State<Main_Page> {
             )
           : Container(
               padding: EdgeInsets.only(left: 15, right: 15),
-              child: ListView(
-                children: [AlmacenWidget(), AlmacenWidget(), AlmacenWidget()],
-              ),
-            ),
+              child: _mainPageVM.listaAlmacenes.isEmpty == true
+                  ? Center(
+                      child: Text("No hay almacenes"),
+                    )
+                  : ListView(
+                      children: _mainPageVM.listaAlmacenes
+                          .map((almacen) => AlmacenWidget(almacen))
+                          .toList(),
+                    )),
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
         child: Icon(Icons.add),

@@ -4,7 +4,7 @@ import 'package:gestor_de_inventario/pages/main_page.dart';
 
 void main() {
   runApp(ConstrainedBox(
-      constraints: BoxConstraints(minWidth: 400), child: MyApp()));
+      constraints: BoxConstraints(minWidth: 400), child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -19,9 +19,9 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         primarySwatch: Colors.cyan,
       ),
-      home: Main_Page(),
+      home: const Main_Page(),
       routes: {
-        '/login': (context) => Login_Page(),
+        '/login': (context) => const Login_Page(),
       },
     );
   }

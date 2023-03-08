@@ -1,13 +1,13 @@
 import 'dart:convert';
-import 'dart:io';
+import 'package:gestor_de_inventario/Models/almacen.dart';
 import 'package:http/http.dart' as http;
 import 'package:gestor_de_inventario/Models/usuario.dart';
-import 'package:path_provider/path_provider.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
-class Service {
+class ServiceLogin {
   Usuario? _usuario;
-  static Service? _service;
+  static ServiceLogin? _service;
   final String _baseURL = "http://localhost:3000";
   String _token = "";
 
@@ -19,13 +19,13 @@ class Service {
 
   static getInstance() {
     if (_service == null) {
-      _service = Service();
+      _service = ServiceLogin();
     }
     return _service;
   }
 
   Future<Usuario?> realizarLogin(String email, String password) async {
-    final String url = _baseURL + "/usuarios/login";
+    final String url = "$_baseURL/usuarios/login";
     try {
       var respuesta = await http.post(
         Uri.parse(url),
@@ -43,9 +43,8 @@ class Service {
       _token = decoded['token'];
       await writeToken();
       _usuario = usuario;
-      print(_usuario);
+
       return _usuario;
-      ;
     } catch (e) {
       print(e);
       return null;
@@ -53,16 +52,22 @@ class Service {
   }
 
   Future<Usuario?> loginWithToken() async {
-    final String url = _baseURL + "/usuarios/loginToken";
+    final String url = "$_baseURL/usuarios/loginToken";
     try {
       var respuesta = await http.post(Uri.parse(url), headers: getHeaders());
       var decoded = jsonDecode(respuesta.body);
-
+      print(decoded);
       Usuario usuario = Usuario(decoded['usuario']['_id'],
           decoded['usuario']['nombre'], decoded['usuario']['email']);
-
+      for (var element in decoded['almacenes']) {
+        print(element);
+        Almacen almacen =
+            Almacen(element['_id'], element['nombre'], element['direccion']);
+        usuario.addAlmacen(almacen);
+      }
+      print(usuario.listaAlmacenes);
       _usuario = usuario;
-      print(_usuario);
+
       return _usuario;
     } catch (e) {
       print(e);
@@ -108,7 +113,7 @@ class Service {
   }
 
   Future<void> logout() async {
-    final String url = _baseURL + "/usuarios/logout";
+    final String url = "$_baseURL/usuarios/logout";
     try {
       var respuesta = await http.post(Uri.parse(url), headers: getHeaders());
     } catch (e) {
@@ -122,5 +127,36 @@ class Service {
 
   setToken(String token) {
     _token = token;
+  }
+
+  Usuario? get usuario => _usuario;
+
+  Future<Usuario?> registrarme(
+      String nombre, String email, String password) async {
+    final String url = "$_baseURL/usuarios/registrarUsuario";
+    try {
+      var respuesta = await http.post(
+        Uri.parse(url),
+        headers: getHeaders(),
+        body: jsonEncode({
+          "nombre": nombre,
+          "email": email,
+          "password": password,
+        }),
+      );
+      var decoded = jsonDecode(respuesta.body);
+
+      Usuario usuario = Usuario(decoded['usuario']['_id'],
+          decoded['usuario']['nombre'], decoded['usuario']['email']);
+
+      _token = decoded['token'];
+      await writeToken();
+      _usuario = usuario;
+      print(_usuario);
+      return _usuario;
+    } catch (e) {
+      print(e);
+      return null;
+    }
   }
 }

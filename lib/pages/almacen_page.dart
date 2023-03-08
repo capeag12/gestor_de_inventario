@@ -2,16 +2,21 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:gestor_de_inventario/Models/almacen.dart';
 import 'package:gestor_de_inventario/pages/main_page.dart';
 
 class Almacen_Page extends StatefulWidget {
-  const Almacen_Page({super.key});
-
+  Almacen a;
+  Almacen_Page(this.a);
   @override
-  State<Almacen_Page> createState() => _Almacen_PageState();
+  State<Almacen_Page> createState() => _Almacen_PageState(a);
 }
 
 class _Almacen_PageState extends State<Almacen_Page> {
+  late Almacen almacen;
+
+  _Almacen_PageState(this.almacen);
+
   _returnToMainPage() {
     Navigator.pushReplacement(
         context, MaterialPageRoute(builder: (context) => Main_Page()));
@@ -22,7 +27,7 @@ class _Almacen_PageState extends State<Almacen_Page> {
     return WillPopScope(
         child: Scaffold(
           appBar: AppBar(
-              title: Text("Nombre del almacen"),
+              title: Text(almacen.nombre),
               backgroundColor: Colors.cyan,
               leading: IconButton(
                 icon: Icon(Icons.arrow_back),
@@ -33,7 +38,7 @@ class _Almacen_PageState extends State<Almacen_Page> {
           body: Container(
               padding: EdgeInsets.only(left: 15, right: 15),
               child: ListView(
-                children: [DetallesAlmacen()],
+                children: [DetallesAlmacen(this.almacen)],
               )),
         ),
         onWillPop: () async {
@@ -44,7 +49,9 @@ class _Almacen_PageState extends State<Almacen_Page> {
 }
 
 class DetallesAlmacen extends StatelessWidget {
-  const DetallesAlmacen({super.key});
+  Almacen a;
+
+  DetallesAlmacen(this.a);
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +59,7 @@ class DetallesAlmacen extends StatelessWidget {
 
     return Container(
       //Arreglar text overflow
-      padding: EdgeInsets.only(bottom: 12),
+      padding: const EdgeInsets.only(bottom: 12),
       child: Card(
         child: Container(
           padding: EdgeInsets.all(15),
@@ -65,7 +72,7 @@ class DetallesAlmacen extends StatelessWidget {
                 height: 150,
               ),
               Container(
-                padding: EdgeInsets.only(left: 15),
+                padding: const EdgeInsets.only(left: 15),
                 color: Colors.red,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -73,15 +80,17 @@ class DetallesAlmacen extends StatelessWidget {
                   children: [
                     Container(
                       child: Text(
-                        "Nombre del almacenNombre del almacenNombre del almacenNombre del almacen",
+                        this.a.nombre,
                         style: TextStyle(
                             fontSize: 25, fontWeight: FontWeight.bold),
                         overflow: TextOverflow.ellipsis,
                         maxLines: 2,
                       ),
                     ),
-                    Text("Ubicacion"),
-                    Text("Descripcion"),
+                    Text(this.a.direccion,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
+                        style: TextStyle(fontSize: 20)),
                   ],
                 ),
               ),

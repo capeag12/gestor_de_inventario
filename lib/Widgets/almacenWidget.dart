@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:gestor_de_inventario/Models/almacen.dart';
 import 'package:gestor_de_inventario/pages/almacen_page.dart';
 
-class AlmacenWidget extends StatefulWidget {
-  const AlmacenWidget({super.key});
+class AlmacenWidget extends StatelessWidget {
+  late Almacen _almacen;
 
-  @override
-  State<AlmacenWidget> createState() => _AlmacenWidgetState();
-}
+  AlmacenWidget(this._almacen);
 
-class _AlmacenWidgetState extends State<AlmacenWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -18,8 +16,10 @@ class _AlmacenWidgetState extends State<AlmacenWidget> {
       child: Card(
         child: InkWell(
           onTap: () {
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => Almacen_Page()));
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => Almacen_Page(_almacen)));
             print("Almacen pulsado");
           },
           child: Container(
@@ -38,13 +38,13 @@ class _AlmacenWidgetState extends State<AlmacenWidget> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Nombre del almacén",
+                    Text(_almacen.nombre,
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
                         style: TextStyle(
                             fontSize: 20, fontWeight: FontWeight.bold)),
                     Text(
-                      "Calle la loba Nº15 11170, Paterna de Rivera kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk",
+                      _almacen.direccion,
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
                     ),

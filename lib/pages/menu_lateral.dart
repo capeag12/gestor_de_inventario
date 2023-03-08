@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gestor_de_inventario/Models/service.dart';
+import 'package:gestor_de_inventario/Models/serviceLogin.dart';
 import 'package:gestor_de_inventario/Models/usuario.dart';
 import 'package:gestor_de_inventario/VM/menu_lateralVM.dart';
 import 'package:gestor_de_inventario/pages/login_page.dart';
@@ -10,7 +10,7 @@ class Menu_Lateral {
   static MenuLateralVM _menuLateralVM = MenuLateralVM();
 
   static Drawer CrearMenuLateral(BuildContext context) {
-    Service service = Service.getInstance();
+    ServiceLogin service = ServiceLogin.getInstance();
     return Drawer(
       child: ListView(children: [
         DrawerHeader(

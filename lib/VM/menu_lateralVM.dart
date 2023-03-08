@@ -1,7 +1,7 @@
-import 'package:gestor_de_inventario/Models/service.dart';
+import 'package:gestor_de_inventario/Models/serviceLogin.dart';
 
 class MenuLateralVM {
-  Service _service = Service.getInstance();
+  ServiceLogin _service = ServiceLogin.getInstance();
 
   MenuLateralVM();
 

@@ -1,15 +1,17 @@
 import 'package:flutter/cupertino.dart';
-import 'package:gestor_de_inventario/Models/service.dart';
+import 'package:gestor_de_inventario/Models/serviceLogin.dart';
 import 'package:gestor_de_inventario/Models/usuario.dart';
 
 class LoginVM {
-  late Service _service;
+  late ServiceLogin _service;
+  late String email;
+  late String password;
 
   LoginVM() {
-    _service = Service.getInstance();
+    _service = ServiceLogin.getInstance();
   }
 
-  Future<bool> login(String email, String password) async {
+  Future<bool> login() async {
     Usuario? u = await _service.realizarLogin(email, password);
 
     if (u != null) {
