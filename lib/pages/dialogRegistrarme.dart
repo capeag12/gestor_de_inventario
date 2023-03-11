@@ -27,14 +27,18 @@ class DialogRegistrarmeState extends State<DialogRegistrarme> {
 
   registrarme() async {
     this._formKey.currentState?.save();
-    this._formKey.currentState?.validate();
-    bool registrado = await _registrarmeVM.registrarme();
-    if (registrado) {
-      Navigator.pop(context);
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => Main_Page()));
-    } else {
-      _dialogError();
+    bool? validated = this._formKey.currentState?.validate();
+    if (validated == false) {
+      _dialogError("Algunos campos no son validos");
+    } else if (validated == true) {
+      bool registrado = await _registrarmeVM.registrarme();
+      if (registrado) {
+        Navigator.pop(context);
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => Main_Page()));
+      } else {
+        _dialogError("Este correo ya esta registrado");
+      }
     }
   }
 
@@ -156,13 +160,26 @@ class DialogRegistrarmeState extends State<DialogRegistrarme> {
                 Container(
                   margin: EdgeInsets.only(top: 10),
                   child: TextFormField(
-                    obscureText: true,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: "Confirmar Contraseña",
-                      hintText: 'Confirmar Contraseña',
-                    ),
-                  ),
+                      obscureText: true,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: "Confirmar Contraseña",
+                        hintText: 'Confirmar Contraseña',
+                      ),
+                      onSaved: (value) {
+                        _registrarmeVM.confirmarContrasena = value;
+                      },
+                      onChanged: (value) {
+                        _registrarmeVM.confirmarContrasena = value;
+                      },
+                      validator: (value) {
+                        bool valid = _registrarmeVM.comparePassword();
+                        if (valid == false) {
+                          return "Las contraseñas no coinciden";
+                        } else {
+                          return null;
+                        }
+                      }),
                 ),
                 Container(
                   margin: EdgeInsets.only(top: 10),
@@ -205,7 +222,7 @@ class DialogRegistrarmeState extends State<DialogRegistrarme> {
     );
   }
 
-  Future<void> _dialogError() async {
+  Future<void> _dialogError(String textoError) async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false,
@@ -215,8 +232,7 @@ class DialogRegistrarmeState extends State<DialogRegistrarme> {
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
-                Text(
-                    'No pudo registrarse, este mail ya se encuentra registrado'),
+                Text(textoError),
               ],
             ),
           ),

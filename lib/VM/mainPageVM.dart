@@ -1,9 +1,11 @@
 import 'package:gestor_de_inventario/Models/almacen.dart';
+import 'package:gestor_de_inventario/Models/serviceAlmacenes.dart';
 import 'package:gestor_de_inventario/Models/serviceLogin.dart';
 import 'package:gestor_de_inventario/Models/usuario.dart';
 
 class MainPageVM {
   ServiceLogin _service = ServiceLogin.getInstance();
+  ServiceAlmacenes _serviceAlmacenes = ServiceAlmacenes.getInstance();
   MainPageVM();
   Usuario? _usuario = null;
   List<Almacen> _listaAlmacenes = [];
@@ -25,6 +27,15 @@ class MainPageVM {
     }).catchError((err) {
       return null;
     });
+  }
+
+  Future<bool> eliminarAlmacen(Almacen almacen) async {
+    bool? eliminado = await _serviceAlmacenes.eliminarAlmacen(almacen);
+    if (eliminado != null) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   refrescarUsuario() {

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:gestor_de_inventario/Models/almacen.dart';
 import 'package:gestor_de_inventario/Models/serviceLogin.dart';
 import 'package:gestor_de_inventario/VM/mainPageVM.dart';
 import 'package:gestor_de_inventario/Widgets/almacenWidget.dart';
+import 'package:gestor_de_inventario/pages/dialogAddAlmacen.dart';
 import 'package:gestor_de_inventario/pages/menu_lateral.dart';
 
 class Main_Page extends StatefulWidget {
@@ -18,6 +20,22 @@ class _Main_PageState extends State<Main_Page> {
   MainPageVM _mainPageVM = MainPageVM();
   _Main_PageState() {
     iniciarSesion();
+  }
+
+  eliminarAlmacen(Almacen a) async {
+    bool eliminado = await _mainPageVM.eliminarAlmacen(a);
+    if (eliminado) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("Almacen eliminado"),
+      ));
+      setState(() {
+        _mainPageVM.refrescarListaAlmacenes();
+      });
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("No se pudo eliminar el almacen"),
+      ));
+    }
   }
 
   iniciarSesion() {
@@ -61,11 +79,21 @@ class _Main_PageState extends State<Main_Page> {
                     )
                   : ListView(
                       children: _mainPageVM.listaAlmacenes
-                          .map((almacen) => AlmacenWidget(almacen))
+                          .map((almacen) =>
+                              AlmacenWidget(almacen, eliminarAlmacen))
                           .toList(),
                     )),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          {
+            DialogAddAlmacen.dialogAddAlmacen(context).then((value) {
+              setState(() {
+                _mainPageVM.refrescarListaAlmacenes();
+              });
+              print("Lista pagina ${_mainPageVM.listaAlmacenes}");
+            });
+          }
+        },
         child: Icon(Icons.add),
         backgroundColor: Colors.cyan,
       ),

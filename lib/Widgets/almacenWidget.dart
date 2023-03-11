@@ -7,7 +7,9 @@ import 'package:gestor_de_inventario/pages/almacen_page.dart';
 class AlmacenWidget extends StatelessWidget {
   late Almacen _almacen;
 
-  AlmacenWidget(this._almacen);
+  void Function(Almacen) eliminarAlmacen;
+
+  AlmacenWidget(this._almacen, this.eliminarAlmacen);
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +52,12 @@ class AlmacenWidget extends StatelessWidget {
                     ),
                   ],
                 ),
-              )
+              ),
+              IconButton(
+                  onPressed: () {
+                    eliminarAlmacen(_almacen);
+                  },
+                  icon: Icon(Icons.delete)),
             ]),
           ),
         ),

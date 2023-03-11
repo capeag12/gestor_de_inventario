@@ -55,17 +55,17 @@ class ServiceLogin {
     final String url = "$_baseURL/usuarios/loginToken";
     try {
       var respuesta = await http.post(Uri.parse(url), headers: getHeaders());
+
       var decoded = jsonDecode(respuesta.body);
-      print(decoded);
+
       Usuario usuario = Usuario(decoded['usuario']['_id'],
           decoded['usuario']['nombre'], decoded['usuario']['email']);
       for (var element in decoded['almacenes']) {
-        print(element);
         Almacen almacen =
             Almacen(element['_id'], element['nombre'], element['direccion']);
         usuario.addAlmacen(almacen);
       }
-      print(usuario.listaAlmacenes);
+
       _usuario = usuario;
 
       return _usuario;
