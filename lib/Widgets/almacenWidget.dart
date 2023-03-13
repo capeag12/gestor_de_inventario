@@ -55,7 +55,29 @@ class AlmacenWidget extends StatelessWidget {
               ),
               IconButton(
                   onPressed: () {
-                    eliminarAlmacen(_almacen);
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text("Eliminar Almacen"),
+                            content: Text(
+                                "¿Estas seguro de que quieres eliminar este almacen?"),
+                            actions: [
+                              TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text("Cancelar")),
+                              TextButton(
+                                  onPressed: () {
+                                    eliminarAlmacen(_almacen);
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text("Eliminar",
+                                      style: TextStyle(color: Colors.red))),
+                            ],
+                          );
+                        });
                   },
                   icon: Icon(Icons.delete)),
             ]),

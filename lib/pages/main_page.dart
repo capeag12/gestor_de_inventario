@@ -22,16 +22,24 @@ class _Main_PageState extends State<Main_Page> {
     iniciarSesion();
   }
 
-  eliminarAlmacen(Almacen a) async {
+  void eliminarAlmacen(Almacen a) async {
+    setState(() {
+      loading = true;
+    });
     bool eliminado = await _mainPageVM.eliminarAlmacen(a);
-    if (eliminado) {
+    print(eliminado);
+    if (eliminado == true) {
+      setState(() {
+        _mainPageVM.refrescarListaAlmacenes();
+        loading = false;
+      });
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text("Almacen eliminado"),
       ));
-      setState(() {
-        _mainPageVM.refrescarListaAlmacenes();
-      });
     } else {
+      setState(() {
+        loading = false;
+      });
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text("No se pudo eliminar el almacen"),
       ));

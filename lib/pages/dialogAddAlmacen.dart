@@ -89,9 +89,17 @@ class DialogAddAlmacen {
             TextButton(
               child: Text('Añadir'),
               onPressed: () async {
-                await _addAlmacen();
-
+                bool addAlmacen = await _addAlmacen();
                 Navigator.pop(context);
+                if (addAlmacen == true) {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text("Almacen añadido"),
+                  ));
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text("No se pudo añadir el almacen"),
+                  ));
+                }
               },
             ),
           ],

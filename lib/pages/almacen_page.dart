@@ -40,6 +40,11 @@ class _Almacen_PageState extends State<Almacen_Page> {
               child: ListView(
                 children: [DetallesAlmacen(this.almacen)],
               )),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {},
+            child: Icon(Icons.add),
+            backgroundColor: Colors.cyan,
+          ),
         ),
         onWillPop: () async {
           _returnToMainPage();

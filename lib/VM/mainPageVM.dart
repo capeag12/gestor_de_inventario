@@ -31,7 +31,7 @@ class MainPageVM {
 
   Future<bool> eliminarAlmacen(Almacen almacen) async {
     bool? eliminado = await _serviceAlmacenes.eliminarAlmacen(almacen);
-    if (eliminado != null) {
+    if (eliminado == true) {
       return true;
     } else {
       return false;
