@@ -2,7 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:gestor_de_inventario/Models/Item.dart';
+import 'package:gestor_de_inventario/Models/ItemAlmacen.dart';
 import 'package:gestor_de_inventario/Models/almacen.dart';
+import 'package:gestor_de_inventario/Widgets/itemWidget.dart';
 import 'package:gestor_de_inventario/pages/main_page.dart';
 
 class Almacen_Page extends StatefulWidget {
@@ -38,7 +41,10 @@ class _Almacen_PageState extends State<Almacen_Page> {
           body: Container(
               padding: EdgeInsets.only(left: 15, right: 15),
               child: ListView(
-                children: [DetallesAlmacen(this.almacen)],
+                children: [
+                  DetallesAlmacen(this.almacen),
+                  Item_Widget(ItemAlmacen(Item("Nombre", 14.47), 9))
+                ],
               )),
           floatingActionButton: FloatingActionButton(
             onPressed: () {},
