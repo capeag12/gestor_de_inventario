@@ -1,5 +1,6 @@
 import 'dart:convert';
-
+import 'package:gestor_de_inventario/Models/Item.dart';
+import 'package:gestor_de_inventario/Models/ItemAlmacen.dart';
 import 'package:gestor_de_inventario/Models/almacen.dart';
 import 'package:gestor_de_inventario/Models/serviceLogin.dart';
 import 'package:http/http.dart' as http;
@@ -65,6 +66,35 @@ class ServiceAlmacenes {
       } else if (respuesta.statusCode == 204) {
         _serviceLogin.usuario!.listaAlmacenes.remove(a);
 
+        return true;
+      }
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  Future<bool?> obtenerItemsAlmacen(Almacen a) async {
+    final String url = "$_baseURL/almacenes/getItemsAlmacen/${a.id}";
+    try {
+      var respuesta = await http.get(
+        Uri.parse(url),
+        headers: _serviceLogin.getHeaders(),
+      );
+      print("");
+      if (respuesta.statusCode == 404 || respuesta.statusCode == 500) {
+        return false;
+      } else if (respuesta.statusCode == 200) {
+        var decoded = jsonDecode(respuesta.body);
+        print(decoded);
+        decoded.forEach((element) {
+          print(element);
+          a.listaItems.add(ItemAlmacen(
+              Item(element["item"]["_id"], element["item"]["nombre"],
+                  element["item"]["valor"]),
+              element["cantidad"]));
+        });
+        print(a.listaItems);
         return true;
       }
     } catch (e) {

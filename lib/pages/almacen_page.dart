@@ -5,7 +5,9 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:gestor_de_inventario/Models/Item.dart';
 import 'package:gestor_de_inventario/Models/ItemAlmacen.dart';
 import 'package:gestor_de_inventario/Models/almacen.dart';
+import 'package:gestor_de_inventario/VM/almacenPageVM.dart';
 import 'package:gestor_de_inventario/Widgets/itemWidget.dart';
+import 'package:gestor_de_inventario/pages/dialogAddItem.dart';
 import 'package:gestor_de_inventario/pages/main_page.dart';
 
 class Almacen_Page extends StatefulWidget {
@@ -17,8 +19,18 @@ class Almacen_Page extends StatefulWidget {
 
 class _Almacen_PageState extends State<Almacen_Page> {
   late Almacen almacen;
+  late AlmacenpageVM vm;
+  bool loading = true;
 
-  _Almacen_PageState(this.almacen);
+  _Almacen_PageState(this.almacen) {
+    vm = AlmacenpageVM(almacen);
+    vm.obtenerItemsAlmacen().then((value) {
+      print(value);
+      setState(() {
+        loading = false;
+      });
+    });
+  }
 
   _returnToMainPage() {
     Navigator.pushReplacement(
@@ -40,14 +52,31 @@ class _Almacen_PageState extends State<Almacen_Page> {
               )),
           body: Container(
               padding: EdgeInsets.only(left: 15, right: 15),
-              child: ListView(
-                children: [
-                  DetallesAlmacen(this.almacen),
-                  Item_Widget(ItemAlmacen(Item("Nombre", 14.47), 9))
-                ],
-              )),
+              child: loading == true
+                  ? Center(child: CircularProgressIndicator())
+                  : Column(
+                      children: [
+                        DetallesAlmacen(almacen),
+                        vm.almacen.listaItems.length == 0
+                            ? Container(
+                                padding: EdgeInsets.only(top: 20),
+                                child: Text(
+                                  "No hay items en este almacen",
+                                  style: TextStyle(fontSize: 20),
+                                ),
+                              )
+                            : Expanded(
+                                child: ListView(
+                                children: vm.almacen.listaItems
+                                    .map((e) => Item_Widget(e))
+                                    .toList(),
+                              ))
+                      ],
+                    )),
           floatingActionButton: FloatingActionButton(
-            onPressed: () {},
+            onPressed: () {
+              DialogAddItem.dialogAddAlmacen(context);
+            },
             child: Icon(Icons.add),
             backgroundColor: Colors.cyan,
           ),
