@@ -6,7 +6,7 @@ class DialogAddItem {
   static AddItemVM _addItemVM = AddItemVM();
   static GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  static Future<bool> _addAlmacen() async {
+  static Future<bool> _addItem() async {
     _formKey.currentState?.save();
     bool? validated = _formKey.currentState?.validate();
     if (validated == false) {
@@ -22,7 +22,7 @@ class DialogAddItem {
     return false;
   }
 
-  static Future<void> dialogAddAlmacen(BuildContext context) async {
+  static Future<void> dialogAddItem(BuildContext context) async {
     return showDialog<void>(
       context: context,
       barrierDismissible: true,
@@ -40,8 +40,8 @@ class DialogAddItem {
                     child: TextFormField(
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
-                        labelText: "Nombre del Almacen",
-                        hintText: 'Nombre del Almacen',
+                        labelText: "Nombre del Item",
+                        hintText: 'Nombre del Item',
                       ),
                       onSaved: (value) {
                         _addItemVM.nombreItem = value ?? "";
@@ -126,7 +126,7 @@ class DialogAddItem {
             TextButton(
               child: Text('Añadir'),
               onPressed: () async {
-                bool addAlmacen = await _addAlmacen();
+                bool addAlmacen = await _addItem();
                 Navigator.pop(context);
                 if (addAlmacen == true) {
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(

@@ -102,4 +102,38 @@ class ServiceAlmacenes {
       return false;
     }
   }
+
+  Future<Item?> agregarItem(ItemAlmacen itemadd, Almacen almacen) async {
+    final String url = "$_baseURL/almacenes/addProducto/${almacen.id}";
+    try {
+      var respuesta = await http.put(
+        Uri.parse(url),
+        headers: _serviceLogin.getHeaders(),
+        body: jsonEncode({
+          "nombre": itemadd.item.nombre,
+          "valor": itemadd.item.valor,
+          "cantidad": itemadd.cantidad,
+        }),
+      );
+      if (respuesta.statusCode == 404 ||
+          respuesta.statusCode == 400 ||
+          respuesta.statusCode == 500) {
+        return null;
+      } else if (respuesta.statusCode == 201) {
+        var decoded = jsonDecode(respuesta.body);
+        ItemAlmacen item = ItemAlmacen(
+          Item(decoded['item']['_id'], decoded['item']['nombre'],
+              decoded['item']['valor']),
+          decoded['cantidad'],
+        );
+
+        almacen.listaItems.add(item);
+        return item.item;
+      }
+      return null;
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
 }
