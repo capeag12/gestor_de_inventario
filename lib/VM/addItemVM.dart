@@ -1,3 +1,5 @@
+import 'package:gestor_de_inventario/Models/ItemAlmacen.dart';
+import 'package:gestor_de_inventario/Models/almacen.dart';
 import 'package:gestor_de_inventario/Models/serviceAlmacenes.dart';
 
 class AddItemVM {
@@ -8,7 +10,11 @@ class AddItemVM {
 
   AddItemVM();
 
-  Future<bool> addItem() async {
-    return false;
+  Future<bool> addItem(ItemAlmacen itemAl, Almacen a) async {
+    ItemAlmacen? i = await _serviceAlmacenes.agregarItem(itemAl, a);
+    if (i != null) {
+      return true;
+    } else
+      return false;
   }
 }

@@ -74,8 +74,11 @@ class _Almacen_PageState extends State<Almacen_Page> {
                       ],
                     )),
           floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              DialogAddItem.dialogAddItem(context);
+            onPressed: () async {
+              await DialogAddItem.dialogAddItem(context, almacen);
+              setState(() {
+                almacen;
+              });
             },
             child: Icon(Icons.add),
             backgroundColor: Colors.cyan,

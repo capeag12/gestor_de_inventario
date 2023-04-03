@@ -1,18 +1,26 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:gestor_de_inventario/Models/Item.dart';
+import 'package:gestor_de_inventario/Models/ItemAlmacen.dart';
+import 'package:gestor_de_inventario/Models/almacen.dart';
 import 'package:gestor_de_inventario/VM/AddItemVM.dart';
 
 class DialogAddItem {
   static AddItemVM _addItemVM = AddItemVM();
   static GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  static Future<bool> _addItem() async {
+  static Future<bool> _addItem(Almacen a) async {
     _formKey.currentState?.save();
     bool? validated = _formKey.currentState?.validate();
     if (validated == false) {
       return false;
     } else if (validated == true) {
-      bool added = await _addItemVM.addItem();
+      ItemAlmacen itemAl = ItemAlmacen(
+          Item("", _addItemVM.nombreItem, _addItemVM.valorItem),
+          _addItemVM.cantidadItem);
+      bool added = await _addItemVM.addItem(itemAl, a);
       if (added == true) {
         return true;
       } else {
@@ -22,7 +30,7 @@ class DialogAddItem {
     return false;
   }
 
-  static Future<void> dialogAddItem(BuildContext context) async {
+  static Future<void> dialogAddItem(BuildContext context, Almacen a) async {
     return showDialog<void>(
       context: context,
       barrierDismissible: true,
@@ -67,10 +75,12 @@ class DialogAddItem {
                         hintText: 'Valor del item',
                       ),
                       onSaved: (value) {
-                        _addItemVM.nombreItem = value ?? "";
+                        num parsed = num.tryParse(value ?? "") ?? 0;
+                        _addItemVM.valorItem = parsed.toDouble();
                       },
                       onChanged: (value) {
-                        _addItemVM.nombreItem = value ?? "";
+                        num parsed = num.tryParse(value) ?? 0;
+                        _addItemVM.valorItem = parsed.toDouble();
                       },
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -97,10 +107,12 @@ class DialogAddItem {
                         hintText: 'Cantidad del item',
                       ),
                       onSaved: (value) {
-                        _addItemVM.nombreItem = value ?? "";
+                        int parsed = int.tryParse(value ?? "") ?? 0;
+                        _addItemVM.cantidadItem = parsed;
                       },
                       onChanged: (value) {
-                        _addItemVM.nombreItem = value ?? "";
+                        int parsed = int.tryParse(value ?? "") ?? 0;
+                        _addItemVM.cantidadItem = parsed;
                       },
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -110,11 +122,10 @@ class DialogAddItem {
                         }
                       },
                       inputFormatters: [
-                        FilteringTextInputFormatter.allow(
-                            RegExp(r'^\d+\.?\d{0,2}')),
+                        FilteringTextInputFormatter.allow(RegExp(r'^\d+')),
                       ],
                       keyboardType: TextInputType.numberWithOptions(
-                        decimal: true,
+                        decimal: false,
                       ),
                     ),
                   )
@@ -126,11 +137,11 @@ class DialogAddItem {
             TextButton(
               child: Text('Añadir'),
               onPressed: () async {
-                bool addAlmacen = await _addItem();
+                bool addAlmacen = await _addItem(a);
                 Navigator.pop(context);
                 if (addAlmacen == true) {
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text("Almacen añadido"),
+                    content: Text("Item añadido"),
                   ));
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(

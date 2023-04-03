@@ -88,10 +88,11 @@ class ServiceAlmacenes {
         var decoded = jsonDecode(respuesta.body);
         print(decoded);
         decoded.forEach((element) {
+          num valorParser = element['item']['valor'];
           print(element);
           a.listaItems.add(ItemAlmacen(
               Item(element["item"]["_id"], element["item"]["nombre"],
-                  element["item"]["valor"]),
+                  valorParser.toDouble()),
               element["cantidad"]));
         });
         print(a.listaItems);
@@ -103,7 +104,7 @@ class ServiceAlmacenes {
     }
   }
 
-  Future<Item?> agregarItem(ItemAlmacen itemadd, Almacen almacen) async {
+  Future<ItemAlmacen?> agregarItem(ItemAlmacen itemadd, Almacen almacen) async {
     final String url = "$_baseURL/almacenes/addProducto/${almacen.id}";
     try {
       var respuesta = await http.put(
@@ -121,18 +122,20 @@ class ServiceAlmacenes {
         return null;
       } else if (respuesta.statusCode == 201) {
         var decoded = jsonDecode(respuesta.body);
+        num valorParser = decoded['item']['valor'];
         ItemAlmacen item = ItemAlmacen(
           Item(decoded['item']['_id'], decoded['item']['nombre'],
-              decoded['item']['valor']),
+              valorParser.toDouble()),
           decoded['cantidad'],
         );
 
         almacen.listaItems.add(item);
-        return item.item;
+        return item;
       }
       return null;
     } catch (e) {
       print(e);
+
       return null;
     }
   }
