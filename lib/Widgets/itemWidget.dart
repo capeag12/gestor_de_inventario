@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:gestor_de_inventario/Models/Item.dart';
 import 'package:gestor_de_inventario/Models/ItemAlmacen.dart';
 import 'package:number_selection/number_selection.dart';
 
@@ -52,11 +53,19 @@ class _Item_WidgetState extends State<Item_Widget> {
                 theme: NumberSelectionTheme(
                     numberColor: Colors.black,
                     iconsColor: Colors.black,
-                    backgroundColor: Colors.cyan),
+                    backgroundColor: (this._itemAlmacen.cantidadCambiada !=
+                            this._itemAlmacen.cantidad)
+                        ? Colors.yellow
+                        : Colors.cyan),
                 minValue: 0,
                 initialValue: this._itemAlmacen.cantidad,
                 direction: Axis.horizontal,
                 withSpring: true,
+                onChanged: (value) {
+                  setState(() {
+                    this._itemAlmacen.cantidadCambiada = value;
+                  });
+                },
               ),
             )
           ]),

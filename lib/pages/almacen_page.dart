@@ -91,6 +91,7 @@ class _Almacen_PageState extends State<Almacen_Page> {
   }
 }
 
+//Solucinar problemas detalles almacen
 class DetallesAlmacen extends StatelessWidget {
   Almacen a;
 

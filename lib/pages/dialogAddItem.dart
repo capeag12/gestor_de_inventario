@@ -18,6 +18,7 @@ class DialogAddItem {
       return false;
     } else if (validated == true) {
       ItemAlmacen itemAl = ItemAlmacen(
+          "",
           Item("", _addItemVM.nombreItem, _addItemVM.valorItem),
           _addItemVM.cantidadItem);
       bool added = await _addItemVM.addItem(itemAl, a);

@@ -91,6 +91,7 @@ class ServiceAlmacenes {
           num valorParser = element['item']['valor'];
           print(element);
           a.listaItems.add(ItemAlmacen(
+              element["id"],
               Item(element["item"]["_id"], element["item"]["nombre"],
                   valorParser.toDouble()),
               element["cantidad"]));
@@ -124,6 +125,7 @@ class ServiceAlmacenes {
         var decoded = jsonDecode(respuesta.body);
         num valorParser = decoded['item']['valor'];
         ItemAlmacen item = ItemAlmacen(
+          decoded['id'],
           Item(decoded['item']['_id'], decoded['item']['nombre'],
               valorParser.toDouble()),
           decoded['cantidad'],
