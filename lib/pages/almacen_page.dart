@@ -7,6 +7,7 @@ import 'package:gestor_de_inventario/Models/ItemAlmacen.dart';
 import 'package:gestor_de_inventario/Models/almacen.dart';
 import 'package:gestor_de_inventario/VM/almacenPageVM.dart';
 import 'package:gestor_de_inventario/Widgets/itemWidget.dart';
+import 'package:gestor_de_inventario/Widgets/widgetCambio.dart';
 import 'package:gestor_de_inventario/pages/dialogAddItem.dart';
 import 'package:gestor_de_inventario/pages/main_page.dart';
 
@@ -32,6 +33,10 @@ class _Almacen_PageState extends State<Almacen_Page> {
     });
   }
 
+  void addItem(itemAl) {
+    vm.addItemToSet(itemAl);
+  }
+
   _returnToMainPage() {
     Navigator.pushReplacement(
         context, MaterialPageRoute(builder: (context) => Main_Page()));
@@ -42,21 +47,72 @@ class _Almacen_PageState extends State<Almacen_Page> {
     return WillPopScope(
         child: Scaffold(
           appBar: AppBar(
-              title: Text(almacen.nombre),
-              backgroundColor: Colors.cyan,
-              leading: IconButton(
-                icon: Icon(Icons.arrow_back),
-                onPressed: () {
-                  _returnToMainPage();
-                },
-              )),
+            title: Text(almacen.nombre),
+            backgroundColor: Colors.cyan,
+            leading: IconButton(
+              icon: Icon(Icons.arrow_back),
+              onPressed: () {
+                _returnToMainPage();
+              },
+            ),
+            actions: [
+              Container(
+                  margin: EdgeInsets.only(right: 10),
+                  child: IconButton(
+                      onPressed: () {
+                        //Create a dialog
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) => Container(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.8,
+                                  child: Dialog(
+                                    child: Container(
+                                      child: Column(
+                                        children: [
+                                          Container(
+                                            padding: EdgeInsets.only(
+                                                top: 10, bottom: 10),
+                                            child: Text(
+                                              "Cambios",
+                                              style: TextStyle(
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: ListView(
+                                                shrinkWrap: true,
+                                                children: [
+                                                  WidgetCambio(),
+                                                  WidgetCambio(),
+                                                  WidgetCambio(),
+                                                ]),
+                                          ),
+                                          Container(
+                                            padding: EdgeInsets.only(
+                                                top: 10, bottom: 10),
+                                            child: ElevatedButton(
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                child: Text("Cerrar")),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ));
+                      },
+                      icon: Icon(Icons.maps_home_work_outlined)))
+            ],
+          ),
           body: Container(
               padding: EdgeInsets.only(left: 15, right: 15),
               child: loading == true
                   ? Center(child: CircularProgressIndicator())
                   : Column(
                       children: [
-                        DetallesAlmacen(almacen),
                         vm.almacen.listaItems.length == 0
                             ? Container(
                                 padding: EdgeInsets.only(top: 20),
@@ -68,12 +124,12 @@ class _Almacen_PageState extends State<Almacen_Page> {
                             : Expanded(
                                 child: ListView(
                                 children: vm.almacen.listaItems
-                                    .map((e) => Item_Widget(e))
+                                    .map((e) => Item_Widget(e, addItem))
                                     .toList(),
                               ))
                       ],
                     )),
-          floatingActionButton: FloatingActionButton(
+          floatingActionButton: FloatingActionButton.small(
             onPressed: () async {
               await DialogAddItem.dialogAddItem(context, almacen);
               setState(() {

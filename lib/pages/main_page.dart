@@ -91,7 +91,7 @@ class _Main_PageState extends State<Main_Page> {
                               AlmacenWidget(almacen, eliminarAlmacen))
                           .toList(),
                     )),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: FloatingActionButton.small(
         onPressed: () {
           {
             DialogAddAlmacen.dialogAddAlmacen(context).then((value) {

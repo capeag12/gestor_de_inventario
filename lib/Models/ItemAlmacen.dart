@@ -7,4 +7,8 @@ class ItemAlmacen {
   late int cantidadCambiada = this.cantidad;
 
   ItemAlmacen(this.id, this.item, this.cantidad);
+
+  //Override the equals method
+  @override
+  bool operator ==(Object other) => this.id == (other as ItemAlmacen).id;
 }

@@ -7,16 +7,17 @@ import 'package:number_selection/number_selection.dart';
 
 class Item_Widget extends StatefulWidget {
   late ItemAlmacen _itemAlmacen;
+  late void Function(ItemAlmacen) cambiado;
 
-  Item_Widget(this._itemAlmacen);
+  Item_Widget(this._itemAlmacen, this.cambiado);
   @override
-  State<Item_Widget> createState() => _Item_WidgetState(_itemAlmacen);
+  State<Item_Widget> createState() => _Item_WidgetState(_itemAlmacen, cambiado);
 }
 
 class _Item_WidgetState extends State<Item_Widget> {
   late ItemAlmacen _itemAlmacen;
-
-  _Item_WidgetState(this._itemAlmacen);
+  late void Function(ItemAlmacen) cambiado;
+  _Item_WidgetState(this._itemAlmacen, this.cambiado);
 
   @override
   Widget build(BuildContext context) {
@@ -65,6 +66,8 @@ class _Item_WidgetState extends State<Item_Widget> {
                   setState(() {
                     this._itemAlmacen.cantidadCambiada = value;
                   });
+
+                  this.cambiado(this._itemAlmacen);
                 },
               ),
             )
