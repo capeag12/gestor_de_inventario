@@ -81,21 +81,45 @@ class _Almacen_PageState extends State<Almacen_Page> {
                                             ),
                                           ),
                                           Expanded(
-                                            child: ListView(
-                                                shrinkWrap: true,
-                                                children: vm.setListaCambiados
-                                                    .toList()
-                                                    .map((e) => WidgetCambio(e))
-                                                    .toList()),
+                                            child: Container(
+                                              padding: EdgeInsets.only(
+                                                  left: 12, right: 12),
+                                              child: ListView(
+                                                  shrinkWrap: true,
+                                                  children: vm.setListaCambiados
+                                                      .toList()
+                                                      .map((e) =>
+                                                          WidgetCambio(e))
+                                                      .toList()),
+                                            ),
                                           ),
-                                          Container(
-                                            padding: EdgeInsets.only(
-                                                top: 10, bottom: 10),
-                                            child: ElevatedButton(
-                                                onPressed: () {
-                                                  Navigator.pop(context);
-                                                },
-                                                child: Text("Cerrar")),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Container(
+                                                padding: EdgeInsets.only(
+                                                    top: 10,
+                                                    bottom: 10,
+                                                    left: 10),
+                                                child: TextButton(
+                                                    onPressed: () {
+                                                      Navigator.pop(context);
+                                                    },
+                                                    child: Text("Aceptar")),
+                                              ),
+                                              Container(
+                                                padding: EdgeInsets.only(
+                                                    top: 10,
+                                                    bottom: 10,
+                                                    right: 10),
+                                                child: TextButton(
+                                                    onPressed: () {
+                                                      Navigator.pop(context);
+                                                    },
+                                                    child: Text("Cerrar")),
+                                              )
+                                            ],
                                           ),
                                         ],
                                       ),

@@ -23,7 +23,7 @@ class AlmacenpageVM {
   }
 
   void addItemToSet(ItemAlmacen item) {
-    if (item.cantidad == item.cantidadCambiada) {
+    if (item.cantidadCambiada >= item.cantidad) {
       setListaCambiados.remove(item);
     } else {
       setListaCambiados.add(item);
