@@ -83,11 +83,10 @@ class _Almacen_PageState extends State<Almacen_Page> {
                                           Expanded(
                                             child: ListView(
                                                 shrinkWrap: true,
-                                                children: [
-                                                  WidgetCambio(),
-                                                  WidgetCambio(),
-                                                  WidgetCambio(),
-                                                ]),
+                                                children: vm.setListaCambiados
+                                                    .toList()
+                                                    .map((e) => WidgetCambio(e))
+                                                    .toList()),
                                           ),
                                           Container(
                                             padding: EdgeInsets.only(
@@ -112,13 +111,14 @@ class _Almacen_PageState extends State<Almacen_Page> {
               child: loading == true
                   ? Center(child: CircularProgressIndicator())
                   : Column(
+                      mainAxisAlignment: vm.almacen.listaItems.length == 0
+                          ? MainAxisAlignment.center
+                          : MainAxisAlignment.start,
                       children: [
                         vm.almacen.listaItems.length == 0
                             ? Container(
-                                padding: EdgeInsets.only(top: 20),
-                                child: Text(
-                                  "No hay items en este almacen",
-                                  style: TextStyle(fontSize: 20),
+                                child: Center(
+                                  child: Text("No hay items en este almacen"),
                                 ),
                               )
                             : Expanded(

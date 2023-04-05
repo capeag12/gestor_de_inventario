@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:gestor_de_inventario/Models/ItemAlmacen.dart';
 
 class WidgetCambio extends StatelessWidget {
-  const WidgetCambio({super.key});
+  late ItemAlmacen itemAlmacen;
+
+  WidgetCambio(this.itemAlmacen);
 
   @override
   Widget build(BuildContext context) {
@@ -16,14 +19,15 @@ class WidgetCambio extends StatelessWidget {
             child: Container(
               padding: EdgeInsets.only(left: 15),
               child: Text(
-                "Nombre del item",
+                itemAlmacen.item.nombre,
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                overflow: TextOverflow.ellipsis,
               ),
             ),
           ),
           Container(
             padding: EdgeInsets.only(right: 15),
-            child: Text("Cantidad",
+            child: Text(itemAlmacen.cantidad.toString(),
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
           ),
         ],
