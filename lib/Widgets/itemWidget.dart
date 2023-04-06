@@ -52,12 +52,16 @@ class _Item_WidgetState extends State<Item_Widget> {
               width: 75,
               child: NumberSelection(
                 theme: NumberSelectionTheme(
-                    numberColor: Colors.black,
-                    iconsColor: Colors.black,
-                    backgroundColor: (this._itemAlmacen.cantidadCambiada !=
-                            this._itemAlmacen.cantidad)
-                        ? Colors.yellow
-                        : Colors.cyan),
+                  numberColor: Colors.black,
+                  iconsColor: Colors.black,
+                  backgroundColor: (this._itemAlmacen.cantidadCambiada >
+                          this._itemAlmacen.cantidad)
+                      ? Color.fromARGB(255, 189, 247, 97)
+                      : (this._itemAlmacen.cantidadCambiada <
+                              this._itemAlmacen.cantidad)
+                          ? Color.fromARGB(255, 255, 87, 123)
+                          : Colors.cyan,
+                ),
                 minValue: 0,
                 initialValue: this._itemAlmacen.cantidad,
                 direction: Axis.horizontal,
