@@ -141,4 +141,38 @@ class ServiceAlmacenes {
       return null;
     }
   }
+
+  Future<bool> actualizarMercancia(Almacen origen, Almacen destino,
+      List<ItemAlmacen> added, List<ItemAlmacen> restados) async {
+    final String url = "$_baseURL/almacenes/actualizarMercancia";
+    try {
+      var respuesta = await http.put(
+        Uri.parse(url),
+        headers: _serviceLogin.getHeaders(),
+        body: jsonEncode({
+          "origen": origen.id,
+          "destino": destino.id,
+          "added": added,
+          "restados": restados,
+        }),
+      );
+      if (respuesta.statusCode == 404 ||
+          respuesta.statusCode == 400 ||
+          respuesta.statusCode == 500) {
+        return false;
+      } else if (respuesta.statusCode == 201) {
+        return true;
+      }
+      return false;
+    } catch (e) {
+      print(e);
+
+      return false;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+
+    return true;
+  }
 }

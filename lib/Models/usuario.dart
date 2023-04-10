@@ -35,6 +35,16 @@ class Usuario {
 
   List<Almacen> get listaAlmacenes => _listaAlmacenes;
 
+  List<Almacen> getListaAlmacenesPodada(Almacen a) {
+    List<Almacen> listaAlmacenesPodada = [];
+    for (Almacen almacen in _listaAlmacenes) {
+      if (almacen.id != a.id) {
+        listaAlmacenesPodada.add(almacen);
+      }
+    }
+    return listaAlmacenesPodada;
+  }
+
   addAlmacen(Almacen almacen) {
     _listaAlmacenes.add(almacen);
   }

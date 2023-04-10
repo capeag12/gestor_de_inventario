@@ -134,16 +134,12 @@ class _Almacen_PageState extends State<Almacen_Page> {
                                                                             Expanded(
                                                                               child: Container(
                                                                                 padding: EdgeInsets.only(left: 12, right: 12),
-                                                                                child: ListView(shrinkWrap: true, children: vm.serviceLogin.usuario == null ? [] : vm.serviceLogin.usuario!.listaAlmacenes.map((e) => AlmacenWidgetEnviar(e)).toList()),
+                                                                                child: ListView(shrinkWrap: true, children: vm.serviceLogin.usuario == null ? [] : vm.serviceLogin.usuario!.getListaAlmacenesPodada(vm.almacen).map((e) => AlmacenWidgetEnviar(e)).toList()),
                                                                               ),
                                                                             ),
                                                                             Row(
-                                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                              mainAxisAlignment: MainAxisAlignment.end,
                                                                               children: [
-                                                                                Container(
-                                                                                  padding: EdgeInsets.only(top: 10, bottom: 10, left: 10),
-                                                                                  child: TextButton(onPressed: () {}, child: Text("Aceptar")),
-                                                                                ),
                                                                                 Container(
                                                                                   padding: EdgeInsets.only(top: 10, bottom: 10, right: 10),
                                                                                   child: TextButton(
