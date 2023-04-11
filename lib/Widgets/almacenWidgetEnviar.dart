@@ -6,7 +6,10 @@ import 'package:gestor_de_inventario/Models/almacen.dart';
 
 class AlmacenWidgetEnviar extends StatelessWidget {
   Almacen almacen;
-  AlmacenWidgetEnviar(this.almacen);
+  //Generate a callback function to pass the data back to the parent widget
+  Function(Almacen) callback;
+
+  AlmacenWidgetEnviar(this.almacen, this.callback);
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +17,7 @@ class AlmacenWidgetEnviar extends StatelessWidget {
         child: Card(
       child: InkWell(
         onTap: () {
-          print("Almacen pulsado");
+          callback(almacen);
         },
         child: Container(
           padding: EdgeInsets.all(15),

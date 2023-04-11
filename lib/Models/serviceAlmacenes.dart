@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 import 'package:gestor_de_inventario/Models/Item.dart';
 import 'package:gestor_de_inventario/Models/ItemAlmacen.dart';
 import 'package:gestor_de_inventario/Models/almacen.dart';
@@ -146,15 +147,17 @@ class ServiceAlmacenes {
       List<ItemAlmacen> added, List<ItemAlmacen> restados) async {
     final String url = "$_baseURL/almacenes/actualizarMercancia";
     try {
+      String encoded = jsonEncode({
+        "start": origen.id,
+        "end": destino.id,
+        "added": added,
+        "restados": restados,
+      });
+      print(encoded);
       var respuesta = await http.put(
         Uri.parse(url),
         headers: _serviceLogin.getHeaders(),
-        body: jsonEncode({
-          "origen": origen.id,
-          "destino": destino.id,
-          "added": added,
-          "restados": restados,
-        }),
+        body: encoded,
       );
       if (respuesta.statusCode == 404 ||
           respuesta.statusCode == 400 ||
@@ -167,9 +170,6 @@ class ServiceAlmacenes {
     } catch (e) {
       print(e);
 
-      return false;
-    } catch (e) {
-      print(e);
       return false;
     }
 

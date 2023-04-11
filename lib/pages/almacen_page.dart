@@ -35,7 +35,13 @@ class _Almacen_PageState extends State<Almacen_Page> {
   }
 
   void addItem(itemAl) {
-    vm.addItemToSet(itemAl);
+    setState(() {
+      vm.addItemToSet(itemAl);
+    });
+  }
+
+  void registrarMovimiento(Almacen a) {
+    vm.registrarMovimiento(a);
   }
 
   _returnToMainPage() {
@@ -57,138 +63,143 @@ class _Almacen_PageState extends State<Almacen_Page> {
               },
             ),
             actions: [
-              Container(
-                  margin: EdgeInsets.only(right: 10),
-                  child: IconButton(
-                      onPressed: () {
-                        //Create a dialog
-                        showDialog(
-                            context: context,
-                            builder: (BuildContext context) => Container(
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.8,
-                                  child: Dialog(
-                                    child: Container(
-                                      child: Column(
-                                        children: [
-                                          Container(
-                                            padding: EdgeInsets.only(
-                                                top: 10, bottom: 10),
-                                            child: Text(
-                                              "Cambios",
-                                              style: TextStyle(
-                                                  fontSize: 20,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                          ),
-                                          Expanded(
-                                            child: Container(
-                                              padding: EdgeInsets.only(
-                                                  left: 12, right: 12),
-                                              child: ListView(
-                                                  shrinkWrap: true,
-                                                  children: vm
-                                                      .getListCambiados()
-                                                      .toList()
-                                                      .map((e) =>
-                                                          WidgetCambio(e))
-                                                      .toList()),
-                                            ),
-                                          ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
+              vm.getListCambiados().length != 0
+                  ? Container(
+                      margin: EdgeInsets.only(right: 10),
+                      child: IconButton(
+                          onPressed: () {
+                            //Create a dialog
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) => Container(
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.8,
+                                      child: Dialog(
+                                        child: Container(
+                                          child: Column(
                                             children: [
                                               Container(
                                                 padding: EdgeInsets.only(
-                                                    top: 10,
-                                                    bottom: 10,
-                                                    left: 10),
-                                                child: TextButton(
-                                                    onPressed: () {
-                                                      showDialog(
-                                                          context: context,
-                                                          builder:
-                                                              (BuildContext
-                                                                      build) =>
-                                                                  Container(
-                                                                    height: MediaQuery.of(context)
-                                                                            .size
-                                                                            .height *
-                                                                        0.8,
-                                                                    child:
-                                                                        Dialog(
-                                                                      child:
-                                                                          Container(
+                                                    top: 10, bottom: 10),
+                                                child: Text(
+                                                  "Cambios",
+                                                  style: TextStyle(
+                                                      fontSize: 20,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                              ),
+                                              Expanded(
+                                                child: Container(
+                                                  padding: EdgeInsets.only(
+                                                      left: 12, right: 12),
+                                                  child: ListView(
+                                                      shrinkWrap: true,
+                                                      children: vm
+                                                          .getListCambiados()
+                                                          .toList()
+                                                          .map((e) =>
+                                                              WidgetCambio(e))
+                                                          .toList()),
+                                                ),
+                                              ),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Container(
+                                                    padding: EdgeInsets.only(
+                                                        top: 10,
+                                                        bottom: 10,
+                                                        left: 10),
+                                                    child: TextButton(
+                                                        onPressed: () {
+                                                          showDialog(
+                                                              context: context,
+                                                              builder:
+                                                                  (BuildContext
+                                                                          build) =>
+                                                                      Container(
+                                                                        height: MediaQuery.of(context).size.height *
+                                                                            0.8,
                                                                         child:
-                                                                            Column(
-                                                                          children: [
-                                                                            Container(
-                                                                              padding: EdgeInsets.only(top: 10, bottom: 10),
-                                                                              child: Text(
-                                                                                "¿A donde deseas enviar los items restados?",
-                                                                                textAlign: TextAlign.center,
-                                                                                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                                                                              ),
-                                                                            ),
-                                                                            Expanded(
-                                                                              child: Container(
-                                                                                padding: EdgeInsets.only(left: 12, right: 12),
-                                                                                child: ListView(shrinkWrap: true, children: vm.serviceLogin.usuario == null ? [] : vm.serviceLogin.usuario!.getListaAlmacenesPodada(vm.almacen).map((e) => AlmacenWidgetEnviar(e)).toList()),
-                                                                              ),
-                                                                            ),
-                                                                            Row(
-                                                                              mainAxisAlignment: MainAxisAlignment.end,
+                                                                            Dialog(
+                                                                          child:
+                                                                              Container(
+                                                                            child:
+                                                                                Column(
                                                                               children: [
                                                                                 Container(
-                                                                                  padding: EdgeInsets.only(top: 10, bottom: 10, right: 10),
-                                                                                  child: TextButton(
-                                                                                      onPressed: () {
-                                                                                        Navigator.pop(context);
-                                                                                      },
-                                                                                      child: Text(
-                                                                                        "Cerrar",
-                                                                                        style: TextStyle(color: Color.fromARGB(255, 255, 64, 64)),
-                                                                                      )),
-                                                                                )
+                                                                                  padding: EdgeInsets.only(top: 10, bottom: 10),
+                                                                                  child: Text(
+                                                                                    "¿A donde deseas enviar los items restados?",
+                                                                                    textAlign: TextAlign.center,
+                                                                                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                                                                                  ),
+                                                                                ),
+                                                                                Expanded(
+                                                                                  child: Container(
+                                                                                    padding: EdgeInsets.only(left: 12, right: 12),
+                                                                                    child: ListView(shrinkWrap: true, children: vm.serviceLogin.usuario == null ? [] : vm.serviceLogin.usuario!.getListaAlmacenesPodada(vm.almacen).map((e) => AlmacenWidgetEnviar(e, registrarMovimiento)).toList()),
+                                                                                  ),
+                                                                                ),
+                                                                                Row(
+                                                                                  mainAxisAlignment: MainAxisAlignment.end,
+                                                                                  children: [
+                                                                                    Container(
+                                                                                      padding: EdgeInsets.only(top: 10, bottom: 10, right: 10),
+                                                                                      child: TextButton(
+                                                                                          onPressed: () {
+                                                                                            Navigator.pop(context);
+                                                                                          },
+                                                                                          child: Text(
+                                                                                            "Cerrar",
+                                                                                            style: TextStyle(color: Color.fromARGB(255, 255, 64, 64)),
+                                                                                          )),
+                                                                                    )
+                                                                                  ],
+                                                                                ),
                                                                               ],
                                                                             ),
-                                                                          ],
+                                                                          ),
                                                                         ),
-                                                                      ),
-                                                                    ),
-                                                                  ));
-                                                    },
-                                                    child: Text("Aceptar")),
+                                                                      ));
+                                                        },
+                                                        child: Text("Aceptar")),
+                                                  ),
+                                                  Container(
+                                                    padding: EdgeInsets.only(
+                                                        top: 10,
+                                                        bottom: 10,
+                                                        right: 10),
+                                                    child: TextButton(
+                                                        onPressed: () {
+                                                          Navigator.pop(
+                                                              context);
+                                                        },
+                                                        child: Text(
+                                                          "Cerrar",
+                                                          style: TextStyle(
+                                                              color: Color
+                                                                  .fromARGB(
+                                                                      255,
+                                                                      255,
+                                                                      64,
+                                                                      64)),
+                                                        )),
+                                                  )
+                                                ],
                                               ),
-                                              Container(
-                                                padding: EdgeInsets.only(
-                                                    top: 10,
-                                                    bottom: 10,
-                                                    right: 10),
-                                                child: TextButton(
-                                                    onPressed: () {
-                                                      Navigator.pop(context);
-                                                    },
-                                                    child: Text(
-                                                      "Cerrar",
-                                                      style: TextStyle(
-                                                          color: Color.fromARGB(
-                                                              255,
-                                                              255,
-                                                              64,
-                                                              64)),
-                                                    )),
-                                              )
                                             ],
                                           ),
-                                        ],
+                                        ),
                                       ),
-                                    ),
-                                  ),
-                                ));
-                      },
-                      icon: Icon(Icons.maps_home_work_outlined)))
+                                    ));
+                          },
+                          icon: Icon(Icons.maps_home_work_outlined)))
+                  : Container()
             ],
           ),
           body: Container(

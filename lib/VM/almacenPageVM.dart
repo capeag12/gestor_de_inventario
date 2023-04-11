@@ -43,4 +43,9 @@ class AlmacenpageVM {
   }
 
   ServiceLogin get serviceLogin => _serviceLogin;
+
+  void registrarMovimiento(Almacen a) {
+    _serviceAlmacenes.actualizarMercancia(
+        _almacen, a, setListaSumados.toList(), setListaRestados.toList());
+  }
 }
