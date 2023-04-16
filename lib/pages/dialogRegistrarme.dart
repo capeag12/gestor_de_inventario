@@ -37,7 +37,7 @@ class DialogRegistrarmeState extends State<DialogRegistrarme> {
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => Main_Page()));
       } else {
-        _dialogError("Este correo ya esta registrado");
+        _dialogError("Algo ha fallado al realizar el registro");
       }
     }
   }

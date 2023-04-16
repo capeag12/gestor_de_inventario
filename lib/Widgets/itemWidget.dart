@@ -63,6 +63,7 @@ class _Item_WidgetState extends State<Item_Widget> {
                           : Colors.cyan,
                 ),
                 minValue: 0,
+                maxValue: 1000,
                 initialValue: this._itemAlmacen.cantidad,
                 direction: Axis.horizontal,
                 withSpring: true,

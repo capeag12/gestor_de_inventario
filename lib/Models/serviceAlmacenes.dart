@@ -153,17 +153,14 @@ class ServiceAlmacenes {
         "added": added,
         "restados": restados,
       });
-      print(encoded);
       var respuesta = await http.put(
         Uri.parse(url),
         headers: _serviceLogin.getHeaders(),
         body: encoded,
       );
-      if (respuesta.statusCode == 404 ||
-          respuesta.statusCode == 400 ||
-          respuesta.statusCode == 500) {
+      if (respuesta.statusCode != 200) {
         return false;
-      } else if (respuesta.statusCode == 201) {
+      } else if (respuesta.statusCode == 200) {
         return true;
       }
       return false;

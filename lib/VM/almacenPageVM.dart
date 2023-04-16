@@ -44,8 +44,9 @@ class AlmacenpageVM {
 
   ServiceLogin get serviceLogin => _serviceLogin;
 
-  void registrarMovimiento(Almacen a) {
-    _serviceAlmacenes.actualizarMercancia(
+  Future<bool> registrarMovimiento(Almacen a) async {
+    bool actualizado = await _serviceAlmacenes.actualizarMercancia(
         _almacen, a, setListaSumados.toList(), setListaRestados.toList());
+    return actualizado;
   }
 }

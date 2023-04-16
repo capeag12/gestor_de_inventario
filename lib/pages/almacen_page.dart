@@ -40,8 +40,35 @@ class _Almacen_PageState extends State<Almacen_Page> {
     });
   }
 
-  void registrarMovimiento(Almacen a) {
-    vm.registrarMovimiento(a);
+  void registrarMovimiento(Almacen a, BuildContext c) {
+    vm.registrarMovimiento(a).then((value) {
+      if (value == true) {
+        ScaffoldMessenger.of(c).showSnackBar(SnackBar(
+          content: Text("Movimiento registrado correctamente"),
+        ));
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => Main_Page()));
+      } else {
+        Navigator.pop(context);
+        Navigator.pop(context);
+        showDialog(
+            context: context,
+            builder: (BuildContext c) => AlertDialog(
+                  title: Text("Error"),
+                  content: Text("No se ha podido registrar el movimiento"),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pop(c);
+                      },
+                      child: Text("Aceptar"),
+                    )
+                  ],
+                ));
+      }
+    }).catchError((onError) {
+      print(onError);
+    });
   }
 
   _returnToMainPage() {
