@@ -9,7 +9,8 @@ import 'package:http/http.dart' as http;
 class ServiceAlmacenes {
   ServiceLogin _serviceLogin = ServiceLogin.getInstance();
 
-  final String _baseURL = "http://localhost:3000";
+  final String _baseURL =
+      "http://10.0.2.2:3000"; //cambiar a "http://10.0.2.2:3000" para probar en el emulador, cambiar a "http://localhost:3000" para probar en el ordenador
   static ServiceAlmacenes _service = ServiceAlmacenes();
   _ServiceAlmacenes() {}
 
@@ -61,7 +62,7 @@ class ServiceAlmacenes {
         Uri.parse(url),
         headers: _serviceLogin.getHeaders(),
       );
-      print("");
+
       if (respuesta.statusCode == 404 || respuesta.statusCode == 500) {
         return false;
       } else if (respuesta.statusCode == 204) {
@@ -82,22 +83,22 @@ class ServiceAlmacenes {
         Uri.parse(url),
         headers: _serviceLogin.getHeaders(),
       );
-      print("");
+
       if (respuesta.statusCode == 404 || respuesta.statusCode == 500) {
         return false;
       } else if (respuesta.statusCode == 200) {
         var decoded = jsonDecode(respuesta.body);
-        print(decoded);
+
         decoded.forEach((element) {
           num valorParser = element['item']['valor'];
-          print(element);
+
           a.listaItems.add(ItemAlmacen(
               element["id"],
               Item(element["item"]["_id"], element["item"]["nombre"],
                   valorParser.toDouble()),
               element["cantidad"]));
         });
-        print(a.listaItems);
+
         return true;
       }
     } catch (e) {

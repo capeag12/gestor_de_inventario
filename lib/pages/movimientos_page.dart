@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:gestor_de_inventario/Widgets/movimientoWIdget.dart';
 import 'package:gestor_de_inventario/Widgets/permisoWidget.dart';
 import 'package:gestor_de_inventario/pages/main_page.dart';
 
-class Permisos_Page extends StatefulWidget {
-  const Permisos_Page({super.key});
+class Movimientos_Page extends StatefulWidget {
+  const Movimientos_Page({super.key});
 
   @override
-  State<Permisos_Page> createState() => _Permisos_PageState();
+  State<Movimientos_Page> createState() => _Movimientos_PageState();
 }
 
-class _Permisos_PageState extends State<Permisos_Page> {
+class _Movimientos_PageState extends State<Movimientos_Page> {
   _returnToMainPage() {
     Navigator.pushReplacement(
         context, MaterialPageRoute(builder: (context) => Main_Page()));
@@ -26,7 +25,7 @@ class _Permisos_PageState extends State<Permisos_Page> {
       },
       child: Scaffold(
           appBar: AppBar(
-            title: Text("Permisos"),
+            title: Text("Movimientos"),
             backgroundColor: Colors.cyan,
             leading: IconButton(
               icon: Icon(Icons.arrow_back),
@@ -38,7 +37,11 @@ class _Permisos_PageState extends State<Permisos_Page> {
           body: Container(
             padding: EdgeInsets.only(left: 15, right: 15),
             child: ListView(
-              children: [PermisoWidget(), PermisoWidget(), PermisoWidget()],
+              children: [
+                Movimiento_Widget(),
+                Movimiento_Widget(),
+                Movimiento_Widget()
+              ],
             ),
           ),
           floatingActionButton: FloatingActionButton(

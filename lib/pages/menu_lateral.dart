@@ -3,6 +3,7 @@ import 'package:gestor_de_inventario/Models/serviceLogin.dart';
 import 'package:gestor_de_inventario/Models/usuario.dart';
 import 'package:gestor_de_inventario/VM/menu_lateralVM.dart';
 import 'package:gestor_de_inventario/pages/login_page.dart';
+import 'package:gestor_de_inventario/pages/movimientos_page.dart';
 import 'package:gestor_de_inventario/pages/permisos_page.dart';
 
 class Menu_Lateral {
@@ -30,7 +31,10 @@ class Menu_Lateral {
         ListTile(
           leading: Icon(Icons.inventory_outlined),
           title: Text("Movimientos"),
-          onTap: () {},
+          onTap: () {
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => Movimientos_Page()));
+          },
         ),
         ListTile(
           leading: Icon(Icons.group),

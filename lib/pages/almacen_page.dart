@@ -46,6 +46,8 @@ class _Almacen_PageState extends State<Almacen_Page> {
         ScaffoldMessenger.of(c).showSnackBar(SnackBar(
           content: Text("Movimiento registrado correctamente"),
         ));
+        Navigator.pop(context);
+        Navigator.pop(context);
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => Main_Page()));
       } else {
