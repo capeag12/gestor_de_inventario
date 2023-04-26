@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gestor_de_inventario/VM/movimientoPageVM.dart';
 import 'package:gestor_de_inventario/Widgets/movimientoWIdget.dart';
 import 'package:gestor_de_inventario/Widgets/permisoWidget.dart';
 import 'package:gestor_de_inventario/pages/main_page.dart';
@@ -11,6 +12,11 @@ class Movimientos_Page extends StatefulWidget {
 }
 
 class _Movimientos_PageState extends State<Movimientos_Page> {
+  MovimientoPageVM _movimientoPageVM = MovimientoPageVM();
+
+  _Movimientos_PageState() {
+    _movimientoPageVM.getMovimientos();
+  }
   _returnToMainPage() {
     Navigator.pushReplacement(
         context, MaterialPageRoute(builder: (context) => Main_Page()));
@@ -37,11 +43,7 @@ class _Movimientos_PageState extends State<Movimientos_Page> {
           body: Container(
             padding: EdgeInsets.only(left: 15, right: 15),
             child: ListView(
-              children: [
-                Movimiento_Widget(),
-                Movimiento_Widget(),
-                Movimiento_Widget()
-              ],
+              children: [],
             ),
           ),
           floatingActionButton: FloatingActionButton(

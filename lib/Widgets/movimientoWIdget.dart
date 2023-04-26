@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:gestor_de_inventario/Models/movimiento.dart';
 
 class Movimiento_Widget extends StatelessWidget {
-  const Movimiento_Widget({super.key});
+  late Movimiento _movimiento;
+
+  Movimiento_Widget(this._movimiento);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +21,8 @@ class Movimiento_Widget extends StatelessWidget {
                 Expanded(
                     child: Container(
                   alignment: Alignment.centerLeft,
-                  child: Text("Nombre Almacen",
+                  child: Text(
+                      _movimiento.almacenOrigen?.nombre ?? "Added from outside",
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
                       style: TextStyle(fontWeight: FontWeight.bold)),
