@@ -7,7 +7,12 @@ class MovimientoPageVM {
   MovimientoPageVM();
 
   Future<List<Movimiento>?> getMovimientos() async {
-    await _serviceMovimientos.getAllMovements();
-    return null;
+    List<Movimiento>? movimientos = await _serviceMovimientos.getAllMovements();
+    if (movimientos != null) {
+      return movimientos;
+    } else
+      return null;
   }
+
+  ServiceMovimientos get serviceMovimientos => _serviceMovimientos;
 }

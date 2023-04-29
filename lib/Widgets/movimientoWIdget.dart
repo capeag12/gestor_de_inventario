@@ -14,7 +14,31 @@ class Movimiento_Widget extends StatelessWidget {
         margin: EdgeInsets.only(top: 2, bottom: 2),
         child: Card(
           child: InkWell(
-            onTap: () {},
+            onTap: () {
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) => Container(
+                        height: MediaQuery.of(context).size.height * 0.8,
+                        child: Dialog(
+                            child: Container(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Expanded(
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      child: Text("Almacen Origen: " +
+                                          _movimiento.fechaCreacion.toString()),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        )),
+                      ));
+            },
             child: Container(
               padding: EdgeInsets.all(15),
               child: Row(children: [

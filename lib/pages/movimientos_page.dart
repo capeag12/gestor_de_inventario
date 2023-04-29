@@ -15,7 +15,9 @@ class _Movimientos_PageState extends State<Movimientos_Page> {
   MovimientoPageVM _movimientoPageVM = MovimientoPageVM();
 
   _Movimientos_PageState() {
-    _movimientoPageVM.getMovimientos();
+    _movimientoPageVM.getMovimientos().then((value) {
+      setState(() {});
+    });
   }
   _returnToMainPage() {
     Navigator.pushReplacement(
@@ -30,27 +32,25 @@ class _Movimientos_PageState extends State<Movimientos_Page> {
         return false;
       },
       child: Scaffold(
-          appBar: AppBar(
-            title: Text("Movimientos"),
-            backgroundColor: Colors.cyan,
-            leading: IconButton(
-              icon: Icon(Icons.arrow_back),
-              onPressed: () {
-                _returnToMainPage();
-              },
-            ),
+        appBar: AppBar(
+          title: Text("Movimientos"),
+          backgroundColor: Colors.cyan,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              _returnToMainPage();
+            },
           ),
-          body: Container(
-            padding: EdgeInsets.only(left: 15, right: 15),
-            child: ListView(
-              children: [],
-            ),
+        ),
+        body: Container(
+          padding: EdgeInsets.only(left: 15, right: 15),
+          child: ListView(
+            children: _movimientoPageVM.serviceMovimientos.movimientos
+                .map((movimiento) => Movimiento_Widget(movimiento))
+                .toList(),
           ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {},
-            child: Icon(Icons.add),
-            backgroundColor: Colors.cyan,
-          )),
+        ),
+      ),
     );
   }
 }

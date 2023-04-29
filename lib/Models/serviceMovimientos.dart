@@ -15,6 +15,8 @@ class ServiceMovimientos {
       "http://localhost:3000"; //cambiar a "http://10.0.2.2:3000" para probar en el emulador, cambiar a "http://localhost:3000" para probar en el ordenador
   static ServiceMovimientos? _service;
 
+  List<Movimiento> movimientos = [];
+
   ServiceMovimientos();
 
   static getInstance() {
@@ -35,7 +37,7 @@ class ServiceMovimientos {
       if (respuesta.statusCode == 200) {
         var decoded = jsonDecode(respuesta.body);
 
-        List<Movimiento> movimientos = [];
+        List<Movimiento> movements = [];
 
         for (var movimiento in decoded) {
           Almacen? almacenOrigen = null;
@@ -70,10 +72,11 @@ class ServiceMovimientos {
               DateTime.parse(movimiento['fecha']),
               items);
           print(movimientoNuevo);
-          movimientos.add(movimientoNuevo);
+          movements.add(movimientoNuevo);
         }
-        print(movimientos);
-        return movimientos;
+        print(movements);
+        this.movimientos = movements;
+        return movements;
       } else
         return null;
     } catch (e) {
