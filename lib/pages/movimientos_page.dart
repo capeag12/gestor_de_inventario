@@ -13,10 +13,12 @@ class Movimientos_Page extends StatefulWidget {
 
 class _Movimientos_PageState extends State<Movimientos_Page> {
   MovimientoPageVM _movimientoPageVM = MovimientoPageVM();
-
+  bool _cargando = true;
   _Movimientos_PageState() {
     _movimientoPageVM.getMovimientos().then((value) {
-      setState(() {});
+      setState(() {
+        _cargando = false;
+      });
     });
   }
   _returnToMainPage() {
@@ -42,14 +44,18 @@ class _Movimientos_PageState extends State<Movimientos_Page> {
             },
           ),
         ),
-        body: Container(
-          padding: EdgeInsets.only(left: 15, right: 15),
-          child: ListView(
-            children: _movimientoPageVM.serviceMovimientos.movimientos
-                .map((movimiento) => Movimiento_Widget(movimiento))
-                .toList(),
-          ),
-        ),
+        body: this._cargando == true
+            ? Center(
+                child: CircularProgressIndicator(),
+              )
+            : Container(
+                padding: EdgeInsets.only(left: 15, right: 15),
+                child: ListView(
+                  children: _movimientoPageVM.serviceMovimientos.movimientos
+                      .map((movimiento) => Movimiento_Widget(movimiento))
+                      .toList(),
+                ),
+              ),
       ),
     );
   }

@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:gestor_de_inventario/Models/almacen.dart';
 import 'package:gestor_de_inventario/Models/itemMovimiento.dart';
 
@@ -18,4 +20,16 @@ class Movimiento {
   String get tipo => _tipo;
   DateTime get fechaCreacion => _fechaCreacion;
   List<ItemMovimiento> get items => _items;
+
+  double get valorTotal {
+    double valor = 0;
+    for (ItemMovimiento item in _items) {
+      valor += item.item.valor * item.cantidad;
+    }
+    if (valor < 0) {
+      valor = valor * -1;
+    }
+
+    return valor;
+  }
 }
