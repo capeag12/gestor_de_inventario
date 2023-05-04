@@ -12,7 +12,7 @@ import 'package:http/http.dart' as http;
 class ServiceMovimientos {
   ServiceLogin _serviceLogin = ServiceLogin.getInstance();
   final String _baseURL =
-      "http://localhost:3000"; //cambiar a "http://10.0.2.2:3000" para probar en el emulador, cambiar a "http://localhost:3000" para probar en el ordenador
+      "http://10.0.2.2:3000"; //cambiar a "http://10.0.2.2:3000" para probar en el emulador, cambiar a "http://localhost:3000" para probar en el ordenador
   static ServiceMovimientos? _service;
 
   List<Movimiento> movimientos = [];

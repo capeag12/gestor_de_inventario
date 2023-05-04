@@ -20,7 +20,7 @@ class Movimiento_Widget extends StatelessWidget {
               showDialog(
                   context: context,
                   builder: (BuildContext context) => Container(
-                        height: MediaQuery.of(context).size.height * 0.8,
+                        height: MediaQuery.of(context).size.height * 0.95,
                         child: Dialog(
                             child: Container(
                           child: Column(
@@ -32,29 +32,39 @@ class Movimiento_Widget extends StatelessWidget {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                              'Almacen Origen: ${_movimiento.almacenOrigen?.nombre ?? "Added from outside"}'),
-                                          Text(
-                                              '${_movimiento.fechaCreacion.day}-${_movimiento.fechaCreacion.month}-${_movimiento.fechaCreacion.year}'),
-                                        ],
+                                      Expanded(
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                                '${_movimiento.almacenOrigen?.nombre ?? "Added from outside"}',
+                                                style: TextStyle(
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                                overflow: TextOverflow.ellipsis,
+                                                maxLines: 2),
+                                          ],
+                                        ),
                                       ),
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.end,
-                                        children: [
-                                          Text(
-                                              'Almacen Origen: ${_movimiento.almacenOrigen?.nombre ?? "Added from outside"}'),
-                                          Text(
-                                              'Valor total: ${_movimiento.valorTotal} €'),
-                                        ],
+                                      Expanded(
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.end,
+                                          children: [
+                                            Text(
+                                                '${_movimiento.almacenDestino.nombre ?? "Added from outside"}',
+                                                overflow: TextOverflow.ellipsis,
+                                                maxLines: 2,
+                                                style: TextStyle(
+                                                    fontWeight:
+                                                        FontWeight.bold)),
+                                          ],
+                                        ),
                                       )
                                     ]),
                               ),
@@ -66,7 +76,40 @@ class Movimiento_Widget extends StatelessWidget {
                                           shrinkWrap: true,
                                           children: _movimiento.items
                                               .map((e) => WidgetItemMov(e))
-                                              .toList())))
+                                              .toList()))),
+                              Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                      padding: EdgeInsets.only(
+                                          left: 15, right: 15, bottom: 7),
+                                      child: Column(
+                                        children: [
+                                          Text(
+                                            '${_movimiento.valorTotal} €',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          Text(
+                                            '${_movimiento.fechaCreacion.day}-${_movimiento.fechaCreacion.month}-${_movimiento.fechaCreacion.year}',
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 2,
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Container(
+                                        padding: EdgeInsets.only(
+                                            left: 15, right: 15, bottom: 7),
+                                        child: TextButton(
+                                          onPressed: () {},
+                                          child: Text('Generar PDF'),
+                                        )),
+                                  ])
                             ],
                           ),
                         )),
@@ -77,46 +120,65 @@ class Movimiento_Widget extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Container(
-                    alignment: Alignment.centerLeft,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          child: Text(
-                            '${_movimiento.almacenOrigen?.nombre ?? "Added from outside"}',
-                            style: TextStyle(
-                                fontSize: 15, fontWeight: FontWeight.bold),
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
+                  Expanded(
+                    child: Container(
+                      alignment: Alignment.centerLeft,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            child: Text(
+                                '${_movimiento.almacenOrigen?.nombre ?? "Added from outside"}',
+                                style: TextStyle(
+                                    fontSize: 15, fontWeight: FontWeight.bold),
+                                textAlign: TextAlign.start,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 2),
                           ),
-                        ),
-                        Container(
-                          child: Text(
-                              '${_movimiento.fechaCreacion.day}-${_movimiento.fechaCreacion.month}-${_movimiento.fechaCreacion.year}'),
-                        ),
-                      ],
+                          Container(
+                            child: Text(
+                                '${_movimiento.fechaCreacion.day}-${_movimiento.fechaCreacion.month}-${_movimiento.fechaCreacion.year}',
+                                textAlign: TextAlign.start,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 2),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                  Icon(Icons.arrow_forward_ios),
-                  Container(
-                    alignment: Alignment.centerRight,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Container(
-                          alignment: Alignment.centerRight,
-                          child: Text('${_movimiento.almacenDestino.nombre}',
-                              style: TextStyle(
-                                  fontSize: 15, fontWeight: FontWeight.bold)),
-                        ),
-                        Container(
-                          alignment: Alignment.centerRight,
-                          child:
-                              Text('Valor total: ${_movimiento.valorTotal} €'),
-                        ),
-                      ],
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.arrow_forward),
+                    ],
+                  ),
+                  Expanded(
+                    child: Container(
+                      alignment: Alignment.centerRight,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Container(
+                            alignment: Alignment.centerRight,
+                            child: Text('${_movimiento.almacenDestino.nombre}',
+                                style: TextStyle(
+                                    fontSize: 15, fontWeight: FontWeight.bold),
+                                textAlign: TextAlign.end,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 2),
+                          ),
+                          Container(
+                            alignment: Alignment.centerRight,
+                            child: Text(
+                              'Valor total: ${_movimiento.valorTotal} €',
+                              textAlign: TextAlign.end,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 2,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   )
                 ],
