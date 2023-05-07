@@ -102,16 +102,16 @@ class ServiceMovimientos {
         if (Platform.isAndroid) {
           File file = File("/storage/emulated/0/Download/$idMov.pdf");
           bool existe = await file.exists();
-          if (existe) {
-            await file.delete();
+          if (existe == false) {
+            await DocumentFileSavePlus()
+                .saveFile(respuesta.bodyBytes, "$idMov.pdf", "appliation/pdf");
           }
 
-          await DocumentFileSavePlus()
-              .saveFile(respuesta.bodyBytes, "$idMov.pdf", "appliation/pdf");
           var result = await OpenFile.open(
             "/storage/emulated/0/Download/$idMov.pdf",
             type: "application/pdf",
           );
+
           print(result.message);
           print("Saved pdf");
         }
