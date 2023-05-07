@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:gestor_de_inventario/Models/movimiento.dart';
+import 'package:gestor_de_inventario/Models/serviceMovimientos.dart';
 import 'package:gestor_de_inventario/Widgets/widgetItemMov.dart';
 
 class Movimiento_Widget extends StatelessWidget {
   late Movimiento _movimiento;
+
+  ServiceMovimientos _serviceMovimientos = ServiceMovimientos();
 
   Movimiento_Widget(this._movimiento);
 
@@ -106,7 +109,10 @@ class Movimiento_Widget extends StatelessWidget {
                                         padding: EdgeInsets.only(
                                             left: 15, right: 15, bottom: 7),
                                         child: TextButton(
-                                          onPressed: () {},
+                                          onPressed: () {
+                                            _serviceMovimientos
+                                                .getAsPDF(_movimiento.id);
+                                          },
                                           child: Text('Generar PDF'),
                                         )),
                                   ])

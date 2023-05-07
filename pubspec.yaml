@@ -42,6 +42,10 @@ dependencies:
   path_provider: ^2.0.13
   shared_preferences: ^2.0.18
   number_selection: ^1.0.0
+  open_file_plus: ^3.4.1
+  document_file_save_plus: ^2.0.0
+  permission_handler: ^10.2.0
+  
   
   
 

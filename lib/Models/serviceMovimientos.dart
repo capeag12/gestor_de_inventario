@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:ffi';
+import 'dart:io';
 
+import 'package:document_file_save_plus/document_file_save_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:gestor_de_inventario/Models/Item.dart';
 import 'package:gestor_de_inventario/Models/almacen.dart';
@@ -8,6 +10,9 @@ import 'package:gestor_de_inventario/Models/itemMovimiento.dart';
 import 'package:gestor_de_inventario/Models/movimiento.dart';
 import 'package:gestor_de_inventario/Models/serviceLogin.dart';
 import 'package:http/http.dart' as http;
+import 'package:open_file_plus/open_file_plus.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class ServiceMovimientos {
   ServiceLogin _serviceLogin = ServiceLogin.getInstance();
@@ -82,6 +87,37 @@ class ServiceMovimientos {
     } catch (e) {
       print(e);
       return null;
+    }
+  }
+
+  Future<void> getAsPDF(String idMov) async {
+    final String url = "$_baseURL/movimientos/getPDF/$idMov";
+    try {
+      var respuesta = await http.get(
+        Uri.parse(url),
+        headers: _serviceLogin.getHeaders(),
+      );
+
+      if (respuesta.statusCode == 200) {
+        if (Platform.isAndroid) {
+          File file = File("/storage/emulated/0/Download/$idMov.pdf");
+          bool existe = await file.exists();
+          if (existe) {
+            await file.delete();
+          }
+
+          await DocumentFileSavePlus()
+              .saveFile(respuesta.bodyBytes, "$idMov.pdf", "appliation/pdf");
+          var result = await OpenFile.open(
+            "/storage/emulated/0/Download/$idMov.pdf",
+            type: "application/pdf",
+          );
+          print(result.message);
+          print("Saved pdf");
+        }
+      }
+    } catch (e) {
+      print(e);
     }
   }
 }
