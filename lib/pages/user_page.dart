@@ -71,7 +71,11 @@ class _User_pageState extends State<User_page> {
                                 ),
                               ),
                             ),
-                            IconButton(onPressed: () {}, icon: Icon(Icons.edit))
+                            Tooltip(
+                              message: 'Cambiar contraseña',
+                              child: IconButton(
+                                  onPressed: () {}, icon: Icon(Icons.edit)),
+                            )
                           ],
                         ),
                       ],
@@ -110,7 +114,110 @@ class _User_pageState extends State<User_page> {
                   )
                 ],
               )
-            : Row(),
+            : Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                      padding: EdgeInsets.only(
+                        left: 15,
+                        right: 5,
+                      ),
+                      child: Column(
+                        children: [
+                          Flexible(
+                              child: Container(
+                            padding: EdgeInsets.only(bottom: 10, top: 10),
+                            child: TextFormField(
+                              initialValue: 'Carlos Pérez Aguilera',
+                              readOnly: true,
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(),
+                                labelText: "Nombre completo",
+                                hintText: 'Usuario',
+                              ),
+                            ),
+                          )),
+                          Flexible(
+                            child: Container(
+                              padding: EdgeInsets.only(bottom: 10),
+                              child: TextFormField(
+                                readOnly: true,
+                                initialValue: 'correoCarlos@gmail.com',
+                                decoration: InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  labelText: "Correo electrónico",
+                                ),
+                              ),
+                            ),
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Container(
+                                  padding: EdgeInsets.only(right: 5),
+                                  child: TextFormField(
+                                    obscureText: true,
+                                    readOnly: true,
+                                    initialValue: 'correoCarlos@gmail.com',
+                                    decoration: InputDecoration(
+                                      border: OutlineInputBorder(),
+                                      labelText: "Contraseña",
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Tooltip(
+                                message: 'Cambiar contraseña',
+                                child: IconButton(
+                                    onPressed: () {}, icon: Icon(Icons.edit)),
+                              )
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                      child: Column(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          padding:
+                              EdgeInsets.only(left: 5, right: 10, bottom: 5),
+                          child: Card(
+                            color: Colors.cyan,
+                            child: ListView(
+                              shrinkWrap: true,
+                              children: [
+                                Text('Almacen1'),
+                                Text('Almacen2'),
+                                Text('Almacen1'),
+                                Text('Almacen2'),
+                                Text('Almacen1'),
+                                Text('Almacen2'),
+                                Text('Almacen1'),
+                                Text('Almacen2'),
+                                Text('Almacen1'),
+                                Text('Almacen2'),
+                                Text('Almacen1'),
+                                Text('Almacen2'),
+                                Text('Almacen1'),
+                                Text('Almacen2'),
+                                Text('Almacen1'),
+                                Text('Almacen2'),
+                                Text('Almacen1'),
+                                Text('Almacen2'),
+                                Text('Almacen1'),
+                                Text('Almacen2'),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ))
+                ],
+              ),
       ),
     );
   }

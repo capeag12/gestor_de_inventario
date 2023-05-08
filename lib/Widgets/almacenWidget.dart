@@ -27,14 +27,6 @@ class AlmacenWidget extends StatelessWidget {
           child: Container(
             padding: EdgeInsets.all(15),
             child: Row(children: [
-              Container(
-                child: Image.asset(
-                  "assets/images/default.png",
-                  fit: BoxFit.contain,
-                  width: 50,
-                  height: 50,
-                ),
-              ),
               Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
