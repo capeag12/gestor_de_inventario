@@ -3,6 +3,7 @@ import 'dart:ffi';
 import 'dart:io';
 
 import 'package:document_file_save_plus/document_file_save_plus.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:gestor_de_inventario/Models/Item.dart';
 import 'package:gestor_de_inventario/Models/almacen.dart';
@@ -17,7 +18,7 @@ import 'package:permission_handler/permission_handler.dart';
 class ServiceMovimientos {
   ServiceLogin _serviceLogin = ServiceLogin.getInstance();
   final String _baseURL =
-      "http://10.0.2.2:3000"; //cambiar a "http://10.0.2.2:3000" para probar en el emulador, cambiar a "http://localhost:3000" para probar en el ordenador
+      "http://localhost:3000"; //cambiar a "http://10.0.2.2:3000" para probar en el emulador, cambiar a "http://localhost:3000" para probar en el ordenador
   static ServiceMovimientos? _service;
 
   List<Movimiento> movimientos = [];
@@ -90,7 +91,7 @@ class ServiceMovimientos {
     }
   }
 
-  Future<void> getAsPDF(String idMov) async {
+  Future<bool> getAsPDF(String idMov) async {
     final String url = "$_baseURL/movimientos/getPDF/$idMov";
     try {
       var respuesta = await http.get(
@@ -100,24 +101,44 @@ class ServiceMovimientos {
 
       if (respuesta.statusCode == 200) {
         if (Platform.isAndroid) {
-          File file = File("/storage/emulated/0/Download/$idMov.pdf");
+          File file = File("/storage/emulated/0/Download/mov$idMov.pdf");
           bool existe = await file.exists();
           if (existe == false) {
-            await DocumentFileSavePlus()
-                .saveFile(respuesta.bodyBytes, "$idMov.pdf", "appliation/pdf");
+            await DocumentFileSavePlus().saveFile(
+                respuesta.bodyBytes, "mov$idMov.pdf", "appliation/pdf");
           }
 
           var result = await OpenFile.open(
-            "/storage/emulated/0/Download/$idMov.pdf",
+            "/storage/emulated/0/Download/mov$idMov.pdf",
             type: "application/pdf",
           );
 
           print(result.message);
           print("Saved pdf");
+        } else if (Platform.isWindows) {
+          String? selectedDirectory = await FilePicker.platform
+              .getDirectoryPath(
+                  dialogTitle:
+                      "Por favor, seleccione donde desea guardar el PDF");
+          if (selectedDirectory == null) {
+            return false;
+          } else {
+            File file = File("$selectedDirectory/mov$idMov.pdf");
+            bool existe = await file.exists();
+            if (existe == false) {
+              await file.writeAsBytes(respuesta.bodyBytes);
+            }
+            return true;
+          }
         }
+        return true;
+      } else {
+        print(respuesta.statusCode);
+        return false;
       }
     } catch (e) {
       print(e);
+      return false;
     }
   }
 }

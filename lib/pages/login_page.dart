@@ -19,15 +19,14 @@ class _Login_PageState extends State<Login_Page> {
   LoginVM _loginVM = LoginVM();
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  realizarLogin() async {
+  Future<bool> realizarLogin() async {
     _formKey.currentState?.save();
     bool logeado = await _loginVM.login();
 
     if (logeado) {
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => Main_Page()));
+      return true;
     } else {
-      _dialogError();
+      return false;
     }
   }
 
@@ -143,8 +142,33 @@ class _Login_PageState extends State<Login_Page> {
                             backgroundColor:
                                 MaterialStateProperty.all<Color>(Colors.cyan),
                           ),
-                          onPressed: () {
-                            realizarLogin();
+                          onPressed: () async {
+                            showDialog(
+                                barrierDismissible: false,
+                                context: context,
+                                builder: (BuildContext context) => AlertDialog(
+                                    title: Text('Checking login'),
+                                    content: Container(
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          CircularProgressIndicator(),
+                                        ],
+                                      ),
+                                    )));
+                            bool logeado = await realizarLogin();
+                            if (logeado) {
+                              Navigator.pop(context);
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const Main_Page()),
+                              );
+                            } else {
+                              Navigator.pop(context);
+                              _dialogError();
+                            }
                           },
                           child: const Text(
                             'Iniciar Sesión',

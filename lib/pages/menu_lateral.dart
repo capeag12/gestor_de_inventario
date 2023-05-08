@@ -5,6 +5,7 @@ import 'package:gestor_de_inventario/VM/menu_lateralVM.dart';
 import 'package:gestor_de_inventario/pages/login_page.dart';
 import 'package:gestor_de_inventario/pages/movimientos_page.dart';
 import 'package:gestor_de_inventario/pages/permisos_page.dart';
+import 'package:gestor_de_inventario/pages/user_page.dart';
 
 class Menu_Lateral {
   Menu_Lateral();
@@ -26,7 +27,10 @@ class Menu_Lateral {
         ListTile(
           leading: Icon(Icons.person),
           title: Text("Perfil"),
-          onTap: () {},
+          onTap: () {
+            Navigator.pushReplacement(
+                context, MaterialPageRoute(builder: (context) => User_page()));
+          },
         ),
         ListTile(
           leading: Icon(Icons.inventory_outlined),
