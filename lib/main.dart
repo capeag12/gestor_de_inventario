@@ -1,10 +1,18 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:gestor_de_inventario/pages/login_page.dart';
 import 'package:gestor_de_inventario/pages/main_page.dart';
+import 'package:window_manager/window_manager.dart';
 
-void main() {
-  runApp(ConstrainedBox(
-      constraints: BoxConstraints(minWidth: 400), child: const MyApp()));
+void main() async {
+  if (Platform.isWindows) {
+    WidgetsFlutterBinding.ensureInitialized();
+    await windowManager.ensureInitialized();
+    WindowManager.instance.setTitle("Gestor de almacenes");
+    WindowManager.instance.setMinimumSize(const Size(621, 475));
+  }
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {

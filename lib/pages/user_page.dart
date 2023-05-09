@@ -33,6 +33,12 @@ class _User_pageState extends State<User_page> {
                     child: Column(
                       children: [
                         Container(
+                          child: Image(
+                              fit: BoxFit.scaleDown,
+                              image: Image.asset('assets/images/default.png')
+                                  .image),
+                        ),
+                        Container(
                           padding: EdgeInsets.only(top: 10, bottom: 10),
                           child: TextFormField(
                             initialValue: 'Carlos Pérez Aguilera',
@@ -122,33 +128,46 @@ class _User_pageState extends State<User_page> {
                         left: 15,
                         right: 5,
                       ),
-                      child: Column(
+                      child: ListView(
                         children: [
-                          Flexible(
-                              child: Container(
-                            padding: EdgeInsets.only(bottom: 10, top: 10),
-                            child: TextFormField(
-                              initialValue: 'Carlos Pérez Aguilera',
-                              readOnly: true,
-                              decoration: const InputDecoration(
-                                border: OutlineInputBorder(),
-                                labelText: "Nombre completo",
-                                hintText: 'Usuario',
-                              ),
-                            ),
-                          )),
-                          Flexible(
-                            child: Container(
-                              padding: EdgeInsets.only(bottom: 10),
-                              child: TextFormField(
-                                readOnly: true,
-                                initialValue: 'correoCarlos@gmail.com',
-                                decoration: InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  labelText: "Correo electrónico",
+                          Image(
+                            fit: BoxFit.cover,
+                            image:
+                                Image.asset('assets/images/default.png').image,
+                          ),
+                          Row(
+                            children: [
+                              Flexible(
+                                  child: Container(
+                                padding: EdgeInsets.only(bottom: 10, top: 10),
+                                child: TextFormField(
+                                  initialValue: 'Carlos Pérez Aguilera',
+                                  readOnly: true,
+                                  decoration: const InputDecoration(
+                                    border: OutlineInputBorder(),
+                                    labelText: "Nombre completo",
+                                    hintText: 'Usuario',
+                                  ),
+                                ),
+                              )),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Flexible(
+                                child: Container(
+                                  padding: EdgeInsets.only(bottom: 10),
+                                  child: TextFormField(
+                                    readOnly: true,
+                                    initialValue: 'correoCarlos@gmail.com',
+                                    decoration: InputDecoration(
+                                      border: OutlineInputBorder(),
+                                      labelText: "Correo electrónico",
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
+                            ],
                           ),
                           Row(
                             children: [

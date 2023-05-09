@@ -48,14 +48,19 @@ class _Movimientos_PageState extends State<Movimientos_Page> {
             ? Center(
                 child: CircularProgressIndicator(),
               )
-            : Container(
-                padding: EdgeInsets.only(left: 15, right: 15),
-                child: ListView(
-                  children: _movimientoPageVM.serviceMovimientos.movimientos
-                      .map((movimiento) => Movimiento_Widget(movimiento))
-                      .toList(),
-                ),
-              ),
+            : this._movimientoPageVM.serviceMovimientos.movimientos.isEmpty ==
+                    true
+                ? Center(
+                    child: Text("No hay movimientos"),
+                  )
+                : Container(
+                    padding: EdgeInsets.only(left: 15, right: 15),
+                    child: ListView(
+                      children: _movimientoPageVM.serviceMovimientos.movimientos
+                          .map((movimiento) => Movimiento_Widget(movimiento))
+                          .toList(),
+                    ),
+                  ),
       ),
     );
   }
