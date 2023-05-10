@@ -15,7 +15,7 @@ class Usuario {
   }
 
   String get id => _id;
-  String get nome => _nombre;
+  String get nombre => _nombre;
   String get email => _email;
 
   Map<String, dynamic> toMap() {
@@ -43,6 +43,14 @@ class Usuario {
       }
     }
     return listaAlmacenesPodada;
+  }
+
+  List<String> getAlmacenesName() {
+    List<String> listaAlmacenesName = [];
+    for (Almacen almacen in _listaAlmacenes) {
+      listaAlmacenesName.add(almacen.nombre);
+    }
+    return listaAlmacenesName;
   }
 
   addAlmacen(Almacen almacen) {

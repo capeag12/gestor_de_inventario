@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:gestor_de_inventario/Models/almacen.dart';
 import 'package:http/http.dart' as http;
 import 'package:gestor_de_inventario/Models/usuario.dart';
+import 'package:image_picker/image_picker.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -117,6 +118,19 @@ class ServiceLogin {
     final String url = "$_baseURL/usuarios/logout";
     try {
       var respuesta = await http.post(Uri.parse(url), headers: getHeaders());
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> cambiarAvatar(XFile file) async {
+    final String url = "$_baseURL/usuarios/me/avatar";
+    try {
+      var request = http.MultipartRequest('PATCH', Uri.parse(url));
+      var image = await http.MultipartFile.fromPath('avatar', file.path);
+      request.files.add(image);
+
+      var respuesta = await request.send();
     } catch (e) {
       print(e);
     }
