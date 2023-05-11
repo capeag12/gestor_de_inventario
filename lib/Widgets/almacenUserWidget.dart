@@ -11,7 +11,7 @@ class AlmacenUserWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(left: 2, right: 2),
-      height: 34,
+      height: MediaQuery.of(context).size.height > 400 ? 45 : 34,
       child: Card(
           child: Row(
         children: [
@@ -20,7 +20,10 @@ class AlmacenUserWidget extends StatelessWidget {
               padding: EdgeInsets.only(left: 15),
               child: Text(
                 nombre,
-                style: TextStyle(fontSize: 10, color: Colors.black),
+                style: TextStyle(
+                    fontSize:
+                        MediaQuery.of(context).size.height > 400 ? 17 : 10,
+                    color: Colors.black),
                 overflow: TextOverflow.ellipsis,
               ),
             ),

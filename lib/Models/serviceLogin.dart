@@ -10,7 +10,7 @@ class ServiceLogin {
   Usuario? _usuario;
   static ServiceLogin? _service;
   final String _baseURL =
-      "http://10.0.2.2:3000"; //cambiar a "http://10.0.2.2:3000" para probar en el emulador, cambiar a "http://localhost:3000" para probar en el ordenador
+      "http://localhost:3000"; //cambiar a "http://10.0.2.2:3000" para probar en el emulador, cambiar a "http://localhost:3000" para probar en el ordenador
   String _token = "";
 
   _Service() {
@@ -123,16 +123,29 @@ class ServiceLogin {
     }
   }
 
-  Future<void> cambiarAvatar(XFile file) async {
+  Future<bool> cambiarAvatar(String path) async {
     final String url = "$_baseURL/usuarios/me/avatar";
     try {
+      var headers = {
+        "Access-Control-Allow-Origin": "*",
+        "Authorization": "Bearer ${getToken()}"
+      };
+
       var request = http.MultipartRequest('PATCH', Uri.parse(url));
-      var image = await http.MultipartFile.fromPath('avatar', file.path);
+      var image = await http.MultipartFile.fromPath('avatar', path);
       request.files.add(image);
+      request.headers.addAll(headers);
 
       var respuesta = await request.send();
+      print(respuesta.statusCode);
+      if (respuesta.statusCode == 200) {
+        return true;
+      } else {
+        return false;
+      }
     } catch (e) {
       print(e);
+      return false;
     }
   }
 

@@ -41,13 +41,40 @@ class _User_pageState extends State<User_page> {
           _userPageVM.image != null
               ? IconButton(
                   onPressed: () {
-                    _userPageVM.uploadImage();
+                    showDialog(
+                        barrierDismissible: false,
+                        context: context,
+                        builder: (BuildContext context) => AlertDialog(
+                            title: Text('Subiendo imagen'),
+                            content: Container(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  CircularProgressIndicator(),
+                                ],
+                              ),
+                            )));
+
+                    _userPageVM.uploadImage().then((value) {
+                      if (value == true) {
+                        Navigator.pop(context);
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content:
+                                Text("La imagen se ha subido correctamente")));
+                      } else {
+                        Navigator.pop(context);
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text(
+                                "Ha ocurrido un error al subir la imagen")));
+                      }
+                    });
                   },
                   icon: Icon(Icons.save))
               : Container(),
         ],
       ),
       body: Container(
+        padding: EdgeInsets.only(top: 10),
         child: MediaQuery.of(context).size.width < 600
             ? Column(
                 children: [
@@ -175,10 +202,35 @@ class _User_pageState extends State<User_page> {
                       ),
                       child: ListView(
                         children: [
-                          Image(
-                            fit: BoxFit.cover,
-                            image:
-                                Image.asset('assets/images/default.png').image,
+                          InkWell(
+                            onTap: () async {
+                              await _userPageVM.getImage();
+                              setState(() {});
+                            },
+                            child: Container(
+                              child: _userPageVM.image == null
+                                  ? Image(
+                                      fit: BoxFit.scaleDown,
+                                      image: Image.asset(
+                                              'assets/images/default.png')
+                                          .image,
+                                      height:
+                                          MediaQuery.of(context).size.width <
+                                                  400
+                                              ? 200
+                                              : null,
+                                    )
+                                  : Image.file(File(_userPageVM.image!.path),
+                                      fit: BoxFit.scaleDown,
+                                      height:
+                                          MediaQuery.of(context).size.width <
+                                                  400
+                                              ? 200
+                                              : null),
+                              constraints: BoxConstraints(
+                                  maxHeight:
+                                      MediaQuery.of(context).size.height / 2),
+                            ),
                           ),
                           Row(
                             children: [
