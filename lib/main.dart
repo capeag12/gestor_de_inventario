@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         useMaterial3: true,
-        primarySwatch: Colors.cyan,
+        primarySwatch: Colors.red,
       ),
       home: const Main_Page(),
       routes: {

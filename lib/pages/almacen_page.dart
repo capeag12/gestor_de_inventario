@@ -83,9 +83,13 @@ class _Almacen_PageState extends State<Almacen_Page> {
     return WillPopScope(
         child: Scaffold(
           appBar: AppBar(
-            title: Text(almacen.nombre),
-            backgroundColor: Colors.cyan,
+            title: Text(
+              almacen.nombre,
+              style: TextStyle(color: Color.fromARGB(255, 248, 248, 202)),
+            ),
+            backgroundColor: Color.fromARGB(255, 164, 22, 34),
             leading: IconButton(
+              color: Color.fromARGB(255, 248, 248, 202),
               icon: Icon(Icons.arrow_back),
               onPressed: () {
                 _returnToMainPage();
@@ -261,8 +265,8 @@ class _Almacen_PageState extends State<Almacen_Page> {
                 almacen;
               });
             },
-            child: Icon(Icons.add),
-            backgroundColor: Colors.cyan,
+            child: Icon(Icons.add, color: Color.fromARGB(227, 248, 248, 202)),
+            backgroundColor: Color.fromARGB(255, 164, 22, 34),
           ),
         ),
         onWillPop: () async {

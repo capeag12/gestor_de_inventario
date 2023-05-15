@@ -1,8 +1,11 @@
 import 'dart:convert';
+import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:gestor_de_inventario/Models/almacen.dart';
 import 'package:http/http.dart' as http;
 import 'package:gestor_de_inventario/Models/usuario.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -146,6 +149,35 @@ class ServiceLogin {
     } catch (e) {
       print(e);
       return false;
+    }
+  }
+
+  Future<XFile?> getAvatar() async {
+    final String url = "$_baseURL/usuarios/me/avatar";
+    try {
+      var respuesta = await http.get(
+        Uri.parse(url),
+        headers: getHeaders(),
+      );
+      if (respuesta.statusCode == 200) {
+        Directory tempDir = await getTemporaryDirectory();
+        String tempPath = tempDir.path;
+
+        File file = File('$tempPath/avatar.png');
+
+        bool existe = await file.exists();
+        if (existe == true) {
+          await file.delete();
+        }
+        imageCache.clear();
+        await file.writeAsBytes(respuesta.bodyBytes);
+        return XFile(file.path);
+      } else {
+        return null;
+      }
+    } catch (e) {
+      print(e);
+      return null;
     }
   }
 

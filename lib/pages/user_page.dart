@@ -21,15 +21,25 @@ class User_page extends StatefulWidget {
 class _User_pageState extends State<User_page> {
   UserPageVM _userPageVM = UserPageVM();
 
-  XFile? _image;
+  _User_pageState() {
+    _userPageVM.serviceLogin.getAvatar().then((value) {
+      setState(() {
+        _userPageVM.image = value;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Usuario"),
-        backgroundColor: Colors.cyan,
+        title: Text(
+          "Usuario",
+          style: TextStyle(color: Color.fromARGB(255, 248, 248, 202)),
+        ),
+        backgroundColor: Color.fromARGB(255, 164, 22, 34),
         leading: IconButton(
+          color: Color.fromARGB(255, 248, 248, 202),
           icon: Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pushReplacement(
@@ -37,39 +47,51 @@ class _User_pageState extends State<User_page> {
           },
         ),
         actions: [
-          IconButton(onPressed: () {}, icon: Icon(Icons.logout)),
-          _userPageVM.image != null
-              ? IconButton(
-                  onPressed: () {
-                    showDialog(
-                        barrierDismissible: false,
-                        context: context,
-                        builder: (BuildContext context) => AlertDialog(
-                            title: Text('Subiendo imagen'),
-                            content: Container(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  CircularProgressIndicator(),
-                                ],
-                              ),
-                            )));
+          Tooltip(
+            message: 'Log out from all sessions',
+            child: IconButton(
+                onPressed: () {},
+                color: Color.fromARGB(255, 248, 248, 202),
+                icon: Icon(Icons.logout)),
+          ),
+          _userPageVM.changedImg == true
+              ? Tooltip(
+                  message: 'Change avatar image',
+                  child: IconButton(
+                      color: Color.fromARGB(255, 248, 248, 202),
+                      onPressed: () {
+                        showDialog(
+                            barrierDismissible: false,
+                            context: context,
+                            builder: (BuildContext context) => AlertDialog(
+                                title: Text('Subiendo imagen'),
+                                content: Container(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      CircularProgressIndicator(),
+                                    ],
+                                  ),
+                                )));
 
-                    _userPageVM.uploadImage().then((value) {
-                      if (value == true) {
-                        Navigator.pop(context);
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content:
-                                Text("La imagen se ha subido correctamente")));
-                      } else {
-                        Navigator.pop(context);
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text(
-                                "Ha ocurrido un error al subir la imagen")));
-                      }
-                    });
-                  },
-                  icon: Icon(Icons.save))
+                        _userPageVM.uploadImage().then((value) {
+                          if (value == true) {
+                            Navigator.pop(context);
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                content: Text(
+                                    "La imagen se ha subido correctamente")));
+                          } else {
+                            Navigator.pop(context);
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                content: Text(
+                                    "Ha ocurrido un error al subir la imagen")));
+                          }
+
+                          setState(() {});
+                        });
+                      },
+                      icon: Icon(Icons.save)),
+                )
               : Container(),
         ],
       ),
@@ -169,7 +191,7 @@ class _User_pageState extends State<User_page> {
                           padding:
                               EdgeInsets.only(left: 15, right: 15, bottom: 5),
                           child: Card(
-                            color: Colors.cyan,
+                            color: Color.fromARGB(255, 164, 22, 34),
                             child: ListView(
                                 shrinkWrap: true,
                                 children: _userPageVM.serviceLogin.usuario!
@@ -303,7 +325,7 @@ class _User_pageState extends State<User_page> {
                           padding:
                               EdgeInsets.only(left: 5, right: 10, bottom: 5),
                           child: Card(
-                            color: Colors.cyan,
+                            color: Color.fromARGB(255, 164, 22, 34),
                             child: ListView(
                                 shrinkWrap: true,
                                 children: _userPageVM.serviceLogin.usuario!

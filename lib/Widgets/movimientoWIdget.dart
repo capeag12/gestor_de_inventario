@@ -53,7 +53,7 @@ class Movimiento_Widget extends StatelessWidget {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                              '${_movimiento.almacenOrigen?.nombre ?? "Added from outside"}',
+                                              '${_movimiento.almacenOrigen ?? "Added from outside"}',
                                               style: TextStyle(
                                                   fontWeight: FontWeight.bold),
                                               overflow: TextOverflow.ellipsis,
@@ -69,7 +69,7 @@ class Movimiento_Widget extends StatelessWidget {
                                             CrossAxisAlignment.end,
                                         children: [
                                           Text(
-                                              '${_movimiento.almacenDestino.nombre ?? "Added from outside"}',
+                                              '${_movimiento.almacenDestino ?? "Added from outside"}',
                                               overflow: TextOverflow.ellipsis,
                                               maxLines: 2,
                                               style: TextStyle(
@@ -188,7 +188,7 @@ class Movimiento_Widget extends StatelessWidget {
                         children: [
                           Container(
                             child: Text(
-                                '${_movimiento.almacenOrigen?.nombre ?? "Added from outside"}',
+                                '${_movimiento.almacenOrigen ?? "Added from outside"}',
                                 style: TextStyle(
                                     fontSize: 15, fontWeight: FontWeight.bold),
                                 textAlign: TextAlign.start,
@@ -220,7 +220,7 @@ class Movimiento_Widget extends StatelessWidget {
                         children: [
                           Container(
                             alignment: Alignment.centerRight,
-                            child: Text('${_movimiento.almacenDestino.nombre}',
+                            child: Text('${_movimiento.almacenDestino}',
                                 style: TextStyle(
                                     fontSize: 15, fontWeight: FontWeight.bold),
                                 textAlign: TextAlign.end,

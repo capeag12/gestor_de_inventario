@@ -60,7 +60,7 @@ class _Item_WidgetState extends State<Item_Widget> {
                       : (this._itemAlmacen.cantidadCambiada <
                               this._itemAlmacen.cantidad)
                           ? Color.fromARGB(255, 255, 87, 123)
-                          : Colors.cyan,
+                          : Color.fromARGB(255, 145, 132, 80),
                 ),
                 minValue: 0,
                 maxValue: 1000,

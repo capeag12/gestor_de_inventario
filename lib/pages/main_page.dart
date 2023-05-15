@@ -70,27 +70,53 @@ class _Main_PageState extends State<Main_Page> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Gestor de Inventario"),
-        backgroundColor: Colors.cyan,
-      ),
-      drawer: loading ? null : Menu_Lateral.CrearMenuLateral(context),
+      appBar: MediaQuery.of(context).size.width < 650
+          ? AppBar(
+              title: Text("Gestor de Inventario",
+                  style: TextStyle(color: Color.fromARGB(227, 248, 248, 202))),
+              backgroundColor: Color.fromARGB(255, 164, 22, 34),
+            )
+          : null,
+      drawer: loading
+          ? null
+          : MediaQuery.of(context).size.width < 650
+              ? Menu_Lateral.CrearMenuLateral(context)
+              : null,
       body: loading
           ? Center(
               child: CircularProgressIndicator(),
             )
-          : Container(
-              padding: EdgeInsets.only(left: 15, right: 15),
-              child: _mainPageVM.listaAlmacenes.isEmpty == true
-                  ? Center(
-                      child: Text("No hay almacenes"),
-                    )
-                  : ListView(
-                      children: _mainPageVM.listaAlmacenes
-                          .map((almacen) =>
-                              AlmacenWidget(almacen, eliminarAlmacen))
-                          .toList(),
-                    )),
+          : MediaQuery.of(context).size.width < 650
+              ? Container(
+                  padding: EdgeInsets.only(left: 15, right: 15),
+                  child: _mainPageVM.listaAlmacenes.isEmpty == true
+                      ? Center(
+                          child: Text("No hay almacenes"),
+                        )
+                      : ListView(
+                          children: _mainPageVM.listaAlmacenes
+                              .map((almacen) =>
+                                  AlmacenWidget(almacen, eliminarAlmacen))
+                              .toList(),
+                        ))
+              : Row(children: [
+                  Menu_Lateral.CrearMenuLateral(context),
+                  Expanded(
+                      child: _mainPageVM.listaAlmacenes.isEmpty == true
+                          ? Center(
+                              child: Text("No hay almacenes"),
+                            )
+                          : Container(
+                              color: Colors.grey[200],
+                              padding: EdgeInsets.all(15),
+                              child: ListView(
+                                children: _mainPageVM.listaAlmacenes
+                                    .map((almacen) =>
+                                        AlmacenWidget(almacen, eliminarAlmacen))
+                                    .toList(),
+                              ),
+                            ))
+                ]),
       floatingActionButton: FloatingActionButton.small(
         onPressed: () {
           {
@@ -102,8 +128,8 @@ class _Main_PageState extends State<Main_Page> {
             });
           }
         },
-        child: Icon(Icons.add),
-        backgroundColor: Colors.cyan,
+        child: Icon(Icons.add, color: Color.fromARGB(227, 248, 248, 202)),
+        backgroundColor: Color.fromARGB(255, 164, 22, 34),
       ),
     );
   }

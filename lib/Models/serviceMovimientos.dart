@@ -46,18 +46,12 @@ class ServiceMovimientos {
         List<Movimiento> movements = [];
 
         for (var movimiento in decoded) {
-          Almacen? almacenOrigen = null;
+          String? almacenOrigen = null;
           if (movimiento['almacenOrigen'] != null) {
-            almacenOrigen = new Almacen(
-                movimiento['almacenOrigen']['_id'],
-                movimiento['almacenOrigen']['nombre'],
-                movimiento['almacenOrigen']['direccion']);
+            almacenOrigen = movimiento['almacenOrigen'];
           }
 
-          Almacen almacenDestino = new Almacen(
-              movimiento['almacenDestino']['_id'],
-              movimiento['almacenDestino']['nombre'],
-              movimiento['almacenDestino']['direccion']);
+          String almacenDestino = movimiento['almacenDestino'];
           List<ItemMovimiento> items = [];
           for (var item in movimiento['items']) {
             print(item);
