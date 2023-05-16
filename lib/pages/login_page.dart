@@ -121,6 +121,11 @@ class _Login_PageState extends State<Login_Page> {
                           children: [
                             Text("¿No tienes una cuenta?"),
                             TextButton(
+                              style: ButtonStyle(
+                                foregroundColor:
+                                    MaterialStateProperty.all<Color>(
+                                        Color.fromARGB(255, 131, 33, 97)),
+                              ),
                               onPressed: () {
                                 Navigator.push(
                                   context,
@@ -139,8 +144,8 @@ class _Login_PageState extends State<Login_Page> {
                         margin: EdgeInsets.only(top: 10),
                         child: ElevatedButton(
                           style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStateProperty.all<Color>(Colors.cyan),
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                                Color.fromARGB(255, 164, 22, 34)),
                           ),
                           onPressed: () async {
                             showDialog(
@@ -153,7 +158,9 @@ class _Login_PageState extends State<Login_Page> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
                                         children: [
-                                          CircularProgressIndicator(),
+                                          CircularProgressIndicator(
+                                              color: Color.fromARGB(
+                                                  255, 164, 22, 34)),
                                         ],
                                       ),
                                     )));

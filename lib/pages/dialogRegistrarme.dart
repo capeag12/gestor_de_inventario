@@ -186,6 +186,7 @@ class DialogRegistrarmeState extends State<DialogRegistrarme> {
                   child: Row(
                     children: [
                       Checkbox(
+                          activeColor: Color.fromARGB(255, 131, 33, 97),
                           value: _registrarmeVM.aceptadas,
                           onChanged: (value) {
                             _aceptarCondiciones();
@@ -202,7 +203,7 @@ class DialogRegistrarmeState extends State<DialogRegistrarme> {
                       backgroundColor: MaterialStateProperty.all<Color>(
                         _registrarmeVM.aceptadas == false
                             ? Colors.grey
-                            : Colors.cyan,
+                            : Color.fromARGB(255, 164, 22, 34),
                       ),
                     ),
                     onPressed: _registrarmeVM.aceptadas == false

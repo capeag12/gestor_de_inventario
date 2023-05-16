@@ -181,6 +181,22 @@ class ServiceLogin {
     }
   }
 
+  Future<bool> logoutAll() async {
+    final String url = "$_baseURL/usuarios/logoutAll";
+    try {
+      var respuesta = await http.post(Uri.parse(url), headers: getHeaders());
+      await removeToken();
+      if (respuesta.statusCode == 200) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
   getToken() {
     return _token;
   }

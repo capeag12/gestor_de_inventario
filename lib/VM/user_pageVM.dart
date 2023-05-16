@@ -39,6 +39,11 @@ class UserPageVM {
     return false;
   }
 
+  Future<bool> logoutAll() async {
+    bool resultado = await serviceLogin.logoutAll();
+    return resultado;
+  }
+
   XFile? get image => _image;
 
   set image(XFile? value) {

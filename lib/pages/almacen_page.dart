@@ -236,9 +236,13 @@ class _Almacen_PageState extends State<Almacen_Page> {
             ],
           ),
           body: Container(
+              color: Colors.grey[200],
               padding: EdgeInsets.only(left: 15, right: 15),
               child: loading == true
-                  ? Center(child: CircularProgressIndicator())
+                  ? Center(
+                      child: CircularProgressIndicator(
+                      color: Color.fromARGB(255, 164, 22, 34),
+                    ))
                   : Column(
                       mainAxisAlignment: vm.almacen.listaItems.length == 0
                           ? MainAxisAlignment.center

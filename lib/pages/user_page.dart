@@ -50,7 +50,28 @@ class _User_pageState extends State<User_page> {
           Tooltip(
             message: 'Log out from all sessions',
             child: IconButton(
-                onPressed: () {},
+                onPressed: () async {
+                  bool cerrado = await _userPageVM.logoutAll();
+                  await Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) => Main_Page()));
+                  await showDialog(
+                      context: context,
+                      builder: (BuildContext context) => AlertDialog(
+                            title: Text('Se ha cerrado la sesión'),
+                            content: Container(
+                              child: Text(cerrado == true
+                                  ? 'Se ha cerrado sesión en todos los dispositivos'
+                                  : 'Solo se pudo cerrar sesión localmente'),
+                            ),
+                            actions: [
+                              TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text('Ok'))
+                            ],
+                          ));
+                },
                 color: Color.fromARGB(255, 248, 248, 202),
                 icon: Icon(Icons.logout)),
           ),
@@ -69,7 +90,9 @@ class _User_pageState extends State<User_page> {
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      CircularProgressIndicator(),
+                                      CircularProgressIndicator(
+                                          color:
+                                              Color.fromARGB(255, 164, 22, 34)),
                                     ],
                                   ),
                                 )));

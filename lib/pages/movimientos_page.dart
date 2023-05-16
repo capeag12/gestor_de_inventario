@@ -35,10 +35,14 @@ class _Movimientos_PageState extends State<Movimientos_Page> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Movimientos"),
-          backgroundColor: Colors.cyan,
+          title: Text(
+            "Movimientos",
+            style: TextStyle(color: Color.fromARGB(227, 248, 248, 202)),
+          ),
+          backgroundColor: Color.fromARGB(255, 164, 22, 34),
           leading: IconButton(
-            icon: Icon(Icons.arrow_back),
+            icon: Icon(Icons.arrow_back,
+                color: Color.fromARGB(227, 248, 248, 202)),
             onPressed: () {
               _returnToMainPage();
             },
@@ -46,7 +50,8 @@ class _Movimientos_PageState extends State<Movimientos_Page> {
         ),
         body: this._cargando == true
             ? Center(
-                child: CircularProgressIndicator(),
+                child: CircularProgressIndicator(
+                    color: Color.fromARGB(255, 164, 22, 34)),
               )
             : this._movimientoPageVM.serviceMovimientos.movimientos.isEmpty ==
                     true
@@ -54,6 +59,7 @@ class _Movimientos_PageState extends State<Movimientos_Page> {
                     child: Text("No hay movimientos"),
                   )
                 : Container(
+                    color: Colors.grey[200],
                     padding: EdgeInsets.only(left: 15, right: 15),
                     child: ListView(
                       children: _movimientoPageVM.serviceMovimientos.movimientos

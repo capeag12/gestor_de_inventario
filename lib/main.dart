@@ -25,6 +25,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        inputDecorationTheme: const InputDecorationTheme(),
         useMaterial3: true,
         primarySwatch: Colors.red,
       ),

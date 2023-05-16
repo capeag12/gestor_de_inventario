@@ -131,7 +131,13 @@ class Movimiento_Widget extends StatelessWidget {
                                                               MainAxisAlignment
                                                                   .center,
                                                           children: [
-                                                            CircularProgressIndicator(),
+                                                            CircularProgressIndicator(
+                                                                color: Color
+                                                                    .fromARGB(
+                                                                        255,
+                                                                        164,
+                                                                        22,
+                                                                        34)),
                                                           ],
                                                         ),
                                                       )));
