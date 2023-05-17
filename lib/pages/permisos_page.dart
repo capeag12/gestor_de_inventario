@@ -26,16 +26,21 @@ class _Permisos_PageState extends State<Permisos_Page> {
       },
       child: Scaffold(
           appBar: AppBar(
-            title: Text("Permisos"),
-            backgroundColor: Colors.cyan,
+            title: Text(
+              "Permisos",
+              style: TextStyle(color: Color.fromARGB(227, 248, 248, 202)),
+            ),
+            backgroundColor: Color.fromARGB(255, 164, 22, 34),
             leading: IconButton(
-              icon: Icon(Icons.arrow_back),
+              icon: Icon(Icons.arrow_back,
+                  color: Color.fromARGB(227, 248, 248, 202)),
               onPressed: () {
                 _returnToMainPage();
               },
             ),
           ),
           body: Container(
+            color: Colors.grey[200],
             padding: EdgeInsets.only(left: 15, right: 15),
             child: ListView(
               children: [PermisoWidget(), PermisoWidget(), PermisoWidget()],
@@ -43,8 +48,11 @@ class _Permisos_PageState extends State<Permisos_Page> {
           ),
           floatingActionButton: FloatingActionButton(
             onPressed: () {},
-            child: Icon(Icons.add),
-            backgroundColor: Colors.cyan,
+            child: Icon(
+              Icons.add,
+              color: Color.fromARGB(227, 248, 248, 202),
+            ),
+            backgroundColor: Color.fromARGB(255, 164, 22, 34),
           )),
     );
   }

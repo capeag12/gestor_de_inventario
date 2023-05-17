@@ -15,17 +15,20 @@ class UserPageVM {
   Future<XFile?> getImage() async {
     if (Platform.isAndroid) {
       _image = await _picker.pickImage(source: ImageSource.gallery);
+
+      if (_image != null) {
+        changedImg = true;
+      }
     } else if (Platform.isWindows) {
       FilePickerResult? result = await FilePicker.platform.pickFiles(
         type: FileType.custom,
         allowMultiple: false,
         allowedExtensions: ['jpg', 'png'],
       );
-
       if (result != null) {
         changedImg = true;
         _image = XFile(result.files.single.path!);
-      } else {}
+      }
     }
     return _image;
   }

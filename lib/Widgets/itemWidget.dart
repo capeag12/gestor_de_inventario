@@ -50,30 +50,35 @@ class _Item_WidgetState extends State<Item_Widget> {
               height: 50,
               //adjust the width of the container
               width: 75,
-              child: NumberSelection(
-                theme: NumberSelectionTheme(
-                  numberColor: Colors.black,
-                  iconsColor: Colors.black,
-                  backgroundColor: (this._itemAlmacen.cantidadCambiada >
-                          this._itemAlmacen.cantidad)
-                      ? Color.fromARGB(255, 189, 247, 97)
-                      : (this._itemAlmacen.cantidadCambiada <
-                              this._itemAlmacen.cantidad)
-                          ? Color.fromARGB(255, 255, 87, 123)
-                          : Color.fromARGB(255, 145, 132, 80),
-                ),
-                minValue: 0,
-                maxValue: 1000,
-                initialValue: this._itemAlmacen.cantidad,
-                direction: Axis.horizontal,
-                withSpring: true,
-                onChanged: (value) {
-                  setState(() {
-                    this._itemAlmacen.cantidadCambiada = value;
-                  });
-
-                  this.cambiado(this._itemAlmacen);
+              child: GestureDetector(
+                onDoubleTap: () {
+                  print('double tap');
                 },
+                child: NumberSelection(
+                  theme: NumberSelectionTheme(
+                    numberColor: Colors.black,
+                    iconsColor: Colors.black,
+                    backgroundColor: (this._itemAlmacen.cantidadCambiada >
+                            this._itemAlmacen.cantidad)
+                        ? Color.fromARGB(255, 189, 247, 97)
+                        : (this._itemAlmacen.cantidadCambiada <
+                                this._itemAlmacen.cantidad)
+                            ? Color.fromARGB(255, 255, 87, 123)
+                            : Color.fromARGB(255, 145, 132, 80),
+                  ),
+                  minValue: 0,
+                  maxValue: 1000,
+                  initialValue: this._itemAlmacen.cantidad,
+                  direction: Axis.horizontal,
+                  withSpring: true,
+                  onChanged: (value) {
+                    setState(() {
+                      this._itemAlmacen.cantidadCambiada = value;
+                    });
+
+                    this.cambiado(this._itemAlmacen);
+                  },
+                ),
               ),
             )
           ]),

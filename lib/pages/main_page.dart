@@ -70,8 +70,10 @@ class _Main_PageState extends State<Main_Page> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MediaQuery.of(context).size.width < 650
+      appBar: MediaQuery.of(context).size.width < 600
           ? AppBar(
+              iconTheme:
+                  IconThemeData(color: Color.fromARGB(227, 248, 248, 202)),
               title: Text("Gestor de Inventario",
                   style: TextStyle(color: Color.fromARGB(227, 248, 248, 202))),
               backgroundColor: Color.fromARGB(255, 164, 22, 34),
@@ -79,14 +81,14 @@ class _Main_PageState extends State<Main_Page> {
           : null,
       drawer: loading
           ? null
-          : MediaQuery.of(context).size.width < 650
+          : MediaQuery.of(context).size.width < 600
               ? Menu_Lateral.CrearMenuLateral(context)
               : null,
       body: loading
           ? Center(
               child: CircularProgressIndicator(),
             )
-          : MediaQuery.of(context).size.width < 650
+          : MediaQuery.of(context).size.width < 600
               ? Container(
                   padding: EdgeInsets.only(left: 15, right: 15),
                   child: _mainPageVM.listaAlmacenes.isEmpty == true

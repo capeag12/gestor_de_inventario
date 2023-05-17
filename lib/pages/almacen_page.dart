@@ -231,7 +231,10 @@ class _Almacen_PageState extends State<Almacen_Page> {
                                       ),
                                     ));
                           },
-                          icon: Icon(Icons.maps_home_work_outlined)))
+                          icon: Icon(
+                            Icons.maps_home_work_outlined,
+                            color: Color.fromARGB(255, 248, 248, 202),
+                          )))
                   : Container()
             ],
           ),

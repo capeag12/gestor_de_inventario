@@ -20,6 +20,7 @@ class User_page extends StatefulWidget {
 
 class _User_pageState extends State<User_page> {
   UserPageVM _userPageVM = UserPageVM();
+  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   _User_pageState() {
     _userPageVM.serviceLogin.getAvatar().then((value) {
@@ -27,6 +28,106 @@ class _User_pageState extends State<User_page> {
         _userPageVM.image = value;
       });
     });
+  }
+
+  changePasswd() async {
+    String originalPasswd = '';
+    String newPasswd = '';
+    String repeatPasswd = '';
+    await showDialog(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+              title: Text('Cambiar contraseña',
+                  style: TextStyle(fontWeight: FontWeight.bold)),
+              content: SingleChildScrollView(
+                child: Form(
+                  key: _formKey,
+                  child: ListBody(
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(top: 10),
+                        child: TextFormField(
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            labelText: "Contraseña actual",
+                            hintText: 'Contraseña actual',
+                          ),
+                          onSaved: (value) {
+                            originalPasswd = value ?? "";
+                          },
+                          onChanged: (value) {
+                            originalPasswd = value ?? "";
+                          },
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "El campo no puede estar vacio";
+                            } else {
+                              return null;
+                            }
+                          },
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(top: 10),
+                        child: TextFormField(
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            labelText: "Nueva contraseña",
+                            hintText: 'Nueva contraseña',
+                          ),
+                          onSaved: (value) {
+                            newPasswd = value ?? "";
+                          },
+                          onChanged: (value) {
+                            newPasswd = value ?? "";
+                          },
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "El campo no puede estar vacio";
+                            } else {
+                              return null;
+                            }
+                          },
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(top: 10),
+                        child: TextFormField(
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            labelText: "Repite la contraseña",
+                            hintText: 'Repite la contraseña',
+                          ),
+                          onSaved: (value) {
+                            repeatPasswd = value ?? "";
+                          },
+                          onChanged: (value) {
+                            repeatPasswd = value ?? "";
+                          },
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "El campo no puede estar vacio";
+                            } else if (newPasswd != repeatPasswd) {
+                              return "Las contraseñas no coinciden";
+                            } else {
+                              return null;
+                            }
+                          },
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              actions: <Widget>[
+                TextButton(
+                  child: Text('Añadir'),
+                  onPressed: () async {
+                    _formKey.currentState!.save();
+                  },
+                ),
+              ],
+            ));
   }
 
   @override
@@ -197,7 +298,10 @@ class _User_pageState extends State<User_page> {
                             Tooltip(
                               message: 'Cambiar contraseña',
                               child: IconButton(
-                                  onPressed: () {}, icon: Icon(Icons.edit)),
+                                  onPressed: () async {
+                                    await changePasswd();
+                                  },
+                                  icon: Icon(Icons.edit)),
                             )
                           ],
                         ),
@@ -332,7 +436,10 @@ class _User_pageState extends State<User_page> {
                               Tooltip(
                                 message: 'Cambiar contraseña',
                                 child: IconButton(
-                                    onPressed: () {}, icon: Icon(Icons.edit)),
+                                    onPressed: () async {
+                                      await changePasswd();
+                                    },
+                                    icon: Icon(Icons.edit)),
                               )
                             ],
                           )
