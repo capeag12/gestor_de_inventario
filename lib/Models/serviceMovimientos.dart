@@ -18,7 +18,7 @@ import 'package:permission_handler/permission_handler.dart';
 class ServiceMovimientos {
   ServiceLogin _serviceLogin = ServiceLogin.getInstance();
   final String _baseURL =
-      "http://10.0.2.2:3000"; //cambiar a "http://10.0.2.2:3000" para probar en el emulador, cambiar a "http://localhost:3000" para probar en el ordenador
+      "http://localhost:3000"; //cambiar a "http://10.0.2.2:3000" para probar en el emulador, cambiar a "http://localhost:3000" para probar en el ordenador
   static ServiceMovimientos? _service;
 
   List<Movimiento> movimientos = [];

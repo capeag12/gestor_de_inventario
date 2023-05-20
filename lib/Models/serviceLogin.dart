@@ -13,7 +13,7 @@ class ServiceLogin {
   Usuario? _usuario;
   static ServiceLogin? _service;
   final String _baseURL =
-      "http://10.0.2.2:3000"; //cambiar a "http://10.0.2.2:3000" para probar en el emulador, cambiar a "http://localhost:3000" para probar en el ordenador
+      "http://localhost:3000"; //cambiar a "http://10.0.2.2:3000" para probar en el emulador, cambiar a "http://localhost:3000" para probar en el ordenador
   String _token = "";
 
   _Service() {

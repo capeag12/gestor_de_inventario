@@ -67,68 +67,77 @@ class DialogAddItem {
                       },
                     ),
                   ),
-                  Container(
-                    margin: EdgeInsets.only(top: 10),
-                    child: TextFormField(
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: "Valor del Item",
-                        hintText: 'Valor del item',
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          margin: EdgeInsets.only(top: 10),
+                          child: TextFormField(
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: "Valor(€)",
+                              hintText: 'Valor(€)',
+                            ),
+                            onSaved: (value) {
+                              num parsed = num.tryParse(value ?? "") ?? 0;
+                              _addItemVM.valorItem = parsed.toDouble();
+                            },
+                            onChanged: (value) {
+                              num parsed = num.tryParse(value) ?? 0;
+                              _addItemVM.valorItem = parsed.toDouble();
+                            },
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return "El campo no puede estar vacio";
+                              } else {
+                                return null;
+                              }
+                            },
+                            inputFormatters: [
+                              FilteringTextInputFormatter.allow(
+                                  RegExp(r'^\d+\.?\d{0,2}')),
+                            ],
+                            keyboardType: TextInputType.numberWithOptions(
+                              decimal: true,
+                            ),
+                          ),
+                        ),
                       ),
-                      onSaved: (value) {
-                        num parsed = num.tryParse(value ?? "") ?? 0;
-                        _addItemVM.valorItem = parsed.toDouble();
-                      },
-                      onChanged: (value) {
-                        num parsed = num.tryParse(value) ?? 0;
-                        _addItemVM.valorItem = parsed.toDouble();
-                      },
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return "El campo no puede estar vacio";
-                        } else {
-                          return null;
-                        }
-                      },
-                      inputFormatters: [
-                        FilteringTextInputFormatter.allow(
-                            RegExp(r'^\d+\.?\d{0,2}')),
-                      ],
-                      keyboardType: TextInputType.numberWithOptions(
-                        decimal: true,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 10),
-                    child: TextFormField(
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: "Cantidad del item",
-                        hintText: 'Cantidad del item',
-                      ),
-                      onSaved: (value) {
-                        int parsed = int.tryParse(value ?? "") ?? 0;
-                        _addItemVM.cantidadItem = parsed;
-                      },
-                      onChanged: (value) {
-                        int parsed = int.tryParse(value ?? "") ?? 0;
-                        _addItemVM.cantidadItem = parsed;
-                      },
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return "El campo no puede estar vacio";
-                        } else {
-                          return null;
-                        }
-                      },
-                      inputFormatters: [
-                        FilteringTextInputFormatter.allow(RegExp(r'^\d+')),
-                      ],
-                      keyboardType: TextInputType.numberWithOptions(
-                        decimal: false,
-                      ),
-                    ),
+                      Expanded(
+                        child: Container(
+                          margin: EdgeInsets.only(top: 10, left: 10),
+                          child: TextFormField(
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: "Cantidad",
+                              hintText: 'Cantidad',
+                            ),
+                            onSaved: (value) {
+                              int parsed = int.tryParse(value ?? "") ?? 0;
+                              _addItemVM.cantidadItem = parsed;
+                            },
+                            onChanged: (value) {
+                              int parsed = int.tryParse(value ?? "") ?? 0;
+                              _addItemVM.cantidadItem = parsed;
+                            },
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return "El campo no puede estar vacio";
+                              } else {
+                                return null;
+                              }
+                            },
+                            inputFormatters: [
+                              FilteringTextInputFormatter.allow(
+                                  RegExp(r'^\d+')),
+                            ],
+                            keyboardType: TextInputType.numberWithOptions(
+                              decimal: false,
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
                   )
                 ],
               ),
