@@ -108,6 +108,21 @@ class ServiceLogin {
     }
   }
 
+  Future<bool> checkIfTokenExists() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      _token = prefs.getString('token') ?? "";
+      if (_token == "") {
+        return false;
+      } else {
+        return true;
+      }
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
   Future<void> removeToken() async {
     try {
       final prefs = await SharedPreferences.getInstance();
@@ -233,6 +248,30 @@ class ServiceLogin {
     } catch (e) {
       print(e);
       return null;
+    }
+  }
+
+  Future<String> changePassword(String oldPsswd, String newPsswd) async {
+    final String url = "$_baseURL/usuarios/me/changePassword";
+    try {
+      var respuesta = await http.patch(
+        Uri.parse(url),
+        headers: getHeaders(),
+        body: jsonEncode({
+          "oldPassword": oldPsswd,
+          "newPassword": newPsswd,
+        }),
+      );
+      var decoded = jsonDecode(respuesta.body);
+      print(respuesta.statusCode);
+      if (respuesta.statusCode == 200) {
+        return decoded['msg'];
+      } else {
+        return decoded['error'];
+      }
+    } catch (e) {
+      print(e);
+      return "Algo salio mal";
     }
   }
 }

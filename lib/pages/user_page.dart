@@ -47,6 +47,7 @@ class _User_pageState extends State<User_page> {
                       Container(
                         margin: EdgeInsets.only(top: 10),
                         child: TextFormField(
+                          obscureText: true,
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             labelText: "Contraseña actual",
@@ -70,6 +71,7 @@ class _User_pageState extends State<User_page> {
                       Container(
                         margin: EdgeInsets.only(top: 10),
                         child: TextFormField(
+                          obscureText: true,
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             labelText: "Nueva contraseña",
@@ -82,6 +84,14 @@ class _User_pageState extends State<User_page> {
                             newPasswd = value ?? "";
                           },
                           validator: (value) {
+                            if (value!.contains('password')) {
+                              return "No puede ser 'password'";
+                            }
+
+                            if (value.length < 6) {
+                              return "La contraseña debe tener al menos 6 caracteres";
+                            }
+
                             if (value == null || value.isEmpty) {
                               return "El campo no puede estar vacio";
                             } else {
@@ -93,6 +103,7 @@ class _User_pageState extends State<User_page> {
                       Container(
                         margin: EdgeInsets.only(top: 10),
                         child: TextFormField(
+                          obscureText: true,
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             labelText: "Repite la contraseña",
@@ -124,6 +135,35 @@ class _User_pageState extends State<User_page> {
                   child: Text('Añadir'),
                   onPressed: () async {
                     _formKey.currentState!.save();
+                    bool valida = _formKey.currentState!.validate();
+                    if (valida == true) {
+                      String texto = await _userPageVM.changePassword(
+                          originalPasswd, newPasswd);
+                      Navigator.pop(context);
+                      await showDialog(
+                          barrierDismissible: false,
+                          context: context,
+                          builder: (BuildContext context) => AlertDialog(
+                                title: Text('Alerta'),
+                                content: Container(
+                                  child: Text(texto),
+                                ),
+                                actions: [
+                                  TextButton(
+                                      onPressed: () async {
+                                        Navigator.pop(context);
+                                        bool existe = await _userPageVM
+                                            .serviceLogin
+                                            .checkIfTokenExists();
+                                        if (existe == true) {
+                                          Navigator.pushReplacementNamed(
+                                              context, "/login");
+                                        }
+                                      },
+                                      child: Text('Ok'))
+                                ],
+                              ));
+                    }
                   },
                 ),
               ],

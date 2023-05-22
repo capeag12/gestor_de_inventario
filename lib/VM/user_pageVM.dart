@@ -47,6 +47,12 @@ class UserPageVM {
     return resultado;
   }
 
+  Future<String> changePassword(String oldPassword, String newPassword) async {
+    String resultado =
+        await serviceLogin.changePassword(oldPassword, newPassword);
+    return resultado;
+  }
+
   XFile? get image => _image;
 
   set image(XFile? value) {
