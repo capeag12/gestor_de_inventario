@@ -49,14 +49,20 @@ class _Movimientos_PageState extends State<Movimientos_Page> {
           ),
         ),
         body: this._cargando == true
-            ? Center(
-                child: CircularProgressIndicator(
-                    color: Color.fromARGB(255, 164, 22, 34)),
+            ? Container(
+                color: Colors.grey[200],
+                child: Center(
+                  child: CircularProgressIndicator(
+                      color: Color.fromARGB(255, 164, 22, 34)),
+                ),
               )
             : this._movimientoPageVM.serviceMovimientos.movimientos.isEmpty ==
                     true
-                ? Center(
-                    child: Text("No hay movimientos"),
+                ? Container(
+                    color: Colors.grey[200],
+                    child: Center(
+                      child: Text("No hay movimientos"),
+                    ),
                   )
                 : Container(
                     color: Colors.grey[200],

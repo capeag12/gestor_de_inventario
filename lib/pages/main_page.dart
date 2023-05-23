@@ -90,6 +90,7 @@ class _Main_PageState extends State<Main_Page> {
             )
           : MediaQuery.of(context).size.width < 600
               ? Container(
+                  color: Colors.grey[200],
                   padding: EdgeInsets.only(left: 15, right: 15),
                   child: _mainPageVM.listaAlmacenes.isEmpty == true
                       ? Center(

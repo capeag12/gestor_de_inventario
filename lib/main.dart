@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:gestor_de_inventario/pages/login_page.dart';
 import 'package:gestor_de_inventario/pages/main_page.dart';
+import 'package:responsive_grid/responsive_grid.dart';
 import 'package:window_manager/window_manager.dart';
 
 void main() async {
@@ -10,7 +11,7 @@ void main() async {
     WidgetsFlutterBinding.ensureInitialized();
     await windowManager.ensureInitialized();
     WindowManager.instance.setTitle("Gestor de almacenes");
-    WindowManager.instance.setMinimumSize(const Size(621, 475));
+    //WindowManager.instance.setMinimumSize(const Size(621, 475));
   }
   runApp(const MyApp());
 }

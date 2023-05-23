@@ -365,7 +365,14 @@ class _User_pageState extends State<User_page> {
                                         .listaAlmacenes.isEmpty
                                     ? [
                                         Center(
-                                          child: Text('No hay almacenses'),
+                                          child: Container(
+                                            margin: EdgeInsets.only(top: 10),
+                                            child: Text('No hay almacenes',
+                                                style: TextStyle(
+                                                    fontSize: 25,
+                                                    color: Color.fromARGB(
+                                                        255, 248, 248, 202))),
+                                          ),
                                         ),
                                       ]
                                     : _userPageVM.serviceLogin.usuario!
@@ -502,7 +509,14 @@ class _User_pageState extends State<User_page> {
                                         .listaAlmacenes.isEmpty
                                     ? [
                                         Center(
-                                          child: Text('No hay almacenses'),
+                                          child: Container(
+                                            margin: EdgeInsets.only(top: 10),
+                                            child: Text('No hay almacenes',
+                                                style: TextStyle(
+                                                    fontSize: 25,
+                                                    color: Color.fromARGB(
+                                                        255, 248, 248, 202))),
+                                          ),
                                         ),
                                       ]
                                     : _userPageVM.serviceLogin.usuario!
