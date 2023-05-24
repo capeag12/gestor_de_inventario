@@ -1,10 +1,21 @@
+import 'package:another_stepper/another_stepper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:gestor_de_inventario/Models/envio.dart';
 
-class EnvioWidget extends StatelessWidget {
-  const EnvioWidget({super.key});
+class EnvioWidget extends StatefulWidget {
+  late Envio envio;
+  EnvioWidget(this.envio);
 
+  @override
+  State<EnvioWidget> createState() => _Envio_WidgetState(envio);
+}
+
+class _Envio_WidgetState extends State<EnvioWidget> {
+  late Envio envio;
+
+  _Envio_WidgetState(this.envio);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -23,7 +34,8 @@ class EnvioWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
-                          child: Text('Fecha',
+                          child: Text(
+                              "${envio.fecha.day}-${envio.fecha.month}-${envio.fecha.year}",
                               style: TextStyle(
                                   fontSize: 15, fontWeight: FontWeight.bold),
                               textAlign: TextAlign.start,
@@ -31,7 +43,7 @@ class EnvioWidget extends StatelessWidget {
                               maxLines: 2),
                         ),
                         Container(
-                          child: Text('Estado',
+                          child: Text(this.envio.estado,
                               style: TextStyle(
                                   fontSize: 15, fontWeight: FontWeight.bold),
                               textAlign: TextAlign.start,
@@ -50,7 +62,7 @@ class EnvioWidget extends StatelessWidget {
                       children: [
                         Container(
                           alignment: Alignment.centerRight,
-                          child: Text('Destino',
+                          child: Text(this.envio.destino,
                               style: TextStyle(
                                   fontSize: 15, fontWeight: FontWeight.bold),
                               textAlign: TextAlign.end,
@@ -65,7 +77,133 @@ class EnvioWidget extends StatelessWidget {
             ),
           ),
           onTap: () {
-            print("Envio pulsado");
+            showDialog(
+                context: context,
+                builder: (BuildContext context) => AlertDialog(
+                      scrollable: true,
+                      title: Container(
+                        child: ElevatedButton(
+                            onPressed: () {}, child: Text("Avanzar estado")),
+                      ),
+                      content: Column(
+                        children: [
+                          Container(
+                            padding: EdgeInsets.all(15),
+                            child: AnotherStepper(
+                              activeBarColor: Color.fromARGB(255, 228, 15, 32),
+                              barThickness: 6,
+                              activeIndex: this.envio.estado == "Creado"
+                                  ? 0
+                                  : this.envio.estado == "Preparando"
+                                      ? 1
+                                      : this.envio.estado == "En camino"
+                                          ? 2
+                                          : this.envio.estado == "Entregado"
+                                              ? 3
+                                              : 0,
+                              stepperList: [
+                                StepperData(
+                                    title: StepperText(
+                                      "Creado",
+                                      textStyle: const TextStyle(
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                    subtitle:
+                                        StepperText("El envio se ha creado"),
+                                    iconWidget: Container(
+                                      padding: const EdgeInsets.all(8),
+                                      decoration: BoxDecoration(
+                                          color: this.envio.estado == "Creado"
+                                              ? Color.fromARGB(255, 164, 22, 34)
+                                              : this.envio.estado ==
+                                                          "Preparando" ||
+                                                      this.envio.estado ==
+                                                          "En camino" ||
+                                                      this.envio.estado ==
+                                                          "Entregado"
+                                                  ? Color.fromARGB(
+                                                      255, 228, 15, 32)
+                                                  : Colors.grey,
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(30))),
+                                      child: const Icon(Icons.list_alt,
+                                          color: Colors.white),
+                                    )),
+                                StepperData(
+                                    title: StepperText("Preparando"),
+                                    subtitle: StepperText(
+                                        "El envio se esta preparando para ser enviado"),
+                                    iconWidget: Container(
+                                      padding: const EdgeInsets.all(8),
+                                      decoration: BoxDecoration(
+                                          color: this.envio.estado ==
+                                                  "Preparando"
+                                              ? Color.fromARGB(255, 164, 22, 34)
+                                              : this.envio.estado ==
+                                                          "En camino" ||
+                                                      this.envio.estado ==
+                                                          "Entregado"
+                                                  ? Color.fromARGB(
+                                                      255, 228, 15, 32)
+                                                  : Colors.grey,
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(30))),
+                                      child: const Icon(Icons.pallet,
+                                          color: Colors.white),
+                                    )),
+                                StepperData(
+                                    title: StepperText("En camino"),
+                                    subtitle: StepperText(
+                                        "El envio está en camino de la ubicación de destino"),
+                                    iconWidget: Container(
+                                      padding: const EdgeInsets.all(8),
+                                      decoration: BoxDecoration(
+                                          color: this.envio.estado ==
+                                                  "En camino"
+                                              ? Color.fromARGB(255, 164, 22, 34)
+                                              : this.envio.estado == "Entregado"
+                                                  ? Color.fromARGB(
+                                                      255, 228, 15, 32)
+                                                  : Colors.grey,
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(30))),
+                                      child: const Icon(Icons.local_shipping,
+                                          color: Colors.white),
+                                    )),
+                                StepperData(
+                                    title: StepperText("Entregado",
+                                        textStyle: const TextStyle(
+                                          color: Colors.grey,
+                                        )),
+                                    subtitle: StepperText(
+                                        "El envio está en camino de la ubicación de destino"),
+                                    iconWidget: Container(
+                                      padding: const EdgeInsets.all(8),
+                                      decoration: BoxDecoration(
+                                          color: this.envio.estado ==
+                                                  "Entregado"
+                                              ? Color.fromARGB(255, 164, 22, 34)
+                                              : Colors.grey,
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(30))),
+                                      child: const Icon(Icons.task_alt,
+                                          color: Colors.white),
+                                    )),
+                              ],
+                              stepperDirection:
+                                  MediaQuery.of(context).size.width > 600
+                                      ? Axis.horizontal
+                                      : Axis.vertical,
+                              iconWidth:
+                                  40, // Height that will be applied to all the stepper icons
+                              iconHeight:
+                                  40, // Width that will be applied to all the stepper icons
+                            ),
+                          )
+                        ],
+                      ),
+                    ));
           },
         ),
       ),

@@ -51,6 +51,7 @@ dependencies:
   window_manager: ^0.3.2
   image_picker: ^0.8.7+4
   responsive_grid: ^2.2.0
+  another_stepper: ^1.2.2
   
   
   

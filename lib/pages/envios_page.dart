@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:gestor_de_inventario/Models/envio.dart';
 import 'package:gestor_de_inventario/Widgets/envioWidget.dart';
 import 'package:gestor_de_inventario/pages/main_page.dart';
 import 'package:responsive_grid/responsive_grid.dart';
@@ -48,19 +49,10 @@ class _Envios_PageState extends State<Envios_Page> {
                     xl: 3,
                     child: Container(
                       alignment: Alignment(0, 0),
-                      child: EnvioWidget(),
+                      child: EnvioWidget(new Envio(
+                          DateTime.now(), "Preparando", "Calle 1", "aaaaaa")),
                     ),
                   ),
-                  ResponsiveGridCol(
-                    xs: 12,
-                    sm: 6,
-                    md: 6,
-                    xl: 3,
-                    child: Container(
-                      alignment: Alignment(0, 0),
-                      child: EnvioWidget(),
-                    ),
-                  )
                 ],
               ),
             ]),
