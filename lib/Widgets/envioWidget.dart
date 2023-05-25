@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:gestor_de_inventario/Models/envio.dart';
+import 'package:gestor_de_inventario/Models/serviceMovimientos.dart';
 
 class EnvioWidget extends StatefulWidget {
   late Envio envio;
@@ -77,20 +78,63 @@ class _Envio_WidgetState extends State<EnvioWidget> {
             ),
           ),
           onTap: () {
+            print(envio.id);
             showDialog(
                 context: context,
                 builder: (BuildContext context) => AlertDialog(
                       scrollable: true,
                       title: Container(
                         child: ElevatedButton(
-                            onPressed: () {}, child: Text("Avanzar estado")),
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: MaterialStateColor.resolveWith(
+                                    (states) =>
+                                        Color.fromARGB(255, 164, 22, 34))),
+                            onPressed: envio.estado == "Entregado"
+                                ? null
+                                : () async {
+                                    ServiceMovimientos serviceMovimientos =
+                                        ServiceMovimientos.getInstance();
+                                    bool avanzar = await serviceMovimientos
+                                        .avanzarEstado(this.envio);
+                                    if (avanzar == true) {
+                                      envio.avanzarEstado();
+                                      Navigator.pop(context);
+                                      this.setState(() {});
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(SnackBar(
+                                        content: Text(
+                                            "Se avanzo el estado del envio"),
+                                      ));
+                                    } else {
+                                      Navigator.pop(context);
+                                      showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) =>
+                                              AlertDialog(
+                                                title: Text("Error"),
+                                                content: Text(
+                                                    "No se pudo avanzar el estado del envio"),
+                                                actions: [
+                                                  TextButton(
+                                                      onPressed: () {
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child: Text("Ok"))
+                                                ],
+                                              ));
+                                    }
+                                  },
+                            child: Text(
+                              "Avanzar estado",
+                              style: TextStyle(color: Colors.white),
+                            )),
                       ),
                       content: Column(
                         children: [
                           Container(
-                            padding: EdgeInsets.all(15),
+                            padding: EdgeInsets.only(left: 15, right: 15),
                             child: AnotherStepper(
-                              activeBarColor: Color.fromARGB(255, 228, 15, 32),
+                              activeBarColor: Color.fromARGB(255, 164, 22, 34),
                               barThickness: 6,
                               activeIndex: this.envio.estado == "Creado"
                                   ? 0
@@ -123,7 +167,7 @@ class _Envio_WidgetState extends State<EnvioWidget> {
                                                       this.envio.estado ==
                                                           "Entregado"
                                                   ? Color.fromARGB(
-                                                      255, 228, 15, 32)
+                                                      255, 164, 22, 34)
                                                   : Colors.grey,
                                           borderRadius: BorderRadius.all(
                                               Radius.circular(30))),
@@ -145,7 +189,7 @@ class _Envio_WidgetState extends State<EnvioWidget> {
                                                       this.envio.estado ==
                                                           "Entregado"
                                                   ? Color.fromARGB(
-                                                      255, 228, 15, 32)
+                                                      255, 164, 22, 34)
                                                   : Colors.grey,
                                           borderRadius: BorderRadius.all(
                                               Radius.circular(30))),
@@ -164,7 +208,7 @@ class _Envio_WidgetState extends State<EnvioWidget> {
                                               ? Color.fromARGB(255, 164, 22, 34)
                                               : this.envio.estado == "Entregado"
                                                   ? Color.fromARGB(
-                                                      255, 228, 15, 32)
+                                                      255, 164, 22, 34)
                                                   : Colors.grey,
                                           borderRadius: BorderRadius.all(
                                               Radius.circular(30))),

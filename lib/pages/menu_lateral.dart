@@ -38,6 +38,7 @@ class Menu_Lateral {
                   MaterialPageRoute(builder: (context) => User_page()));
             },
           ),
+          Divider(),
           ListTile(
             hoverColor: Color.fromARGB(227, 248, 248, 202),
             leading: Icon(Icons.inventory),

@@ -7,6 +7,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:gestor_de_inventario/Models/Item.dart';
 import 'package:gestor_de_inventario/Models/almacen.dart';
+import 'package:gestor_de_inventario/Models/envio.dart';
 import 'package:gestor_de_inventario/Models/itemMovimiento.dart';
 import 'package:gestor_de_inventario/Models/movimiento.dart';
 import 'package:gestor_de_inventario/Models/serviceLogin.dart';
@@ -130,6 +131,54 @@ class ServiceMovimientos {
         print(respuesta.statusCode);
         return false;
       }
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  Future<List<Envio>?> getAllEnvios() async {
+    try {
+      final String url = "$_baseURL/movimientos/getAllEnvios";
+      var respuesta = await http.get(
+        Uri.parse(url),
+        headers: _serviceLogin.getHeaders(),
+      );
+
+      if (respuesta.statusCode == 200) {
+        var decoded = jsonDecode(respuesta.body);
+
+        List<Envio> envios = [];
+
+        for (var envio in decoded) {
+          Envio e = new Envio(envio['id'], envio['estado'], envio['destino'],
+              DateTime.parse(envio['fecha']));
+          envios.add(e);
+        }
+        return envios;
+      } else
+        return null;
+    } catch (e) {
+      print(e);
+      return null;
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+  Future<bool> avanzarEstado(Envio e) async {
+    try {
+      final String url = "$_baseURL/movimientos/actualizarEnvio/${e.id}";
+      var respuesta = await http.patch(
+        Uri.parse(url),
+        headers: _serviceLogin.getHeaders(),
+      );
+
+      if (respuesta.statusCode == 201) {
+        return true;
+      } else
+        return false;
     } catch (e) {
       print(e);
       return false;
