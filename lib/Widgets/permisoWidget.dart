@@ -25,11 +25,6 @@ class _PermisoWidgetState extends State<PermisoWidget> {
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-              Text(
-                "Descripción del permiso",
-                overflow: TextOverflow.ellipsis,
-                maxLines: 1,
-              ),
             ],
           )),
           IconButton(onPressed: () {}, icon: Icon(Icons.info)),

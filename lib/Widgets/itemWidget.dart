@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:gestor_de_inventario/Models/Item.dart';
@@ -16,6 +17,7 @@ class Item_Widget extends StatefulWidget {
 
 class _Item_WidgetState extends State<Item_Widget> {
   late ItemAlmacen _itemAlmacen;
+
   late void Function(ItemAlmacen) cambiado;
   _Item_WidgetState(this._itemAlmacen, this.cambiado);
 
@@ -50,35 +52,30 @@ class _Item_WidgetState extends State<Item_Widget> {
               height: 50,
               //adjust the width of the container
               width: 75,
-              child: GestureDetector(
-                onDoubleTap: () {
-                  print('double tap');
-                },
-                child: NumberSelection(
-                  theme: NumberSelectionTheme(
-                    numberColor: Colors.black,
-                    iconsColor: Colors.black,
-                    backgroundColor: (this._itemAlmacen.cantidadCambiada >
-                            this._itemAlmacen.cantidad)
-                        ? Color.fromARGB(255, 189, 247, 97)
-                        : (this._itemAlmacen.cantidadCambiada <
-                                this._itemAlmacen.cantidad)
-                            ? Color.fromARGB(255, 255, 87, 123)
-                            : Color.fromARGB(255, 145, 132, 80),
-                  ),
-                  minValue: 0,
-                  maxValue: 1000,
-                  initialValue: this._itemAlmacen.cantidad,
-                  direction: Axis.horizontal,
-                  withSpring: true,
-                  onChanged: (value) {
-                    setState(() {
-                      this._itemAlmacen.cantidadCambiada = value;
-                    });
-
-                    this.cambiado(this._itemAlmacen);
-                  },
+              child: NumberSelection(
+                theme: NumberSelectionTheme(
+                  numberColor: Colors.black,
+                  iconsColor: Colors.black,
+                  backgroundColor: (this._itemAlmacen.cantidadCambiada >
+                          this._itemAlmacen.cantidad)
+                      ? Color.fromARGB(255, 189, 247, 97)
+                      : (this._itemAlmacen.cantidadCambiada <
+                              this._itemAlmacen.cantidad)
+                          ? Color.fromARGB(255, 255, 87, 123)
+                          : Color.fromARGB(255, 145, 132, 80),
                 ),
+                minValue: 0,
+                maxValue: 1000,
+                initialValue: this._itemAlmacen.cantidad,
+                direction: Axis.horizontal,
+                withSpring: true,
+                onChanged: (value) {
+                  setState(() {
+                    this._itemAlmacen.cantidadCambiada = value;
+                  });
+
+                  this.cambiado(this._itemAlmacen);
+                },
               ),
             )
           ]),
