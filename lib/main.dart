@@ -11,7 +11,7 @@ void main() async {
     WidgetsFlutterBinding.ensureInitialized();
     await windowManager.ensureInitialized();
     WindowManager.instance.setTitle("Gestor de almacenes");
-    //WindowManager.instance.setMinimumSize(const Size(621, 475));
+    WindowManager.instance.setMinimumSize(const Size(621, 475));
   }
   runApp(const MyApp());
 }
