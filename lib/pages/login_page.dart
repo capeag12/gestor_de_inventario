@@ -141,6 +141,21 @@ class _Login_PageState extends State<Login_Page> {
                         ),
                       ),
                       Container(
+                        child: Row(
+                          children: [
+                            Text("Login con token de socio:"),
+                            TextButton(
+                                onPressed: () {},
+                                style: ButtonStyle(
+                                  foregroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          Color.fromARGB(255, 131, 33, 97)),
+                                ),
+                                child: Text("Login"))
+                          ],
+                        ),
+                      ),
+                      Container(
                         margin: EdgeInsets.only(top: 10),
                         child: ElevatedButton(
                           style: ButtonStyle(

@@ -10,7 +10,7 @@ class ServiceAlmacenes {
   ServiceLogin _serviceLogin = ServiceLogin.getInstance();
 
   final String _baseURL =
-      "http://10.0.2.2:3000"; //cambiar a "http://10.0.2.2:3000" para probar en el emulador, cambiar a "http://localhost:3000" para probar en el ordenador
+      "http://localhost:3000"; //cambiar a "http://10.0.2.2:3000" para probar en el emulador, cambiar a "http://localhost:3000" para probar en el ordenador
   static ServiceAlmacenes _service = ServiceAlmacenes();
   _ServiceAlmacenes() {}
 
