@@ -42,8 +42,11 @@ class ServiceLogin {
       );
       var decoded = jsonDecode(respuesta.body);
 
-      Usuario usuario = Usuario(decoded['usuario']['_id'],
-          decoded['usuario']['nombre'], decoded['usuario']['email']);
+      Usuario usuario = Usuario(
+          decoded['usuario']['_id'],
+          decoded['usuario']['nombre'],
+          decoded['usuario']['email'],
+          decoded['tipo']);
 
       _token = decoded['token'];
       await writeToken();
@@ -63,8 +66,11 @@ class ServiceLogin {
 
       var decoded = jsonDecode(respuesta.body);
 
-      Usuario usuario = Usuario(decoded['usuario']['_id'],
-          decoded['usuario']['nombre'], decoded['usuario']['email']);
+      Usuario usuario = Usuario(
+          decoded['usuario']['_id'],
+          decoded['usuario']['nombre'],
+          decoded['usuario']['email'],
+          decoded['tipo']);
       for (var element in decoded['almacenes']) {
         Almacen almacen =
             Almacen(element['_id'], element['nombre'], element['direccion']);
@@ -237,8 +243,11 @@ class ServiceLogin {
       );
       var decoded = jsonDecode(respuesta.body);
 
-      Usuario usuario = Usuario(decoded['usuario']['_id'],
-          decoded['usuario']['nombre'], decoded['usuario']['email']);
+      Usuario usuario = Usuario(
+          decoded['usuario']['_id'],
+          decoded['usuario']['nombre'],
+          decoded['usuario']['email'],
+          decoded['tipo']);
 
       _token = decoded['token'];
       await writeToken();
