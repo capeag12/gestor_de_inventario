@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:gestor_de_inventario/VM/permisosVM.dart';
 import 'package:gestor_de_inventario/Widgets/permisoWidget.dart';
 import 'package:gestor_de_inventario/pages/main_page.dart';
 
@@ -15,6 +16,12 @@ class _Permisos_PageState extends State<Permisos_Page> {
   _returnToMainPage() {
     Navigator.pushReplacement(
         context, MaterialPageRoute(builder: (context) => Main_Page()));
+  }
+
+  PermisosVM _permisosVM = PermisosVM();
+
+  _Permisos_PageState() {
+    _permisosVM.getPermisos().then((value) => {setState(() {})});
   }
 
   @override
@@ -43,8 +50,9 @@ class _Permisos_PageState extends State<Permisos_Page> {
             color: Colors.grey[200],
             padding: EdgeInsets.only(left: 15, right: 15),
             child: ListView(
-              children: [PermisoWidget(), PermisoWidget(), PermisoWidget()],
-            ),
+                children: _permisosVM.listaPermisos
+                    .map((e) => PermisoWidget(e))
+                    .toList()),
           ),
           floatingActionButton: FloatingActionButton(
             onPressed: () {},
