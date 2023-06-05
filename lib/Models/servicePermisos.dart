@@ -31,7 +31,6 @@ class ServicePermisos {
       );
 
       if (respuesta.statusCode == 200) {
-        print(respuesta.body);
         var respuestaDecoded = jsonDecode(respuesta.body);
         List<Permiso> listaPermisos = [];
 
@@ -48,10 +47,60 @@ class ServicePermisos {
       } else {
         return null;
       }
-      return null;
     } catch (e) {
       print(e);
       return null;
+    }
+  }
+
+  Future<Permiso?> addPermiso(String nombre, String tipo) async {
+    final String url = "$_baseURL/usuario/crearPermiso";
+    var body = jsonEncode({
+      "nombre": nombre,
+      "tipo": tipo,
+    });
+    try {
+      var respuesta = await http.post(
+        Uri.parse(url),
+        headers: _serviceLogin.getHeaders(),
+        body: body,
+      );
+
+      if (respuesta.statusCode == 200) {
+        var respuestaDecoded = jsonDecode(respuesta.body);
+        Permiso permiso = Permiso(
+          respuestaDecoded['permiso']['_id'],
+          respuestaDecoded['permiso']['nombre'],
+          respuestaDecoded['tipo'],
+          respuestaDecoded['permiso']['tokenAcceso'],
+        );
+        return permiso;
+      } else {
+        return null;
+      }
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+  Future<bool> eliminarPermiso(String id) async {
+    final String url = "$_baseURL/permisos/eliminarPermiso/$id";
+
+    try {
+      var respuesta = await http.delete(
+        Uri.parse(url),
+        headers: _serviceLogin.getHeaders(),
+      );
+
+      if (respuesta.statusCode == 201) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      print(e);
+      return false;
     }
   }
 }

@@ -5,15 +5,19 @@ import 'package:gestor_de_inventario/Models/permiso.dart';
 
 class PermisoWidget extends StatefulWidget {
   late Permiso permiso;
-  PermisoWidget(this.permiso);
+  Future<bool> Function(String id) deletePermiso;
+  PermisoWidget(this.permiso, this.deletePermiso);
 
   @override
-  State<PermisoWidget> createState() => _PermisoWidgetState(this.permiso);
+  State<PermisoWidget> createState() =>
+      _PermisoWidgetState(this.permiso, this.deletePermiso);
 }
 
 class _PermisoWidgetState extends State<PermisoWidget> {
   late Permiso permiso;
-  _PermisoWidgetState(this.permiso);
+
+  Future<bool> Function(String id) deletePermiso;
+  _PermisoWidgetState(this.permiso, this.deletePermiso);
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +37,24 @@ class _PermisoWidgetState extends State<PermisoWidget> {
             ],
           )),
           IconButton(onPressed: () {}, icon: Icon(Icons.info)),
-          IconButton(onPressed: () {}, icon: Icon(Icons.delete)),
+          IconButton(
+              onPressed: () async {
+                await showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text("Eliminando permiso"),
+                        content: Text(
+                            "¿Estas seguro de que quieres eliminar este permiso?"),
+                        actions: [
+                          TextButton(onPressed: () {}, child: Text("Cancelar")),
+                          TextButton(
+                              onPressed: () async {}, child: Text("Aceptar")),
+                        ],
+                      );
+                    });
+              },
+              icon: Icon(Icons.delete)),
         ]),
       ),
     );

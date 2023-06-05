@@ -18,6 +18,8 @@ class _Permisos_PageState extends State<Permisos_Page> {
         context, MaterialPageRoute(builder: (context) => Main_Page()));
   }
 
+  bool loading = false;
+
   PermisosVM _permisosVM = PermisosVM();
 
   _Permisos_PageState() {
@@ -47,15 +49,127 @@ class _Permisos_PageState extends State<Permisos_Page> {
             ),
           ),
           body: Container(
-            color: Colors.grey[200],
-            padding: EdgeInsets.only(left: 15, right: 15),
-            child: ListView(
-                children: _permisosVM.listaPermisos
-                    .map((e) => PermisoWidget(e))
-                    .toList()),
-          ),
+              color: Colors.grey[200],
+              padding: EdgeInsets.only(left: 15, right: 15),
+              child: loading == false
+                  ? ListView(
+                      children: _permisosVM.listaPermisos
+                          .map((e) =>
+                              PermisoWidget(e, _permisosVM.deletePermiso))
+                          .toList())
+                  : Center(
+                      child: CircularProgressIndicator(),
+                    )),
           floatingActionButton: FloatingActionButton(
-            onPressed: () {},
+            onPressed: () async {
+              await showDialog(
+                  context: context,
+                  builder: (BuildContext contexto) {
+                    return StatefulBuilder(
+                      builder: (context, setStateSB) => AlertDialog(
+                        title: Text("Agregar Permiso"),
+                        content: SingleChildScrollView(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              TextField(
+                                  decoration: InputDecoration(
+                                      labelText: "Nombre del Permiso"),
+                                  onChanged: (value) {
+                                    this._permisosVM.nombrePermiso = value;
+
+                                    setStateSB(() {});
+                                  }),
+                              Container(
+                                  padding: EdgeInsets.only(top: 10),
+                                  child: DropdownButton(
+                                    onChanged: (String? value) {
+                                      this._permisosVM.tipoPermiso = value;
+                                      setStateSB(() {});
+                                      print(this._permisosVM.tipoPermiso);
+                                    },
+                                    value: this._permisosVM.tipoPermiso,
+                                    hint: Text("Tipo de Permiso"),
+                                    items: [
+                                      DropdownMenuItem<String>(
+                                        child: Text("Movimientos"),
+                                        value: "Movimientos",
+                                      ),
+                                      DropdownMenuItem<String>(
+                                        child: Text("Almacenes"),
+                                        value: "Almacenes",
+                                      ),
+                                      DropdownMenuItem<String>(
+                                        child: Text("Envios"),
+                                        value: "Envios",
+                                      ),
+                                    ],
+                                  ))
+                            ],
+                          ),
+                        ),
+                        actions: [
+                          TextButton(
+                              onPressed: this
+                                          ._permisosVM
+                                          .nombrePermiso
+                                          .isEmpty ||
+                                      this._permisosVM.tipoPermiso!.isEmpty
+                                  ? null
+                                  : () async {
+                                      this.loading = true;
+                                      Navigator.pop(contexto);
+                                      this
+                                          ._permisosVM
+                                          .addPermiso()
+                                          .then((value) async {
+                                        if (value == true) {
+                                          this._permisosVM.nombrePermiso = "";
+                                          this.loading = false;
+                                          setState(() {});
+
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(SnackBar(
+                                            content: Text(
+                                                "Permiso Agregado Correctamente"),
+                                            backgroundColor: Color.fromARGB(
+                                                255, 164, 22, 34),
+                                          ));
+                                        } else {
+                                          this.loading = false;
+                                          setState(() {});
+                                          await showDialog(
+                                              context: context,
+                                              builder:
+                                                  (BuildContext contextoError) {
+                                                return AlertDialog(
+                                                  title: Text(
+                                                    "Error",
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                  content: Text(
+                                                      "No se pudo agregar el permiso"),
+                                                  actions: [
+                                                    TextButton(
+                                                        onPressed: () {
+                                                          Navigator.pop(
+                                                              contextoError);
+                                                        },
+                                                        child: Text("Aceptar"))
+                                                  ],
+                                                );
+                                              });
+                                        }
+                                      });
+                                    },
+                              child: Text("Agregar")),
+                        ],
+                      ),
+                    );
+                  });
+            },
             child: Icon(
               Icons.add,
               color: Color.fromARGB(227, 248, 248, 202),
