@@ -26,6 +26,10 @@ class PermisosVM {
   }
 
   Future<bool> deletePermiso(String id) async {
-    return await _servicePermisos.eliminarPermiso(id);
+    bool eliminado = await _servicePermisos.eliminarPermiso(id);
+    if (eliminado) {
+      listaPermisos.removeWhere((element) => element.id == id);
+    }
+    return eliminado;
   }
 }

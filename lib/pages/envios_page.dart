@@ -35,19 +35,26 @@ class _Envios_PageState extends State<Envios_Page> {
       },
       child: Scaffold(
           appBar: AppBar(
-              title: Text(
-                'Envios',
-                style: TextStyle(color: Color.fromARGB(255, 248, 248, 202)),
-              ),
-              backgroundColor: Color.fromARGB(255, 164, 22, 34),
-              leading: IconButton(
-                color: Color.fromARGB(255, 248, 248, 202),
-                icon: Icon(Icons.arrow_back),
-                onPressed: () {
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => Main_Page()));
-                },
-              )),
+            title: Text(
+              'Envios',
+              style: TextStyle(color: Color.fromARGB(255, 248, 248, 202)),
+            ),
+            backgroundColor: Color.fromARGB(255, 164, 22, 34),
+            leading: IconButton(
+              color: Color.fromARGB(255, 248, 248, 202),
+              icon: Icon(Icons.arrow_back),
+              onPressed: () {
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => Main_Page()));
+              },
+            ),
+            actions: [
+              IconButton(
+                  color: Color.fromARGB(255, 248, 248, 202),
+                  onPressed: () {},
+                  icon: Icon(Icons.more_vert_outlined))
+            ],
+          ),
           body: _isLoading == true
               ? Container(
                   color: Colors.grey[200],

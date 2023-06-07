@@ -40,7 +40,7 @@ class ServiceMovimientos {
         Uri.parse(url),
         headers: _serviceLogin.getHeaders(),
       );
-
+      print(respuesta.body);
       if (respuesta.statusCode == 200) {
         var decoded = jsonDecode(respuesta.body);
 

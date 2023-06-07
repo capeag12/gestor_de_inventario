@@ -283,4 +283,33 @@ class ServiceLogin {
       return "Algo salio mal";
     }
   }
+
+  Future<Usuario?> realizarLoginPermiso(String tokenAcceso) async {
+    final String url = "$_baseURL/permisos/logPermiso";
+    try {
+      var respuesta = await http.post(
+        Uri.parse(url),
+        headers: getHeaders(),
+        body: jsonEncode({
+          "token": tokenAcceso,
+        }),
+      );
+      var decoded = jsonDecode(respuesta.body);
+
+      Usuario usuario = Usuario(
+          decoded['usuario']['_id'],
+          decoded['usuario']['nombre'],
+          decoded['usuario']['email'],
+          decoded['tipo']);
+
+      _token = decoded['token'];
+      await writeToken();
+      _usuario = usuario;
+
+      return _usuario;
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
 }
