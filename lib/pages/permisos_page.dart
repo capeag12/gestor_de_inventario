@@ -68,44 +68,47 @@ class _Permisos_PageState extends State<Permisos_Page> {
                     return StatefulBuilder(
                       builder: (context, setStateSB) => AlertDialog(
                         title: Text("Agregar Permiso"),
-                        content: SingleChildScrollView(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              TextField(
-                                  decoration: InputDecoration(
-                                      labelText: "Nombre del Permiso"),
-                                  onChanged: (value) {
-                                    this._permisosVM.nombrePermiso = value;
+                        content: Container(
+                          width: MediaQuery.of(context).size.width * 0.4,
+                          child: SingleChildScrollView(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                TextField(
+                                    decoration: InputDecoration(
+                                        labelText: "Nombre del Permiso"),
+                                    onChanged: (value) {
+                                      this._permisosVM.nombrePermiso = value;
 
-                                    setStateSB(() {});
-                                  }),
-                              Container(
-                                  padding: EdgeInsets.only(top: 10),
-                                  child: DropdownButton(
-                                    onChanged: (String? value) {
-                                      this._permisosVM.tipoPermiso = value;
                                       setStateSB(() {});
-                                      print(this._permisosVM.tipoPermiso);
-                                    },
-                                    value: this._permisosVM.tipoPermiso,
-                                    hint: Text("Tipo de Permiso"),
-                                    items: [
-                                      DropdownMenuItem<String>(
-                                        child: Text("Movimientos"),
-                                        value: "Movimientos",
-                                      ),
-                                      DropdownMenuItem<String>(
-                                        child: Text("Almacenes"),
-                                        value: "Almacenes",
-                                      ),
-                                      DropdownMenuItem<String>(
-                                        child: Text("Envios"),
-                                        value: "Envios",
-                                      ),
-                                    ],
-                                  ))
-                            ],
+                                    }),
+                                Container(
+                                    padding: EdgeInsets.only(top: 10),
+                                    child: DropdownButton(
+                                      onChanged: (String? value) {
+                                        this._permisosVM.tipoPermiso = value;
+                                        setStateSB(() {});
+                                        print(this._permisosVM.tipoPermiso);
+                                      },
+                                      value: this._permisosVM.tipoPermiso,
+                                      hint: Text("Tipo de Permiso"),
+                                      items: [
+                                        DropdownMenuItem<String>(
+                                          child: Text("Movimientos"),
+                                          value: "Movimientos",
+                                        ),
+                                        DropdownMenuItem<String>(
+                                          child: Text("Almacenes"),
+                                          value: "Almacenes",
+                                        ),
+                                        DropdownMenuItem<String>(
+                                          child: Text("Envios"),
+                                          value: "Envios",
+                                        ),
+                                      ],
+                                    ))
+                              ],
+                            ),
                           ),
                         ),
                         actions: [

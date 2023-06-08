@@ -29,43 +29,57 @@ class Menu_Lateral {
                       color: Color.fromARGB(227, 248, 248, 202)),
                 )),
           ),
-          ListTile(
-            hoverColor: Color.fromARGB(227, 248, 248, 202),
-            leading: Icon(Icons.person),
-            title: Text("Perfil"),
-            onTap: () {
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => User_page()));
-            },
-          ),
-          Divider(),
-          ListTile(
-            hoverColor: Color.fromARGB(227, 248, 248, 202),
-            leading: Icon(Icons.inventory),
-            title: Text("Movimientos"),
-            onTap: () {
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => Movimientos_Page()));
-            },
-          ),
-          ListTile(
-            hoverColor: Color.fromARGB(227, 248, 248, 202),
-            leading: Icon(Icons.local_shipping),
-            title: Text("Envios"),
-            onTap: () {
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => Envios_Page()));
-            },
-          ),
-          ListTile(
-            hoverColor: Color.fromARGB(227, 248, 248, 202),
-            leading: Icon(Icons.group),
-            title: Text("Permisos"),
-            onTap: () {
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => Permisos_Page()));
-            },
-          ),
+          _menuLateralVM.service.usuario!.tipo == "admin"
+              ? ListTile(
+                  hoverColor: Color.fromARGB(227, 248, 248, 202),
+                  leading: Icon(Icons.person),
+                  title: Text("Perfil"),
+                  onTap: () {
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) => User_page()));
+                  },
+                )
+              : Container(),
+          _menuLateralVM.service.usuario!.tipo == "admin"
+              ? Divider()
+              : Container(),
+          _menuLateralVM.service.usuario!.tipo == "admin"
+              ? ListTile(
+                  hoverColor: Color.fromARGB(227, 248, 248, 202),
+                  leading: Icon(Icons.inventory),
+                  title: Text("Movimientos"),
+                  onTap: () {
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Movimientos_Page()));
+                  },
+                )
+              : Container(),
+          _menuLateralVM.service.usuario!.tipo == "admin"
+              ? ListTile(
+                  hoverColor: Color.fromARGB(227, 248, 248, 202),
+                  leading: Icon(Icons.local_shipping),
+                  title: Text("Envios"),
+                  onTap: () {
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) => Envios_Page()));
+                  },
+                )
+              : Container(),
+          _menuLateralVM.service.usuario!.tipo == "admin"
+              ? ListTile(
+                  hoverColor: Color.fromARGB(227, 248, 248, 202),
+                  leading: Icon(Icons.group),
+                  title: Text("Permisos"),
+                  onTap: () {
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Permisos_Page()));
+                  },
+                )
+              : Container(),
           ListTile(
             hoverColor: Color.fromARGB(227, 248, 248, 202),
             leading: Icon(Icons.info),

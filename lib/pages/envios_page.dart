@@ -4,6 +4,7 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:gestor_de_inventario/Models/envio.dart';
 import 'package:gestor_de_inventario/VM/envios_pageVM.dart';
 import 'package:gestor_de_inventario/Widgets/envioWidget.dart';
+import 'package:gestor_de_inventario/Widgets/menuWidget.dart';
 import 'package:gestor_de_inventario/pages/main_page.dart';
 import 'package:responsive_grid/responsive_grid.dart';
 
@@ -40,20 +41,17 @@ class _Envios_PageState extends State<Envios_Page> {
               style: TextStyle(color: Color.fromARGB(255, 248, 248, 202)),
             ),
             backgroundColor: Color.fromARGB(255, 164, 22, 34),
-            leading: IconButton(
-              color: Color.fromARGB(255, 248, 248, 202),
-              icon: Icon(Icons.arrow_back),
-              onPressed: () {
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => Main_Page()));
-              },
-            ),
-            actions: [
-              IconButton(
-                  color: Color.fromARGB(255, 248, 248, 202),
-                  onPressed: () {},
-                  icon: Icon(Icons.more_vert_outlined))
-            ],
+            leading: _envios_pageVM.serviceLogin.usuario!.tipo == "admin"
+                ? IconButton(
+                    color: Color.fromARGB(255, 248, 248, 202),
+                    icon: Icon(Icons.arrow_back),
+                    onPressed: () {
+                      Navigator.pushReplacement(context,
+                          MaterialPageRoute(builder: (context) => Main_Page()));
+                    },
+                  )
+                : null,
+            actions: [MenuWidget.getPopUpMenuButton()],
           ),
           body: _isLoading == true
               ? Container(

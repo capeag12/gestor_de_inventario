@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gestor_de_inventario/VM/movimientoPageVM.dart';
+import 'package:gestor_de_inventario/Widgets/menuWidget.dart';
 import 'package:gestor_de_inventario/Widgets/movimientoWIdget.dart';
 import 'package:gestor_de_inventario/Widgets/permisoWidget.dart';
 import 'package:gestor_de_inventario/pages/main_page.dart';
@@ -40,13 +41,16 @@ class _Movimientos_PageState extends State<Movimientos_Page> {
             style: TextStyle(color: Color.fromARGB(227, 248, 248, 202)),
           ),
           backgroundColor: Color.fromARGB(255, 164, 22, 34),
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back,
-                color: Color.fromARGB(227, 248, 248, 202)),
-            onPressed: () {
-              _returnToMainPage();
-            },
-          ),
+          leading: _movimientoPageVM.serviceLogin.usuario!.tipo == "admin"
+              ? IconButton(
+                  icon: Icon(Icons.arrow_back,
+                      color: Color.fromARGB(227, 248, 248, 202)),
+                  onPressed: () {
+                    _returnToMainPage();
+                  },
+                )
+              : null,
+          actions: [MenuWidget.getPopUpMenuButton()],
         ),
         body: this._cargando == true
             ? Container(

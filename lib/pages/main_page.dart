@@ -53,11 +53,6 @@ class _Main_PageState extends State<Main_Page> {
     ServiceLogin service = ServiceLogin.getInstance();
     service.readTokenFromStorage().then((value) {
       service.loginWithToken().then((value) {
-        setState(() {
-          loading = false;
-          _mainPageVM.refrescarUsuario();
-          _mainPageVM.refrescarListaAlmacenes();
-        });
         if (value == null) {
           Navigator.pushReplacementNamed(context, "/login");
         } else {
@@ -75,6 +70,11 @@ class _Main_PageState extends State<Main_Page> {
                     builder: (context) => const Movimientos_Page()));
           }
         }
+        setState(() {
+          loading = false;
+          _mainPageVM.refrescarUsuario();
+          _mainPageVM.refrescarListaAlmacenes();
+        });
       }).catchError((e) {});
     }).catchError((err) {
       Navigator.pushReplacementNamed(context, "/login");
@@ -96,12 +96,12 @@ class _Main_PageState extends State<Main_Page> {
               backgroundColor: Color.fromARGB(255, 164, 22, 34),
             )
           : null,
-      drawer: loading
+      drawer: loading == true || _mainPageVM.service.usuario == null
           ? null
           : MediaQuery.of(context).size.width < 600
               ? Menu_Lateral.CrearMenuLateral(context)
               : null,
-      body: loading
+      body: loading == true
           ? Center(
               child: CircularProgressIndicator(),
             )
@@ -120,7 +120,9 @@ class _Main_PageState extends State<Main_Page> {
                               .toList(),
                         ))
               : Row(children: [
-                  Menu_Lateral.CrearMenuLateral(context),
+                  _mainPageVM.service.usuario == null
+                      ? Container()
+                      : Menu_Lateral.CrearMenuLateral(context),
                   Expanded(
                       child: _mainPageVM.listaAlmacenes.isEmpty == true
                           ? Center(

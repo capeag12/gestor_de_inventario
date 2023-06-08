@@ -1,9 +1,10 @@
 import 'package:gestor_de_inventario/Models/movimiento.dart';
+import 'package:gestor_de_inventario/Models/serviceLogin.dart';
 import 'package:gestor_de_inventario/Models/serviceMovimientos.dart';
 
 class MovimientoPageVM {
   ServiceMovimientos _serviceMovimientos = ServiceMovimientos.getInstance();
-
+  ServiceLogin serviceLogin = ServiceLogin.getInstance();
   MovimientoPageVM();
 
   Future<List<Movimiento>?> getMovimientos() async {

@@ -9,4 +9,6 @@ class MenuLateralVM {
     await _service.removeToken();
     await _service.logout();
   }
+
+  ServiceLogin get service => _service;
 }

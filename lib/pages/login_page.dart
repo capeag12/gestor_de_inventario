@@ -156,21 +156,29 @@ class _Login_PageState extends State<Login_Page> {
                                           builder: (contextModal, setStateSB) =>
                                               AlertDialog(
                                             title: Text('Login como socio'),
-                                            content: SingleChildScrollView(
-                                              child: Container(
-                                                child: TextFormField(
-                                                  initialValue: _loginVM.token,
-                                                  decoration:
-                                                      const InputDecoration(
-                                                    border:
-                                                        OutlineInputBorder(),
-                                                    labelText: "Token",
-                                                    hintText: 'Token',
+                                            content: Container(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.6,
+                                              child: SingleChildScrollView(
+                                                scrollDirection: Axis.vertical,
+                                                child: Container(
+                                                  child: TextFormField(
+                                                    initialValue:
+                                                        _loginVM.token,
+                                                    decoration:
+                                                        const InputDecoration(
+                                                      border:
+                                                          OutlineInputBorder(),
+                                                      labelText: "Token",
+                                                      hintText: 'Token',
+                                                    ),
+                                                    onChanged: (value) {
+                                                      _loginVM.token = value;
+                                                      setStateSB(() {});
+                                                    },
                                                   ),
-                                                  onChanged: (value) {
-                                                    _loginVM.token = value;
-                                                    setStateSB(() {});
-                                                  },
                                                 ),
                                               ),
                                             ),

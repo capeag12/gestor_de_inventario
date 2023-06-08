@@ -39,94 +39,97 @@ class _User_pageState extends State<User_page> {
         builder: (BuildContext context) => AlertDialog(
               title: Text('Cambiar contraseña',
                   style: TextStyle(fontWeight: FontWeight.bold)),
-              content: SingleChildScrollView(
-                child: Form(
-                  key: _formKey,
-                  child: ListBody(
-                    children: [
-                      Container(
-                        margin: EdgeInsets.only(top: 10),
-                        child: TextFormField(
-                          obscureText: true,
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            labelText: "Contraseña actual",
-                            hintText: 'Contraseña actual',
+              content: Container(
+                width: MediaQuery.of(context).size.width * 0.4,
+                child: SingleChildScrollView(
+                  child: Form(
+                    key: _formKey,
+                    child: ListBody(
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(top: 10),
+                          child: TextFormField(
+                            obscureText: true,
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: "Contraseña actual",
+                              hintText: 'Contraseña actual',
+                            ),
+                            onSaved: (value) {
+                              originalPasswd = value ?? "";
+                            },
+                            onChanged: (value) {
+                              originalPasswd = value ?? "";
+                            },
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return "El campo no puede estar vacio";
+                              } else {
+                                return null;
+                              }
+                            },
                           ),
-                          onSaved: (value) {
-                            originalPasswd = value ?? "";
-                          },
-                          onChanged: (value) {
-                            originalPasswd = value ?? "";
-                          },
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return "El campo no puede estar vacio";
-                            } else {
-                              return null;
-                            }
-                          },
                         ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(top: 10),
-                        child: TextFormField(
-                          obscureText: true,
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            labelText: "Nueva contraseña",
-                            hintText: 'Nueva contraseña',
-                          ),
-                          onSaved: (value) {
-                            newPasswd = value ?? "";
-                          },
-                          onChanged: (value) {
-                            newPasswd = value ?? "";
-                          },
-                          validator: (value) {
-                            if (value!.contains('password')) {
-                              return "No puede ser 'password'";
-                            }
+                        Container(
+                          margin: EdgeInsets.only(top: 10),
+                          child: TextFormField(
+                            obscureText: true,
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: "Nueva contraseña",
+                              hintText: 'Nueva contraseña',
+                            ),
+                            onSaved: (value) {
+                              newPasswd = value ?? "";
+                            },
+                            onChanged: (value) {
+                              newPasswd = value ?? "";
+                            },
+                            validator: (value) {
+                              if (value!.contains('password')) {
+                                return "No puede ser 'password'";
+                              }
 
-                            if (value.length < 6) {
-                              return "La contraseña debe tener al menos 6 caracteres";
-                            }
+                              if (value.length < 6) {
+                                return "La contraseña debe tener al menos 6 caracteres";
+                              }
 
-                            if (value == null || value.isEmpty) {
-                              return "El campo no puede estar vacio";
-                            } else {
-                              return null;
-                            }
-                          },
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(top: 10),
-                        child: TextFormField(
-                          obscureText: true,
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            labelText: "Repite la contraseña",
-                            hintText: 'Repite la contraseña',
+                              if (value == null || value.isEmpty) {
+                                return "El campo no puede estar vacio";
+                              } else {
+                                return null;
+                              }
+                            },
                           ),
-                          onSaved: (value) {
-                            repeatPasswd = value ?? "";
-                          },
-                          onChanged: (value) {
-                            repeatPasswd = value ?? "";
-                          },
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return "El campo no puede estar vacio";
-                            } else if (newPasswd != repeatPasswd) {
-                              return "Las contraseñas no coinciden";
-                            } else {
-                              return null;
-                            }
-                          },
                         ),
-                      )
-                    ],
+                        Container(
+                          margin: EdgeInsets.only(top: 10),
+                          child: TextFormField(
+                            obscureText: true,
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: "Repite la contraseña",
+                              hintText: 'Repite la contraseña',
+                            ),
+                            onSaved: (value) {
+                              repeatPasswd = value ?? "";
+                            },
+                            onChanged: (value) {
+                              repeatPasswd = value ?? "";
+                            },
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return "El campo no puede estar vacio";
+                              } else if (newPasswd != repeatPasswd) {
+                                return "Las contraseñas no coinciden";
+                              } else {
+                                return null;
+                              }
+                            },
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ),
