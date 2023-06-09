@@ -30,58 +30,61 @@ class DialogAddAlmacen {
         return AlertDialog(
           title: Text('Añadir Almacen',
               style: TextStyle(fontWeight: FontWeight.bold)),
-          content: SingleChildScrollView(
-            child: Form(
-              key: _formKey,
-              child: ListBody(
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(top: 10),
-                    child: TextFormField(
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: "Nombre del Almacen",
-                        hintText: 'Nombre del Almacen',
+          content: Container(
+            width: MediaQuery.of(context).size.width * 0.5,
+            child: SingleChildScrollView(
+              child: Form(
+                key: _formKey,
+                child: ListBody(
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(top: 10),
+                      child: TextFormField(
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: "Nombre del Almacen",
+                          hintText: 'Nombre del Almacen',
+                        ),
+                        onSaved: (value) {
+                          _addAlmacenVM.nombreAlmacen = value ?? "";
+                        },
+                        onChanged: (value) {
+                          _addAlmacenVM.nombreAlmacen = value ?? "";
+                        },
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "El campo no puede estar vacio";
+                          } else {
+                            return null;
+                          }
+                        },
                       ),
-                      onSaved: (value) {
-                        _addAlmacenVM.nombreAlmacen = value ?? "";
-                      },
-                      onChanged: (value) {
-                        _addAlmacenVM.nombreAlmacen = value ?? "";
-                      },
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return "El campo no puede estar vacio";
-                        } else {
-                          return null;
-                        }
-                      },
                     ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 10),
-                    child: TextFormField(
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: "Dirección del Almacen",
-                        hintText: 'Dirección del Almacen',
+                    Container(
+                      margin: EdgeInsets.only(top: 10),
+                      child: TextFormField(
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: "Dirección del Almacen",
+                          hintText: 'Dirección del Almacen',
+                        ),
+                        onSaved: (value) {
+                          _addAlmacenVM.direccionAlmacen = value ?? "";
+                        },
+                        onChanged: (value) {
+                          _addAlmacenVM.direccionAlmacen = value ?? "";
+                        },
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "El campo no puede estar vacio";
+                          } else {
+                            return null;
+                          }
+                        },
                       ),
-                      onSaved: (value) {
-                        _addAlmacenVM.direccionAlmacen = value ?? "";
-                      },
-                      onChanged: (value) {
-                        _addAlmacenVM.direccionAlmacen = value ?? "";
-                      },
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return "El campo no puede estar vacio";
-                        } else {
-                          return null;
-                        }
-                      },
-                    ),
-                  )
-                ],
+                    )
+                  ],
+                ),
               ),
             ),
           ),

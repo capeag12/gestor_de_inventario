@@ -39,83 +39,97 @@ class _User_pageState extends State<User_page> {
         builder: (BuildContext context) => AlertDialog(
               title: Text('Cambiar contraseña',
                   style: TextStyle(fontWeight: FontWeight.bold)),
-              content: SingleChildScrollView(
-                child: Form(
-                  key: _formKey,
-                  child: ListBody(
-                    children: [
-                      Container(
-                        margin: EdgeInsets.only(top: 10),
-                        child: TextFormField(
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            labelText: "Contraseña actual",
-                            hintText: 'Contraseña actual',
+              content: Container(
+                width: MediaQuery.of(context).size.width * 0.4,
+                child: SingleChildScrollView(
+                  child: Form(
+                    key: _formKey,
+                    child: ListBody(
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(top: 10),
+                          child: TextFormField(
+                            obscureText: true,
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: "Contraseña actual",
+                              hintText: 'Contraseña actual',
+                            ),
+                            onSaved: (value) {
+                              originalPasswd = value ?? "";
+                            },
+                            onChanged: (value) {
+                              originalPasswd = value ?? "";
+                            },
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return "El campo no puede estar vacio";
+                              } else {
+                                return null;
+                              }
+                            },
                           ),
-                          onSaved: (value) {
-                            originalPasswd = value ?? "";
-                          },
-                          onChanged: (value) {
-                            originalPasswd = value ?? "";
-                          },
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return "El campo no puede estar vacio";
-                            } else {
-                              return null;
-                            }
-                          },
                         ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(top: 10),
-                        child: TextFormField(
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            labelText: "Nueva contraseña",
-                            hintText: 'Nueva contraseña',
+                        Container(
+                          margin: EdgeInsets.only(top: 10),
+                          child: TextFormField(
+                            obscureText: true,
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: "Nueva contraseña",
+                              hintText: 'Nueva contraseña',
+                            ),
+                            onSaved: (value) {
+                              newPasswd = value ?? "";
+                            },
+                            onChanged: (value) {
+                              newPasswd = value ?? "";
+                            },
+                            validator: (value) {
+                              if (value!.contains('password')) {
+                                return "No puede ser 'password'";
+                              }
+
+                              if (value.length < 6) {
+                                return "La contraseña debe tener al menos 6 caracteres";
+                              }
+
+                              if (value == null || value.isEmpty) {
+                                return "El campo no puede estar vacio";
+                              } else {
+                                return null;
+                              }
+                            },
                           ),
-                          onSaved: (value) {
-                            newPasswd = value ?? "";
-                          },
-                          onChanged: (value) {
-                            newPasswd = value ?? "";
-                          },
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return "El campo no puede estar vacio";
-                            } else {
-                              return null;
-                            }
-                          },
                         ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(top: 10),
-                        child: TextFormField(
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            labelText: "Repite la contraseña",
-                            hintText: 'Repite la contraseña',
+                        Container(
+                          margin: EdgeInsets.only(top: 10),
+                          child: TextFormField(
+                            obscureText: true,
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: "Repite la contraseña",
+                              hintText: 'Repite la contraseña',
+                            ),
+                            onSaved: (value) {
+                              repeatPasswd = value ?? "";
+                            },
+                            onChanged: (value) {
+                              repeatPasswd = value ?? "";
+                            },
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return "El campo no puede estar vacio";
+                              } else if (newPasswd != repeatPasswd) {
+                                return "Las contraseñas no coinciden";
+                              } else {
+                                return null;
+                              }
+                            },
                           ),
-                          onSaved: (value) {
-                            repeatPasswd = value ?? "";
-                          },
-                          onChanged: (value) {
-                            repeatPasswd = value ?? "";
-                          },
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return "El campo no puede estar vacio";
-                            } else if (newPasswd != repeatPasswd) {
-                              return "Las contraseñas no coinciden";
-                            } else {
-                              return null;
-                            }
-                          },
-                        ),
-                      )
-                    ],
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -124,6 +138,35 @@ class _User_pageState extends State<User_page> {
                   child: Text('Añadir'),
                   onPressed: () async {
                     _formKey.currentState!.save();
+                    bool valida = _formKey.currentState!.validate();
+                    if (valida == true) {
+                      String texto = await _userPageVM.changePassword(
+                          originalPasswd, newPasswd);
+                      Navigator.pop(context);
+                      await showDialog(
+                          barrierDismissible: false,
+                          context: context,
+                          builder: (BuildContext context) => AlertDialog(
+                                title: Text('Alerta'),
+                                content: Container(
+                                  child: Text(texto),
+                                ),
+                                actions: [
+                                  TextButton(
+                                      onPressed: () async {
+                                        Navigator.pop(context);
+                                        bool existe = await _userPageVM
+                                            .serviceLogin
+                                            .checkIfTokenExists();
+                                        if (existe == true) {
+                                          Navigator.pushReplacementNamed(
+                                              context, "/login");
+                                        }
+                                      },
+                                      child: Text('Ok'))
+                                ],
+                              ));
+                    }
                   },
                 ),
               ],
@@ -325,7 +368,14 @@ class _User_pageState extends State<User_page> {
                                         .listaAlmacenes.isEmpty
                                     ? [
                                         Center(
-                                          child: Text('No hay almacenses'),
+                                          child: Container(
+                                            margin: EdgeInsets.only(top: 10),
+                                            child: Text('No hay almacenes',
+                                                style: TextStyle(
+                                                    fontSize: 25,
+                                                    color: Color.fromARGB(
+                                                        255, 248, 248, 202))),
+                                          ),
                                         ),
                                       ]
                                     : _userPageVM.serviceLogin.usuario!
@@ -462,7 +512,14 @@ class _User_pageState extends State<User_page> {
                                         .listaAlmacenes.isEmpty
                                     ? [
                                         Center(
-                                          child: Text('No hay almacenses'),
+                                          child: Container(
+                                            margin: EdgeInsets.only(top: 10),
+                                            child: Text('No hay almacenes',
+                                                style: TextStyle(
+                                                    fontSize: 25,
+                                                    color: Color.fromARGB(
+                                                        255, 248, 248, 202))),
+                                          ),
                                         ),
                                       ]
                                     : _userPageVM.serviceLogin.usuario!

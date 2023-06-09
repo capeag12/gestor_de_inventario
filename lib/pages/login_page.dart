@@ -3,10 +3,13 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:gestor_de_inventario/Models/usuario.dart';
 import 'package:gestor_de_inventario/VM/loginVM.dart';
 import 'package:gestor_de_inventario/VM/registrarmeVM.dart';
 import 'package:gestor_de_inventario/pages/dialogRegistrarme.dart';
+import 'package:gestor_de_inventario/pages/envios_page.dart';
 import 'package:gestor_de_inventario/pages/main_page.dart';
+import 'package:gestor_de_inventario/pages/movimientos_page.dart';
 
 class Login_Page extends StatefulWidget {
   const Login_Page({super.key});
@@ -137,6 +140,117 @@ class _Login_PageState extends State<Login_Page> {
                               },
                               child: Text("Registrate"),
                             ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        child: Row(
+                          children: [
+                            Text("Login con token de socio:"),
+                            TextButton(
+                                onPressed: () async {
+                                  await showDialog(
+                                      context: context,
+                                      builder: (BuildContext contextDialog) {
+                                        return StatefulBuilder(
+                                          builder: (contextModal, setStateSB) =>
+                                              AlertDialog(
+                                            title: Text('Login como socio'),
+                                            content: Container(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.6,
+                                              child: SingleChildScrollView(
+                                                scrollDirection: Axis.vertical,
+                                                child: Container(
+                                                  child: TextFormField(
+                                                    initialValue:
+                                                        _loginVM.token,
+                                                    decoration:
+                                                        const InputDecoration(
+                                                      border:
+                                                          OutlineInputBorder(),
+                                                      labelText: "Token",
+                                                      hintText: 'Token',
+                                                    ),
+                                                    onChanged: (value) {
+                                                      _loginVM.token = value;
+                                                      setStateSB(() {});
+                                                    },
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            actions: [
+                                              TextButton(
+                                                  onPressed: _loginVM.token !=
+                                                          ""
+                                                      ? () async {
+                                                          Navigator.pop(
+                                                              contextDialog);
+                                                          bool iniciarSesion =
+                                                              await this
+                                                                  ._loginVM
+                                                                  .loginPermiso();
+                                                          if (iniciarSesion) {
+                                                            Usuario? u =
+                                                                _loginVM.service
+                                                                    .usuario;
+
+                                                            if (u!.tipo ==
+                                                                    "admin" ||
+                                                                u.tipo ==
+                                                                    "Almacenes") {
+                                                              Navigator
+                                                                  .pushReplacement(
+                                                                context,
+                                                                MaterialPageRoute(
+                                                                    builder:
+                                                                        (context) =>
+                                                                            const Main_Page()),
+                                                              );
+                                                            } else if (u.tipo ==
+                                                                "Envios") {
+                                                              Navigator
+                                                                  .pushReplacement(
+                                                                context,
+                                                                MaterialPageRoute(
+                                                                    builder:
+                                                                        (context) =>
+                                                                            const Envios_Page()),
+                                                              );
+                                                            } else if (u.tipo ==
+                                                                "Movimientos") {
+                                                              Navigator.pushReplacement(
+                                                                  context,
+                                                                  MaterialPageRoute(
+                                                                      builder:
+                                                                          (context) =>
+                                                                              const Movimientos_Page()));
+                                                            }
+                                                          } else {
+                                                            _dialogError();
+                                                          }
+
+                                                          this._loginVM.token =
+                                                              "";
+                                                        }
+                                                      : null,
+                                                  child: Text(
+                                                    "Logearme",
+                                                  )),
+                                            ],
+                                          ),
+                                        );
+                                      });
+                                },
+                                style: ButtonStyle(
+                                  foregroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          Color.fromARGB(255, 131, 33, 97)),
+                                ),
+                                child: Text("Login"))
                           ],
                         ),
                       ),

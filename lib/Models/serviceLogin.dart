@@ -13,7 +13,7 @@ class ServiceLogin {
   Usuario? _usuario;
   static ServiceLogin? _service;
   final String _baseURL =
-      "http://10.0.2.2:3000"; //cambiar a "http://10.0.2.2:3000" para probar en el emulador, cambiar a "http://localhost:3000" para probar en el ordenador
+      "http://localhost:3000"; //cambiar a "http://10.0.2.2:3000" para probar en el emulador, cambiar a "http://localhost:3000" para probar en el ordenador
   String _token = "";
 
   _Service() {
@@ -42,8 +42,11 @@ class ServiceLogin {
       );
       var decoded = jsonDecode(respuesta.body);
 
-      Usuario usuario = Usuario(decoded['usuario']['_id'],
-          decoded['usuario']['nombre'], decoded['usuario']['email']);
+      Usuario usuario = Usuario(
+          decoded['usuario']['_id'],
+          decoded['usuario']['nombre'],
+          decoded['usuario']['email'],
+          decoded['tipo']);
 
       _token = decoded['token'];
       await writeToken();
@@ -63,8 +66,11 @@ class ServiceLogin {
 
       var decoded = jsonDecode(respuesta.body);
 
-      Usuario usuario = Usuario(decoded['usuario']['_id'],
-          decoded['usuario']['nombre'], decoded['usuario']['email']);
+      Usuario usuario = Usuario(
+          decoded['usuario']['_id'],
+          decoded['usuario']['nombre'],
+          decoded['usuario']['email'],
+          decoded['tipo']);
       for (var element in decoded['almacenes']) {
         Almacen almacen =
             Almacen(element['_id'], element['nombre'], element['direccion']);
@@ -105,6 +111,21 @@ class ServiceLogin {
     } catch (e) {
       print(e);
       return "";
+    }
+  }
+
+  Future<bool> checkIfTokenExists() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      _token = prefs.getString('token') ?? "";
+      if (_token == "") {
+        return false;
+      } else {
+        return true;
+      }
+    } catch (e) {
+      print(e);
+      return false;
     }
   }
 
@@ -222,13 +243,69 @@ class ServiceLogin {
       );
       var decoded = jsonDecode(respuesta.body);
 
-      Usuario usuario = Usuario(decoded['usuario']['_id'],
-          decoded['usuario']['nombre'], decoded['usuario']['email']);
+      Usuario usuario = Usuario(
+          decoded['usuario']['_id'],
+          decoded['usuario']['nombre'],
+          decoded['usuario']['email'],
+          decoded['tipo']);
 
       _token = decoded['token'];
       await writeToken();
       _usuario = usuario;
       print(_usuario);
+      return _usuario;
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+  Future<String> changePassword(String oldPsswd, String newPsswd) async {
+    final String url = "$_baseURL/usuarios/me/changePassword";
+    try {
+      var respuesta = await http.patch(
+        Uri.parse(url),
+        headers: getHeaders(),
+        body: jsonEncode({
+          "oldPassword": oldPsswd,
+          "newPassword": newPsswd,
+        }),
+      );
+      var decoded = jsonDecode(respuesta.body);
+      print(respuesta.statusCode);
+      if (respuesta.statusCode == 200) {
+        return decoded['msg'];
+      } else {
+        return decoded['error'];
+      }
+    } catch (e) {
+      print(e);
+      return "Algo salio mal";
+    }
+  }
+
+  Future<Usuario?> realizarLoginPermiso(String tokenAcceso) async {
+    final String url = "$_baseURL/permisos/logPermiso";
+    try {
+      var respuesta = await http.post(
+        Uri.parse(url),
+        headers: getHeaders(),
+        body: jsonEncode({
+          "token": tokenAcceso,
+        }),
+      );
+      var decoded = jsonDecode(respuesta.body);
+
+      Usuario usuario = Usuario(
+          decoded['usuario']['_id'],
+          decoded['usuario']['nombre'],
+          decoded['usuario']['email'],
+          decoded['tipo']);
+
+      _token = decoded['token'];
+      await writeToken();
+      _usuario = usuario;
+
       return _usuario;
     } catch (e) {
       print(e);

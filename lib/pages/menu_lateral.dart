@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gestor_de_inventario/Models/serviceLogin.dart';
 import 'package:gestor_de_inventario/Models/usuario.dart';
 import 'package:gestor_de_inventario/VM/menu_lateralVM.dart';
+import 'package:gestor_de_inventario/pages/envios_page.dart';
 import 'package:gestor_de_inventario/pages/login_page.dart';
 import 'package:gestor_de_inventario/pages/movimientos_page.dart';
 import 'package:gestor_de_inventario/pages/permisos_page.dart';
@@ -28,36 +29,60 @@ class Menu_Lateral {
                       color: Color.fromARGB(227, 248, 248, 202)),
                 )),
           ),
+          _menuLateralVM.service.usuario!.tipo == "admin"
+              ? ListTile(
+                  hoverColor: Color.fromARGB(227, 248, 248, 202),
+                  leading: Icon(Icons.person),
+                  title: Text("Perfil"),
+                  onTap: () {
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) => User_page()));
+                  },
+                )
+              : Container(),
+          _menuLateralVM.service.usuario!.tipo == "admin"
+              ? Divider()
+              : Container(),
+          _menuLateralVM.service.usuario!.tipo == "admin"
+              ? ListTile(
+                  hoverColor: Color.fromARGB(227, 248, 248, 202),
+                  leading: Icon(Icons.inventory),
+                  title: Text("Movimientos"),
+                  onTap: () {
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Movimientos_Page()));
+                  },
+                )
+              : Container(),
+          _menuLateralVM.service.usuario!.tipo == "admin"
+              ? ListTile(
+                  hoverColor: Color.fromARGB(227, 248, 248, 202),
+                  leading: Icon(Icons.local_shipping),
+                  title: Text("Envios"),
+                  onTap: () {
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) => Envios_Page()));
+                  },
+                )
+              : Container(),
+          _menuLateralVM.service.usuario!.tipo == "admin"
+              ? ListTile(
+                  hoverColor: Color.fromARGB(227, 248, 248, 202),
+                  leading: Icon(Icons.group),
+                  title: Text("Permisos"),
+                  onTap: () {
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Permisos_Page()));
+                  },
+                )
+              : Container(),
           ListTile(
             hoverColor: Color.fromARGB(227, 248, 248, 202),
-            leading: Icon(Icons.person),
-            title: Text("Perfil"),
-            onTap: () {
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => User_page()));
-            },
-          ),
-          ListTile(
-            hoverColor: Color.fromARGB(227, 248, 248, 202),
-            leading: Icon(Icons.inventory_outlined),
-            title: Text("Movimientos"),
-            onTap: () {
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => Movimientos_Page()));
-            },
-          ),
-          ListTile(
-            hoverColor: Color.fromARGB(227, 248, 248, 202),
-            leading: Icon(Icons.group),
-            title: Text("Permisos"),
-            onTap: () {
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => Permisos_Page()));
-            },
-          ),
-          ListTile(
-            hoverColor: Color.fromARGB(227, 248, 248, 202),
-            leading: Icon(Icons.info_outline),
+            leading: Icon(Icons.info),
             title: Text("Acerca de"),
             onTap: () {},
           ),

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:gestor_de_inventario/pages/login_page.dart';
 import 'package:gestor_de_inventario/pages/main_page.dart';
+import 'package:responsive_grid/responsive_grid.dart';
 import 'package:window_manager/window_manager.dart';
 
 void main() async {

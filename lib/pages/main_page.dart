@@ -3,10 +3,13 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:gestor_de_inventario/Models/almacen.dart';
 import 'package:gestor_de_inventario/Models/serviceLogin.dart';
+import 'package:gestor_de_inventario/Models/usuario.dart';
 import 'package:gestor_de_inventario/VM/mainPageVM.dart';
 import 'package:gestor_de_inventario/Widgets/almacenWidget.dart';
 import 'package:gestor_de_inventario/pages/dialogAddAlmacen.dart';
+import 'package:gestor_de_inventario/pages/envios_page.dart';
 import 'package:gestor_de_inventario/pages/menu_lateral.dart';
+import 'package:gestor_de_inventario/pages/movimientos_page.dart';
 
 class Main_Page extends StatefulWidget {
   const Main_Page({super.key});
@@ -52,7 +55,21 @@ class _Main_PageState extends State<Main_Page> {
       service.loginWithToken().then((value) {
         if (value == null) {
           Navigator.pushReplacementNamed(context, "/login");
-        } else {}
+        } else {
+          Usuario? u = _mainPageVM.service.usuario;
+          if (u!.tipo == "admin" || u.tipo == "Almacenes") {
+          } else if (u.tipo == "Envios") {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const Envios_Page()),
+            );
+          } else if (u.tipo == "Movimientos") {
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const Movimientos_Page()));
+          }
+        }
         setState(() {
           loading = false;
           _mainPageVM.refrescarUsuario();
@@ -79,17 +96,18 @@ class _Main_PageState extends State<Main_Page> {
               backgroundColor: Color.fromARGB(255, 164, 22, 34),
             )
           : null,
-      drawer: loading
+      drawer: loading == true || _mainPageVM.service.usuario == null
           ? null
           : MediaQuery.of(context).size.width < 600
               ? Menu_Lateral.CrearMenuLateral(context)
               : null,
-      body: loading
+      body: loading == true
           ? Center(
               child: CircularProgressIndicator(),
             )
           : MediaQuery.of(context).size.width < 600
               ? Container(
+                  color: Colors.grey[200],
                   padding: EdgeInsets.only(left: 15, right: 15),
                   child: _mainPageVM.listaAlmacenes.isEmpty == true
                       ? Center(
@@ -102,7 +120,9 @@ class _Main_PageState extends State<Main_Page> {
                               .toList(),
                         ))
               : Row(children: [
-                  Menu_Lateral.CrearMenuLateral(context),
+                  _mainPageVM.service.usuario == null
+                      ? Container()
+                      : Menu_Lateral.CrearMenuLateral(context),
                   Expanded(
                       child: _mainPageVM.listaAlmacenes.isEmpty == true
                           ? Center(

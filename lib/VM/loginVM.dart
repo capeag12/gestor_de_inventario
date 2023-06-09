@@ -7,6 +7,8 @@ class LoginVM {
   late String email;
   late String password;
 
+  String token = "";
+
   LoginVM() {
     _service = ServiceLogin.getInstance();
   }
@@ -20,4 +22,16 @@ class LoginVM {
       return false;
     }
   }
+
+  Future<bool> loginPermiso() async {
+    Usuario? u = await _service.realizarLoginPermiso(token);
+
+    if (u != null) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  ServiceLogin get service => _service;
 }
