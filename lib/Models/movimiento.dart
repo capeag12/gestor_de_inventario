@@ -6,7 +6,7 @@ import 'package:gestor_de_inventario/Models/itemMovimiento.dart';
 class Movimiento {
   late String _id;
   late String? _almacenOrigen;
-  late String _almacenDestino;
+  late String? _almacenDestino;
   late String _tipo;
   late DateTime _fechaCreacion;
   late List<ItemMovimiento> _items;
@@ -16,7 +16,7 @@ class Movimiento {
 
   String get id => _id;
   String? get almacenOrigen => _almacenOrigen;
-  String get almacenDestino => _almacenDestino;
+  String? get almacenDestino => _almacenDestino;
   String get tipo => _tipo;
   DateTime get fechaCreacion => _fechaCreacion;
   List<ItemMovimiento> get items => _items;

@@ -52,7 +52,7 @@ class ServiceMovimientos {
             almacenOrigen = movimiento['almacenOrigen'];
           }
 
-          String almacenDestino = movimiento['almacenDestino'];
+          String? almacenDestino = movimiento['almacenDestino'];
           List<ItemMovimiento> items = [];
           for (var item in movimiento['items']) {
             print(item);

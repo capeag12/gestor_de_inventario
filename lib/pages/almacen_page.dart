@@ -179,10 +179,20 @@ class _Almacen_PageState extends State<Almacen_Page> {
                                                                                   ),
                                                                                 ),
                                                                                 Row(
-                                                                                  mainAxisAlignment: MainAxisAlignment.end,
+                                                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                                                   children: [
                                                                                     Container(
                                                                                       padding: EdgeInsets.only(top: 10, bottom: 10, right: 10),
+                                                                                      child: TextButton(
+                                                                                          onPressed: () {
+                                                                                            registrarMovimiento(Almacen("", "", ""), context);
+                                                                                          },
+                                                                                          child: Text(
+                                                                                            "Eliminar restados",
+                                                                                          )),
+                                                                                    ),
+                                                                                    Container(
+                                                                                      padding: EdgeInsets.only(top: 10, bottom: 10, left: 10),
                                                                                       child: TextButton(
                                                                                           onPressed: () {
                                                                                             Navigator.pop(context);
@@ -191,7 +201,7 @@ class _Almacen_PageState extends State<Almacen_Page> {
                                                                                             "Cerrar",
                                                                                             style: TextStyle(color: Color.fromARGB(255, 255, 64, 64)),
                                                                                           )),
-                                                                                    )
+                                                                                    ),
                                                                                   ],
                                                                                 ),
                                                                               ],

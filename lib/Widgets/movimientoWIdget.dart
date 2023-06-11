@@ -69,7 +69,7 @@ class Movimiento_Widget extends StatelessWidget {
                                             CrossAxisAlignment.end,
                                         children: [
                                           Text(
-                                              '${_movimiento.almacenDestino ?? "Added from outside"}',
+                                              '${_movimiento.almacenDestino ?? "Eliminados"}',
                                               overflow: TextOverflow.ellipsis,
                                               maxLines: 2,
                                               style: TextStyle(
@@ -99,7 +99,7 @@ class Movimiento_Widget extends StatelessWidget {
                                     child: Column(
                                       children: [
                                         Text(
-                                          '${_movimiento.valorTotal} €',
+                                          '${_movimiento.valorTotal.toStringAsFixed(2)} €',
                                           style: TextStyle(
                                               fontWeight: FontWeight.bold),
                                         ),
@@ -226,7 +226,8 @@ class Movimiento_Widget extends StatelessWidget {
                         children: [
                           Container(
                             alignment: Alignment.centerRight,
-                            child: Text('${_movimiento.almacenDestino}',
+                            child: Text(
+                                _movimiento.almacenDestino ?? "Eliminado",
                                 style: TextStyle(
                                     fontSize: 15, fontWeight: FontWeight.bold),
                                 textAlign: TextAlign.end,
@@ -236,7 +237,7 @@ class Movimiento_Widget extends StatelessWidget {
                           Container(
                             alignment: Alignment.centerRight,
                             child: Text(
-                              'Valor total: ${_movimiento.valorTotal} €',
+                              'Valor total: ${_movimiento.valorTotal.toStringAsFixed(2)} €',
                               textAlign: TextAlign.end,
                               overflow: TextOverflow.ellipsis,
                               maxLines: 2,

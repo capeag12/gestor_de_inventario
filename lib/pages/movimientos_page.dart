@@ -50,7 +50,10 @@ class _Movimientos_PageState extends State<Movimientos_Page> {
                   },
                 )
               : null,
-          actions: [MenuWidget.getPopUpMenuButton()],
+          actions: [
+            if (_movimientoPageVM.serviceLogin.usuario!.tipo != "admin")
+              MenuWidget.getPopUpMenuButton()
+          ],
         ),
         body: this._cargando == true
             ? Container(

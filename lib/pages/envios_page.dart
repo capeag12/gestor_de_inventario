@@ -51,7 +51,10 @@ class _Envios_PageState extends State<Envios_Page> {
                     },
                   )
                 : null,
-            actions: [MenuWidget.getPopUpMenuButton()],
+            actions: [
+              if (_envios_pageVM.serviceLogin.usuario!.tipo != "admin")
+                MenuWidget.getPopUpMenuButton()
+            ],
           ),
           body: _isLoading == true
               ? Container(
