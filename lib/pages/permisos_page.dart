@@ -26,6 +26,14 @@ class _Permisos_PageState extends State<Permisos_Page> {
     _permisosVM.getPermisos().then((value) => {setState(() {})});
   }
 
+  Future<bool> eliminarPermiso(String id) async {
+    bool eliminado = await _permisosVM.deletePermiso(id);
+    if (eliminado == true) {
+      setState(() {});
+    }
+    return eliminado;
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -51,16 +59,21 @@ class _Permisos_PageState extends State<Permisos_Page> {
           body: Container(
               color: Colors.grey[200],
               padding: EdgeInsets.only(left: 15, right: 15),
-              child: loading == false
-                  ? ListView(
-                      children: _permisosVM.listaPermisos
-                          .map((e) =>
-                              PermisoWidget(e, _permisosVM.deletePermiso))
-                          .toList())
+              child: (loading == false)
+                  ? _permisosVM.listaPermisos.isEmpty == true
+                      ? Center(
+                          child: Text("No hay permisos",
+                              style: TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.bold)),
+                        )
+                      : ListView(
+                          children: _permisosVM.listaPermisos
+                              .map((e) => PermisoWidget(e, eliminarPermiso))
+                              .toList())
                   : Center(
                       child: CircularProgressIndicator(),
                     )),
-          floatingActionButton: FloatingActionButton(
+          floatingActionButton: FloatingActionButton.small(
             onPressed: () async {
               await showDialog(
                   context: context,
@@ -121,7 +134,7 @@ class _Permisos_PageState extends State<Permisos_Page> {
                                   ? null
                                   : () async {
                                       this.loading = true;
-                                      Navigator.pop(contexto);
+
                                       this
                                           ._permisosVM
                                           .addPermiso()
@@ -158,7 +171,7 @@ class _Permisos_PageState extends State<Permisos_Page> {
                                                     TextButton(
                                                         onPressed: () {
                                                           Navigator.pop(
-                                                              contextoError);
+                                                              context);
                                                         },
                                                         child: Text("Aceptar"))
                                                   ],
@@ -166,6 +179,7 @@ class _Permisos_PageState extends State<Permisos_Page> {
                                               });
                                         }
                                       });
+                                      Navigator.pop(context);
                                     },
                               child: Text("Agregar")),
                         ],

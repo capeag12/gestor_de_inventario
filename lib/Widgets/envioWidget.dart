@@ -221,7 +221,7 @@ class _Envio_WidgetState extends State<EnvioWidget> {
                                           color: Colors.grey,
                                         )),
                                     subtitle: StepperText(
-                                        "El envio está en camino de la ubicación de destino"),
+                                        "El envio ha sido entregado en la ubicación de destino"),
                                     iconWidget: Container(
                                       padding: const EdgeInsets.all(8),
                                       decoration: BoxDecoration(

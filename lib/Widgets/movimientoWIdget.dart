@@ -53,7 +53,7 @@ class Movimiento_Widget extends StatelessWidget {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                              '${_movimiento.almacenOrigen ?? "Added from outside"}',
+                                              '${_movimiento.almacenOrigen ?? "Añadido desde exterior"}',
                                               style: TextStyle(
                                                   fontWeight: FontWeight.bold),
                                               overflow: TextOverflow.ellipsis,
@@ -194,7 +194,7 @@ class Movimiento_Widget extends StatelessWidget {
                         children: [
                           Container(
                             child: Text(
-                                '${_movimiento.almacenOrigen ?? "Added from outside"}',
+                                '${_movimiento.almacenOrigen ?? "Añadido desde exterior"}',
                                 style: TextStyle(
                                     fontSize: 15, fontWeight: FontWeight.bold),
                                 textAlign: TextAlign.start,

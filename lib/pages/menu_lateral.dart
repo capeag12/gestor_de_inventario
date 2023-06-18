@@ -7,6 +7,7 @@ import 'package:gestor_de_inventario/pages/login_page.dart';
 import 'package:gestor_de_inventario/pages/movimientos_page.dart';
 import 'package:gestor_de_inventario/pages/permisos_page.dart';
 import 'package:gestor_de_inventario/pages/user_page.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Menu_Lateral {
   Menu_Lateral();
@@ -84,7 +85,44 @@ class Menu_Lateral {
             hoverColor: Color.fromARGB(227, 248, 248, 202),
             leading: Icon(Icons.info),
             title: Text("Acerca de"),
-            onTap: () {},
+            onTap: () async {
+              await showDialog(
+                  context: context,
+                  builder: (BuildContext builder) => AlertDialog(
+                        title: Text("Acerca de"),
+                        content: Container(
+                          width: MediaQuery.of(context).size.width * 0.5,
+                          child: SingleChildScrollView(
+                            child: Column(children: [
+                              Row(
+                                children: [
+                                  Text("Documentación de usuario:"),
+                                  TextButton(
+                                      onPressed: () async {
+                                        final Uri url = Uri.parse(
+                                            'https://documenter.getpostman.com/view/24736333/2s93sc5YQJ');
+                                        await launchUrl(url);
+                                      },
+                                      child: Text("Abrir"))
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Text("Documentación de la API:"),
+                                  TextButton(
+                                      onPressed: () async {
+                                        final Uri url = Uri.parse(
+                                            'https://documenter.getpostman.com/view/24736333/2s93sc5YQJ');
+                                        await launchUrl(url);
+                                      },
+                                      child: Text("Abrir"))
+                                ],
+                              )
+                            ]),
+                          ),
+                        ),
+                      ));
+            },
           ),
           Divider(),
           ListTile(

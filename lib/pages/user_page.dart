@@ -192,7 +192,7 @@ class _User_pageState extends State<User_page> {
         ),
         actions: [
           Tooltip(
-            message: 'Log out from all sessions',
+            message: 'Cerrar todas la sesiones',
             child: IconButton(
                 onPressed: () async {
                   bool cerrado = await _userPageVM.logoutAll();
@@ -221,7 +221,7 @@ class _User_pageState extends State<User_page> {
           ),
           _userPageVM.changedImg == true
               ? Tooltip(
-                  message: 'Change avatar image',
+                  message: 'Cambiar avatar',
                   child: IconButton(
                       color: Color.fromARGB(255, 248, 248, 202),
                       onPressed: () {
@@ -263,6 +263,7 @@ class _User_pageState extends State<User_page> {
         ],
       ),
       body: Container(
+        color: Colors.grey[200],
         padding: EdgeInsets.only(top: 10),
         child: MediaQuery.of(context).size.width < 600
             ? Column(

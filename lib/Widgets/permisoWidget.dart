@@ -57,8 +57,11 @@ class _PermisoWidgetState extends State<PermisoWidget> {
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 20)),
-                                  Text(permiso.nombre,
-                                      style: TextStyle(fontSize: 20)),
+                                  Expanded(
+                                    child: Text(permiso.nombre,
+                                        style: TextStyle(fontSize: 20),
+                                        overflow: TextOverflow.ellipsis),
+                                  ),
                                 ],
                               ),
                             ),
@@ -125,7 +128,11 @@ class _PermisoWidgetState extends State<PermisoWidget> {
                         content: Text(
                             "¿Estas seguro de que quieres eliminar este permiso?"),
                         actions: [
-                          TextButton(onPressed: () {}, child: Text("Cancelar")),
+                          TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: Text("Cancelar")),
                           TextButton(
                               onPressed: () async {
                                 Navigator.of(contextModal).pop();
