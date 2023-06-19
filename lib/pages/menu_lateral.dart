@@ -89,14 +89,18 @@ class Menu_Lateral {
               await showDialog(
                   context: context,
                   builder: (BuildContext builder) => AlertDialog(
-                        title: Text("Acerca de"),
+                        title: Text(
+                          "Acerca de",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
                         content: Container(
-                          width: MediaQuery.of(context).size.width * 0.5,
                           child: SingleChildScrollView(
                             child: Column(children: [
                               Row(
                                 children: [
-                                  Text("Documentación de usuario:"),
+                                  Text(
+                                    "Documentación de usuario:",
+                                  ),
                                   TextButton(
                                       onPressed: () async {
                                         final Uri url = Uri.parse(
