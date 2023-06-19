@@ -104,7 +104,7 @@ class Menu_Lateral {
                                   TextButton(
                                       onPressed: () async {
                                         final Uri url = Uri.parse(
-                                            'https://documenter.getpostman.com/view/24736333/2s93sc5YQJ');
+                                            'https://first-tornado-84b.notion.site/Gestor-de-Inventario-059f8b0837604120a668c567f56de3d7?pvs=4');
                                         await launchUrl(url);
                                       },
                                       child: Text("Abrir"))
